@@ -1,0 +1,87 @@
+@import './token.less';
+
+/* 气泡依附触发元素定位，箭头颜色继承当前浮层背景。 */
+.ky-popover {
+    position: relative;
+    display: inline-flex
+}
+
+.ky-popover__content {
+    position: absolute;
+    z-index: 40;
+    width: max-content;
+    max-width: 240px;
+    padding: 10px 12px;
+    color: var(--ky-popover-color);
+    background: var(--ky-popover-bg);
+    border-radius: var(--ky-radius-md);
+    box-shadow: var(--ky-shadow-floating);
+    font-size: var(--ky-font-size-assist);
+    line-height: 1.5
+}
+
+.ky-popover__content--top {
+    left: 50%;
+    bottom: calc(100% + var(--ky-popover-offset));
+    transform: translateX(-50%)
+}
+
+.ky-popover__content--bottom {
+    top: calc(100% + var(--ky-popover-offset));
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+.ky-popover__content--left {
+    top: 50%;
+    right: calc(100% + var(--ky-popover-offset));
+    transform: translateY(-50%)
+}
+
+.ky-popover__content--right {
+    top: 50%;
+    left: calc(100% + var(--ky-popover-offset));
+    transform: translateY(-50%)
+}
+
+.ky-popover__arrow {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: inherit;
+    transform: rotate(45deg)
+}
+
+.ky-popover__content--top .ky-popover__arrow {
+    left: 50%;
+    bottom: -5px;
+    margin-left: -5px
+}
+
+.ky-popover__content--bottom .ky-popover__arrow {
+    top: -5px;
+    left: 50%;
+    margin-left: -5px
+}
+
+.ky-popover__content--left .ky-popover__arrow {
+    top: 50%;
+    right: -5px;
+    margin-top: -5px
+}
+
+.ky-popover__content--right .ky-popover__arrow {
+    top: 50%;
+    left: -5px;
+    margin-top: -5px
+}
+
+.ky-popover-fade-enter-active,
+.ky-popover-fade-leave-active {
+    transition: opacity var(--ky-duration-fast), transform var(--ky-duration-fast)
+}
+
+.ky-popover-fade-enter-from,
+.ky-popover-fade-leave-to {
+    opacity: 0
+}
