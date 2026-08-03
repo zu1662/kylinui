@@ -14,8 +14,8 @@ Toast 提供低打断的全局反馈，同一时间只显示一个实例。
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| message | string | - | 提示内容 |
-| type | text / success / error / loading | text | 反馈类型 |
-| duration | number | 按类型决定 | 自动关闭时间，单位毫秒 |
+| 属性     | 类型                             | 默认值     | 说明                   |
+| -------- | -------------------------------- | ---------- | ---------------------- |
+| message  | string                           | -          | 提示内容               |
+| type     | text / success / error / loading | text       | 反馈类型               |
+| duration | number                           | 按类型决定 | 自动关闭时间，单位毫秒 |

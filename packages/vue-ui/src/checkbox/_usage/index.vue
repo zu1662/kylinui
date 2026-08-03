@@ -1,4 +1,10 @@
-<template><KyCheckbox v-model="value" :label="String(configProps.label || '同意协议')" v-bind="configProps" /></template>
+<template>
+  <KyCheckbox
+    v-model="value"
+    :label="String(configProps.label || '同意协议')"
+    v-bind="configProps"
+  />
+</template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import KyCheckbox from '../index';

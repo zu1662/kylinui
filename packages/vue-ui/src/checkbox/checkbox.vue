@@ -1,8 +1,24 @@
 <template>
-  <label class="ky-checkbox" :class="{ 'is-checked': modelValue, 'is-disabled': disabled, 'is-indeterminate': indeterminate }">
-    <input type="checkbox" :checked="modelValue" :disabled="disabled" :aria-label="label" :aria-checked="indeterminate ? 'mixed' : modelValue" @change="update" />
+  <label
+    class="ky-checkbox"
+    :class="{
+      'is-checked': modelValue,
+      'is-disabled': disabled,
+      'is-indeterminate': indeterminate,
+    }"
+  >
+    <input
+      type="checkbox"
+      :checked="modelValue"
+      :disabled="disabled"
+      :aria-label="label"
+      :aria-checked="indeterminate ? 'mixed' : modelValue"
+      @change="update"
+    />
     <span class="ky-checkbox__mark" aria-hidden="true">{{ indeterminate ? '−' : '✓' }}</span>
-    <span><slot>{{ label }}</slot></span>
+    <span
+      ><slot>{{ label }}</slot></span
+    >
   </label>
 </template>
 

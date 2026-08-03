@@ -11,18 +11,13 @@ export default {
       label: '方位',
       type: 'select',
       defaultValue: 'top',
-      options: [
-        'top',
-        'bottom',
-        'left',
-        'right'
-      ]
+      options: ['top', 'bottom', 'left', 'right'],
     },
     {
       name: 'closeOnOutside',
       label: '点外关闭',
       type: 'boolean',
-      defaultValue: true
-    }
-  ]
+      defaultValue: true,
+    },
+  ],
 } satisfies UsageConfig;

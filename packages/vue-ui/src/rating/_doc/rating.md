@@ -9,10 +9,10 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | number | 0 | 当前评分 |
-| count | number | 5 | 星级数量 |
-| readonly | boolean | false | 是否只读 |
-| disabled | boolean | false | 是否禁用 |
-| label | string | 评分 | 无障碍标签 |
+| 属性       | 类型    | 默认值 | 说明       |
+| ---------- | ------- | ------ | ---------- |
+| modelValue | number  | 0      | 当前评分   |
+| count      | number  | 5      | 星级数量   |
+| readonly   | boolean | false  | 是否只读   |
+| disabled   | boolean | false  | 是否禁用   |
+| label      | string  | 评分   | 无障碍标签 |

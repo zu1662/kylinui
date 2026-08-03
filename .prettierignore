@@ -1,0 +1,10 @@
+# 依赖与构建产物不参与格式化
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+coverage/
+**/coverage/
+
+# 锁文件由包管理器维护，避免格式化造成无意义变更
+pnpm-lock.yaml

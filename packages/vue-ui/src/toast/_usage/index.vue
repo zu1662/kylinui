@@ -1,4 +1,6 @@
-<template><div><KyButton @click="open">显示 Toast</KyButton></div></template>
+<template>
+  <div><KyButton @click="open">显示 Toast</KyButton></div>
+</template>
 <script setup lang="ts">
 import KyButton from '../../button';
 import { showToast, type ToastType } from '../index';

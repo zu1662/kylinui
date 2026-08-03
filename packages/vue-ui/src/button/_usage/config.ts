@@ -11,49 +11,38 @@ export default {
       label: '类型',
       type: 'select',
       defaultValue: 'primary',
-      options: [
-        'primary',
-        'secondary',
-        'text',
-        'danger',
-        'gradient'
-      ]
+      options: ['primary', 'secondary', 'text', 'danger', 'gradient'],
     },
     {
       name: 'size',
       label: '尺寸',
       type: 'select',
       defaultValue: 'medium',
-      options: [
-        'large',
-        'medium',
-        'small',
-        'mini'
-      ]
+      options: ['large', 'medium', 'small', 'mini'],
     },
     {
       name: 'block',
       label: '通栏',
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
     },
     {
       name: 'loading',
       label: '加载中',
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
     },
     {
       name: 'subtitle',
       label: '副标题',
       type: 'text',
-      defaultValue: ''
-    }
-  ]
+      defaultValue: '',
+    },
+  ],
 } satisfies UsageConfig;

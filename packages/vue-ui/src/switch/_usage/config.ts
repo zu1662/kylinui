@@ -10,23 +10,20 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '接收行程提醒'
+      defaultValue: '接收行程提醒',
     },
     {
       name: 'size',
       label: '尺寸',
       type: 'select',
       defaultValue: 'medium',
-      options: [
-        'small',
-        'medium'
-      ]
+      options: ['small', 'medium'],
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

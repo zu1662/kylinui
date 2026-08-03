@@ -10,19 +10,19 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '同意服务协议'
+      defaultValue: '同意服务协议',
     },
     {
       name: 'indeterminate',
       label: '半选状态',
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

@@ -1,6 +1,18 @@
 <template>
   <div class="ky-rating" :class="{ 'is-disabled': disabled }" role="radiogroup" :aria-label="label">
-    <button v-for="index in count" :key="index" type="button" role="radio" :aria-checked="index === modelValue" :aria-label="index + ' 分'" :disabled="disabled || readonly" :class="{ 'is-active': index <= modelValue }" @click="select(index)">★</button>
+    <button
+      v-for="index in count"
+      :key="index"
+      type="button"
+      role="radio"
+      :aria-checked="index === modelValue"
+      :aria-label="index + ' 分'"
+      :disabled="disabled || readonly"
+      :class="{ 'is-active': index <= modelValue }"
+      @click="select(index)"
+    >
+      ★
+    </button>
     <output>{{ modelValue }} 分</output>
   </div>
 </template>

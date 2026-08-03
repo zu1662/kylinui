@@ -10,19 +10,19 @@ export default {
       name: 'title',
       label: '标题',
       type: 'text',
-      defaultValue: '联系人信息'
+      defaultValue: '联系人信息',
     },
     {
       name: 'description',
       label: '说明',
       type: 'text',
-      defaultValue: '用于接收订单与行程通知'
+      defaultValue: '用于接收订单与行程通知',
     },
     {
       name: 'bordered',
       label: '显示边框',
       type: 'boolean',
-      defaultValue: true
-    }
-  ]
+      defaultValue: true,
+    },
+  ],
 } satisfies UsageConfig;

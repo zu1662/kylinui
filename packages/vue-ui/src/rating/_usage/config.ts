@@ -10,7 +10,7 @@ export default {
       name: 'label',
       label: '无障碍标签',
       type: 'text',
-      defaultValue: '行程评分'
+      defaultValue: '行程评分',
     },
     {
       name: 'count',
@@ -19,19 +19,19 @@ export default {
       defaultValue: 5,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     {
       name: 'readonly',
       label: '只读',
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

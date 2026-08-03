@@ -1,11 +1,11 @@
 <template>
-  <div class="preview-page" :class="`preview-page--${entry.slug}`">
+  <div
+    ref="previewPage"
+    class="preview-page"
+    :class="[`preview-page--${entry.slug}`, { 'preview-page--desktop-dragging': isDragging }]"
+  >
     <section class="preview-page__content" :aria-label="`${entry.title}移动端预览`">
-      <component
-        :is="entry.usage"
-        v-if="mode === 'usage'"
-        :config-props="values"
-      />
+      <component :is="entry.usage" v-if="mode === 'usage'" :config-props="values" />
       <component :is="entry.demo" v-else />
     </section>
     <!-- Toast 示例需要在 iframe 内挂载承载节点，固定定位才会受手机视口约束。 -->
@@ -14,8 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive } from 'vue';
+import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 import { KyToast } from '@kylin-design/vue-ui';
+import { useDesktopTouchScroll } from './composables/use-desktop-touch-scroll';
 import { components } from './registry';
 import { isPreviewPropsMessage, type PreviewMode } from './preview';
 
@@ -24,6 +25,8 @@ const requestedSlug = search.get('component');
 const entry = components.find((item) => item.slug === requestedSlug) ?? components[0];
 const mode: PreviewMode = search.get('preview') === 'demo' ? 'demo' : 'usage';
 const values = reactive<Record<string, unknown>>({});
+const previewPage = ref<HTMLElement | null>(null);
+const { isDragging } = useDesktopTouchScroll(previewPage);
 
 /** 配置预览首次进入时使用组件声明的默认值。 */
 function resetValues() {

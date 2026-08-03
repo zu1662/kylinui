@@ -1,1 +1,51 @@
-@import './token.less';/* Toast 固定在移动端易读区域，并通过全局层级覆盖普通页面内容。 */.ky-toast{position:fixed;z-index:1000;left:50%;top:68%;display:flex;align-items:center;gap:8px;max-width:min(80vw,320px);padding:12px 16px;color:var(--ky-toast-color);background:var(--ky-toast-bg);border-radius:var(--ky-radius-md);box-shadow:var(--ky-shadow-floating);font-size:var(--ky-font-size-body);line-height:1.4;transform:translate(-50%,-50%)}.ky-toast__icon{display:grid;place-items:center;width:20px;height:20px;border:1px solid currentColor;border-radius:50%;font-weight:600}.ky-toast__spinner{width:18px;height:18px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:ky-spin .8s linear infinite}.ky-toast-fade-enter-active,.ky-toast-fade-leave-active{transition:opacity var(--ky-duration-fast),transform var(--ky-duration-fast)}.ky-toast-fade-enter-from,.ky-toast-fade-leave-to{opacity:0;transform:translateY(8px)}
+@import './token.less'; /* Toast 固定在移动端易读区域，并通过全局层级覆盖普通页面内容。 */
+.ky-toast {
+  position: fixed;
+  top: 68%;
+  left: 50%;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  max-width: min(80vw, 320px);
+  padding: 12px 16px;
+  font-size: var(--ky-font-size-body);
+  line-height: 1.4;
+  color: var(--ky-toast-color);
+  background: var(--ky-toast-bg);
+  border-radius: var(--ky-radius-md);
+  box-shadow: var(--ky-shadow-floating);
+  transform: translate(-50%, -50%);
+}
+
+.ky-toast__icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  font-weight: 600;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+}
+
+.ky-toast__spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentcolor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: ky-spin 0.8s linear infinite;
+}
+
+.ky-toast-fade-enter-active,
+.ky-toast-fade-leave-active {
+  transition:
+    opacity var(--ky-duration-fast),
+    transform var(--ky-duration-fast);
+}
+
+.ky-toast-fade-enter-from,
+.ky-toast-fade-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}

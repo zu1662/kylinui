@@ -10,36 +10,32 @@ export default {
       name: 'title',
       label: '标题',
       type: 'text',
-      defaultValue: '行程详情'
+      defaultValue: '行程详情',
     },
     {
       name: 'theme',
       label: '主题',
       type: 'select',
       defaultValue: 'light',
-      options: [
-        'light',
-        'dark',
-        'gradient'
-      ]
+      options: ['light', 'dark', 'gradient'],
     },
     {
       name: 'showBack',
       label: '返回按钮',
       type: 'boolean',
-      defaultValue: true
+      defaultValue: true,
     },
     {
       name: 'safeTop',
       label: '顶部安全区',
       type: 'boolean',
-      defaultValue: true
+      defaultValue: true,
     },
     {
       name: 'sticky',
       label: '吸顶',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

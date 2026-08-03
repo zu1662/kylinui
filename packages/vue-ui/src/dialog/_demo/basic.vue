@@ -1,6 +1,13 @@
 <template>
   <KyButton variant="danger" @click="visible = true">删除当前行程</KyButton>
-  <KyDialog v-model="visible" title="确认删除行程？" description="删除后无法恢复，请谨慎操作。" danger confirm-text="删除" @confirm="visible = false" />
+  <KyDialog
+    v-model="visible"
+    title="确认删除行程？"
+    description="删除后无法恢复，请谨慎操作。"
+    danger
+    confirm-text="删除"
+    @confirm="visible = false"
+  />
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';

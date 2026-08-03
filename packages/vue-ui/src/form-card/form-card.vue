@@ -1,7 +1,12 @@
 <template>
   <section class="ky-form-card" :class="{ 'is-borderless': !bordered }">
     <header v-if="title || description || $slots.header">
-      <slot name="header"><div><h2 v-if="title">{{ title }}</h2><p v-if="description">{{ description }}</p></div></slot>
+      <slot name="header"
+        ><div>
+          <h2 v-if="title">{{ title }}</h2>
+          <p v-if="description">{{ description }}</p>
+        </div></slot
+      >
       <slot name="action" />
     </header>
     <div class="ky-form-card__body"><slot /></div>

@@ -10,7 +10,7 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '出行天数'
+      defaultValue: '出行天数',
     },
     {
       name: 'min',
@@ -19,7 +19,7 @@ export default {
       defaultValue: 1,
       min: 0,
       max: 99,
-      step: 1
+      step: 1,
     },
     {
       name: 'max',
@@ -28,7 +28,7 @@ export default {
       defaultValue: 12,
       min: 1,
       max: 100,
-      step: 1
+      step: 1,
     },
     {
       name: 'step',
@@ -37,19 +37,19 @@ export default {
       defaultValue: 1,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     {
       name: 'showValue',
       label: '显示数值',
       type: 'boolean',
-      defaultValue: true
+      defaultValue: true,
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

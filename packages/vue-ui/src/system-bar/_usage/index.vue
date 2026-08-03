@@ -1,7 +1,9 @@
 <template>
   <div class="system-bar-demo">
     <KySystemBar v-bind="configProps" @back="showToast('已触发返回事件')">
-      <template #right><button class="capsule" type="button" aria-label="更多操作">•••</button></template>
+      <template #right
+        ><button class="capsule" type="button" aria-label="更多操作">•••</button></template
+      >
     </KySystemBar>
     <KyToast />
   </div>

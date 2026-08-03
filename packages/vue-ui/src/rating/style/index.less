@@ -1,1 +1,47 @@
-@import './token.less';.ky-rating{display:flex;align-items:center}.ky-rating button{display:grid;place-items:center;width:44px;height:44px;padding:0;color:var(--ky-rating-inactive);background:transparent;border:0;font-size:28px;line-height:1;transition:color var(--ky-duration-fast),transform var(--ky-duration-fast)}.ky-rating button.is-active{color:var(--ky-rating-active)}.ky-rating button:active:not(:disabled){transform:scale(.9)}.ky-rating button:focus-visible{outline:2px solid var(--ky-color-brand-strong);border-radius:8px}.ky-rating output{margin-left:8px;color:var(--ky-color-text-secondary);font-size:var(--ky-font-size-assist)}.ky-rating.is-disabled{--ky-rating-active:var(--ky-color-text-disabled);opacity:.8}
+@import './token.less';
+
+.ky-rating {
+  display: flex;
+  align-items: center;
+}
+
+.ky-rating button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ky-rating-inactive);
+  background: transparent;
+  border: 0;
+  transition:
+    color var(--ky-duration-fast),
+    transform var(--ky-duration-fast);
+}
+
+.ky-rating button.is-active {
+  color: var(--ky-rating-active);
+}
+
+.ky-rating button:active:not(:disabled) {
+  transform: scale(0.9);
+}
+
+.ky-rating button:focus-visible {
+  outline: 2px solid var(--ky-color-brand-strong);
+  border-radius: 8px;
+}
+
+.ky-rating output {
+  margin-left: 8px;
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-color-text-secondary);
+}
+
+.ky-rating.is-disabled {
+  --ky-rating-active: var(--ky-color-text-disabled);
+
+  opacity: 0.8;
+}

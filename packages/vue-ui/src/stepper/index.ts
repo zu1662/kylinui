@@ -1,1 +1,5 @@
-import Stepper from'./stepper.vue';import{withInstall}from'../shared/with-install';export const KyStepper=withInstall(Stepper,'KyStepper');export default KyStepper;export type{StepperProps}from'./stepper';
+import Stepper from './stepper.vue';
+import { withInstall } from '../shared/with-install';
+export const KyStepper = withInstall(Stepper, 'KyStepper');
+export default KyStepper;
+export type { StepperProps } from './stepper';

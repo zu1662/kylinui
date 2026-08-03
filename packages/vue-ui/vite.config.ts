@@ -9,12 +9,7 @@ export default defineConfig({
     dts({
       include: ['src'],
       // 以下目录和类型只服务于文档站，不属于组件库的公共发布内容。
-      exclude: [
-        'src/**/_usage/**',
-        'src/**/_demo/**',
-        'src/**/_doc/**',
-        'src/usage.ts',
-      ],
+      exclude: ['src/**/_usage/**', 'src/**/_demo/**', 'src/**/_doc/**', 'src/usage.ts'],
       entryRoot: 'src',
     }),
   ],

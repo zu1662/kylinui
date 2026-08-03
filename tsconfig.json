@@ -1,7 +1,4 @@
 {
   "files": [],
-  "references": [
-    { "path": "./packages/vue-ui" },
-    { "path": "./packages/doc-site" }
-  ]
+  "references": [{ "path": "./packages/vue-ui" }, { "path": "./packages/doc-site" }]
 }

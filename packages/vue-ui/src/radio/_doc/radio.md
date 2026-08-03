@@ -9,10 +9,10 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | string / number / boolean | - | 当前选中值 |
-| value | string / number / boolean | - | 当前选项值 |
-| label | string | - | 选项标签 |
-| name | string | - | 原生单选组名称 |
-| disabled | boolean | false | 是否禁用 |
+| 属性       | 类型                      | 默认值 | 说明           |
+| ---------- | ------------------------- | ------ | -------------- |
+| modelValue | string / number / boolean | -      | 当前选中值     |
+| value      | string / number / boolean | -      | 当前选项值     |
+| label      | string                    | -      | 选项标签       |
+| name       | string                    | -      | 原生单选组名称 |
+| disabled   | boolean                   | false  | 是否禁用       |

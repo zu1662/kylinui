@@ -9,9 +9,9 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | boolean | false | 是否选中 |
-| label | string | - | 选项标签 |
-| disabled | boolean | false | 是否禁用 |
-| indeterminate | boolean | false | 是否为半选状态 |
+| 属性          | 类型    | 默认值 | 说明           |
+| ------------- | ------- | ------ | -------------- |
+| modelValue    | boolean | false  | 是否选中       |
+| label         | string  | -      | 选项标签       |
+| disabled      | boolean | false  | 是否禁用       |
+| indeterminate | boolean | false  | 是否为半选状态 |

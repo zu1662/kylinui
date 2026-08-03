@@ -10,13 +10,13 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '经济舱'
+      defaultValue: '经济舱',
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

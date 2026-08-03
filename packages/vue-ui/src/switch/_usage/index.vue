@@ -1,4 +1,6 @@
-<template><KySwitch v-model="value" :label="String(configProps.label || '接收提醒')" v-bind="configProps" /></template>
+<template>
+  <KySwitch v-model="value" :label="String(configProps.label || '接收提醒')" v-bind="configProps" />
+</template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import KySwitch from '../index';

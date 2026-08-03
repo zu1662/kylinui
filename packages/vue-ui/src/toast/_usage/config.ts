@@ -22,18 +22,13 @@ export default {
       label: '类型',
       type: 'select',
       defaultValue: 'success',
-      options: [
-        'text',
-        'success',
-        'error',
-        'loading'
-      ]
+      options: ['text', 'success', 'error', 'loading'],
     },
     {
       name: 'message',
       label: '文案',
       type: 'text',
-      defaultValue: '操作成功'
-    }
-  ]
+      defaultValue: '操作成功',
+    },
+  ],
 } satisfies UsageConfig;

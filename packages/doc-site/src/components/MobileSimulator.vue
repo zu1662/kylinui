@@ -1,10 +1,13 @@
 <template>
   <section class="mobile-simulator" :class="{ 'mobile-simulator--compact': compact }">
     <header class="mobile-simulator__toolbar">
-      <span>
-        <i aria-hidden="true" />
-        {{ title }}
-      </span>
+      <div class="mobile-simulator__meta">
+        <span class="mobile-simulator__title">
+          <i aria-hidden="true" />
+          {{ title }}
+        </span>
+        <small><b aria-hidden="true">↕</b> 鼠标拖动可模拟触摸滑动</small>
+      </div>
       <button type="button" aria-label="重新加载手机预览" title="重新加载" @click="reload">
         ↻
       </button>

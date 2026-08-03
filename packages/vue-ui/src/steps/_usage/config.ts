@@ -13,17 +13,14 @@ export default {
       defaultValue: 1,
       min: 0,
       max: 3,
-      step: 1
+      step: 1,
     },
     {
       name: 'direction',
       label: '方向',
       type: 'select',
       defaultValue: 'horizontal',
-      options: [
-        'horizontal',
-        'vertical'
-      ]
-    }
-  ]
+      options: ['horizontal', 'vertical'],
+    },
+  ],
 } satisfies UsageConfig;

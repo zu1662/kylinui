@@ -9,14 +9,14 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | string / number | - | 输入值 |
-| label | string | - | 字段标签 |
-| placeholder | string | - | 占位文案 |
-| helper | string | - | 辅助说明 |
-| error | string | - | 错误说明 |
-| type | text / tel / email / password / number | text | 原生输入类型 |
-| clearable | boolean | false | 是否允许清空 |
-| disabled | boolean | false | 是否禁用 |
-| readonly | boolean | false | 是否只读 |
+| 属性        | 类型                                   | 默认值 | 说明         |
+| ----------- | -------------------------------------- | ------ | ------------ |
+| modelValue  | string / number                        | -      | 输入值       |
+| label       | string                                 | -      | 字段标签     |
+| placeholder | string                                 | -      | 占位文案     |
+| helper      | string                                 | -      | 辅助说明     |
+| error       | string                                 | -      | 错误说明     |
+| type        | text / tel / email / password / number | text   | 原生输入类型 |
+| clearable   | boolean                                | false  | 是否允许清空 |
+| disabled    | boolean                                | false  | 是否禁用     |
+| readonly    | boolean                                | false  | 是否只读     |

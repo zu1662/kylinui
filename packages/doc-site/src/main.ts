@@ -8,7 +8,7 @@ async function bootstrap() {
 
   if (isPreview) {
     document.documentElement.classList.add('is-preview');
-    // Vant 文档站同类方案会把桌面鼠标事件转换为 touch 事件，方便验证移动端手势组件。
+    // 先安装鼠标转 TouchEvent 适配器，再挂载预览应用，确保组件初始化时即可监听触摸事件。
     await import('@vant/touch-emulator');
     const { default: PreviewApp } = await import('./PreviewApp.vue');
     createApp(PreviewApp).use(KylinDesign).mount('#app');

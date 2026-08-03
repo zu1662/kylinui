@@ -2,7 +2,9 @@
   <div>
     <KyButton @click="visible = true">打开底部浮层</KyButton>
     <KyBottomSheet v-model="visible" v-bind="configProps">
-      <div class="sheet-demo-list"><div v-for="name in names" :key="name">{{ name }}</div></div>
+      <div class="sheet-demo-list">
+        <div v-for="name in names" :key="name">{{ name }}</div>
+      </div>
       <template #footer><KyButton block @click="visible = false">完成</KyButton></template>
     </KyBottomSheet>
   </div>

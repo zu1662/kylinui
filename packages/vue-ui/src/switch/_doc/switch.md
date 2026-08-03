@@ -9,9 +9,9 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | boolean | false | 当前开关状态 |
-| label | string | - | 可见及无障碍标签 |
-| disabled | boolean | false | 是否禁用 |
-| size | small / medium | medium | 开关尺寸 |
+| 属性       | 类型           | 默认值 | 说明             |
+| ---------- | -------------- | ------ | ---------------- |
+| modelValue | boolean        | false  | 当前开关状态     |
+| label      | string         | -      | 可见及无障碍标签 |
+| disabled   | boolean        | false  | 是否禁用         |
+| size       | small / medium | medium | 开关尺寸         |

@@ -16,10 +16,20 @@
         @focus="$emit('focus', $event)"
         @blur="$emit('blur', $event)"
       />
-      <button v-if="clearable && modelValue !== '' && modelValue !== undefined && !disabled && !readonly" type="button" class="ky-input__clear" aria-label="清空输入" @click="clear">×</button>
+      <button
+        v-if="clearable && modelValue !== '' && modelValue !== undefined && !disabled && !readonly"
+        type="button"
+        class="ky-input__clear"
+        aria-label="清空输入"
+        @click="clear"
+      >
+        ×
+      </button>
       <span v-if="$slots.suffix" class="ky-input__suffix"><slot name="suffix" /></span>
     </span>
-    <span v-if="error || helper" :id="messageId" class="ky-input__message">{{ error || helper }}</span>
+    <span v-if="error || helper" :id="messageId" class="ky-input__message">{{
+      error || helper
+    }}</span>
   </label>
 </template>
 
@@ -29,7 +39,12 @@ import type { InputProps } from './input';
 
 defineOptions({ name: 'KyInput' });
 withDefaults(defineProps<InputProps>(), { type: 'text', modelValue: '' });
-const emit = defineEmits<{ 'update:modelValue': [string]; focus: [FocusEvent]; blur: [FocusEvent]; clear: [] }>();
+const emit = defineEmits<{
+  'update:modelValue': [string];
+  focus: [FocusEvent];
+  blur: [FocusEvent];
+  clear: [];
+}>();
 const messageId = `ky-input-message-${useId()}`;
 
 // 原生 input 保留输入法、自动填充和键盘能力，组件仅归一化事件协议。

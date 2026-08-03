@@ -9,8 +9,8 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| items | StepItem[] | - | 步骤数据 |
-| current | number | 0 | 当前步骤索引 |
-| direction | horizontal / vertical | horizontal | 排列方向 |
+| 属性      | 类型                  | 默认值     | 说明         |
+| --------- | --------------------- | ---------- | ------------ |
+| items     | StepItem[]            | -          | 步骤数据     |
+| current   | number                | 0          | 当前步骤索引 |
+| direction | horizontal / vertical | horizontal | 排列方向     |

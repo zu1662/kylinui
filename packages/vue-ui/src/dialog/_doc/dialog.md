@@ -10,14 +10,14 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | boolean | false | 是否显示 |
-| title | string | - | 标题 |
-| description | string | - | 说明文案 |
-| confirmText | string | 确认 | 确认按钮文案 |
-| cancelText | string | 取消 | 取消按钮文案 |
-| showCancel | boolean | true | 是否显示取消按钮 |
-| danger | boolean | false | 是否为危险确认 |
-| loading | boolean | false | 确认按钮是否加载中 |
-| closeOnOverlay | boolean | false | 点击遮罩是否关闭 |
+| 属性           | 类型    | 默认值 | 说明               |
+| -------------- | ------- | ------ | ------------------ |
+| modelValue     | boolean | false  | 是否显示           |
+| title          | string  | -      | 标题               |
+| description    | string  | -      | 说明文案           |
+| confirmText    | string  | 确认   | 确认按钮文案       |
+| cancelText     | string  | 取消   | 取消按钮文案       |
+| showCancel     | boolean | true   | 是否显示取消按钮   |
+| danger         | boolean | false  | 是否为危险确认     |
+| loading        | boolean | false  | 确认按钮是否加载中 |
+| closeOnOverlay | boolean | false  | 点击遮罩是否关闭   |

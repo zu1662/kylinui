@@ -1,1 +1,57 @@
-@import './token.less';.ky-radio{position:relative;display:inline-flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}.ky-radio input{position:absolute;width:1px;height:1px;opacity:0}.ky-radio__mark{display:grid;place-items:center;width:var(--ky-radio-size);height:var(--ky-radio-size);background:#fff;border:1px solid var(--ky-color-divider-strong);border-radius:50%;transition:border-color var(--ky-duration-fast)}.ky-radio__mark i{width:10px;height:10px;background:transparent;border-radius:50%}.ky-radio.is-checked .ky-radio__mark{border:2px solid var(--ky-radio-active)}.ky-radio.is-checked .ky-radio__mark i{background:var(--ky-radio-active)}.ky-radio input:focus-visible+.ky-radio__mark{outline:3px solid var(--ky-color-brand-200);outline-offset:2px}.ky-radio.is-disabled{color:var(--ky-color-text-disabled);cursor:not-allowed}.ky-radio.is-disabled .ky-radio__mark{background:var(--ky-color-subtle-bg)}
+@import './token.less';
+
+.ky-radio {
+  position: relative;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.ky-radio input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.ky-radio__mark {
+  display: grid;
+  place-items: center;
+  width: var(--ky-radio-size);
+  height: var(--ky-radio-size);
+  background: #fff;
+  border: 1px solid var(--ky-color-divider-strong);
+  border-radius: 50%;
+  transition: border-color var(--ky-duration-fast);
+}
+
+.ky-radio__mark i {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+  border-radius: 50%;
+}
+
+.ky-radio.is-checked .ky-radio__mark {
+  border: 2px solid var(--ky-radio-active);
+}
+
+.ky-radio.is-checked .ky-radio__mark i {
+  background: var(--ky-radio-active);
+}
+
+.ky-radio input:focus-visible + .ky-radio__mark {
+  outline: 3px solid var(--ky-color-brand-200);
+  outline-offset: 2px;
+}
+
+.ky-radio.is-disabled {
+  color: var(--ky-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ky-radio.is-disabled .ky-radio__mark {
+  background: var(--ky-color-subtle-bg);
+}

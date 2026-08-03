@@ -23,17 +23,9 @@
           <strong>{{ item.label }}</strong>
           <code>{{ item.name }}</code>
         </span>
-        <input
-          v-if="item.type === 'boolean'"
-          v-model="values[item.name]"
-          type="checkbox"
-        />
+        <input v-if="item.type === 'boolean'" v-model="values[item.name]" type="checkbox" />
         <select v-else-if="item.type === 'select'" v-model="values[item.name]">
-          <option
-            v-for="option in item.options"
-            :key="String(option)"
-            :value="option"
-          >
+          <option v-for="option in item.options" :key="String(option)" :value="option">
             {{ option }}
           </option>
         </select>

@@ -11,37 +11,26 @@ export default {
       label: '色调',
       type: 'select',
       defaultValue: 'brand',
-      options: [
-        'brand',
-        'info',
-        'success',
-        'warning',
-        'danger',
-        'vip'
-      ]
+      options: ['brand', 'info', 'success', 'warning', 'danger', 'vip'],
     },
     {
       name: 'variant',
       label: '样式',
       type: 'select',
       defaultValue: 'soft',
-      options: [
-        'soft',
-        'outline',
-        'solid'
-      ]
+      options: ['soft', 'outline', 'solid'],
     },
     {
       name: 'round',
       label: '圆角',
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
     },
     {
       name: 'closable',
       label: '可关闭',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

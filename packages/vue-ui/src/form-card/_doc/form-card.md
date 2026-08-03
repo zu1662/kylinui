@@ -9,8 +9,8 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| title | string | - | 卡片标题 |
-| description | string | - | 卡片说明 |
-| bordered | boolean | true | 是否显示边框 |
+| 属性        | 类型    | 默认值 | 说明         |
+| ----------- | ------- | ------ | ------------ |
+| title       | string  | -      | 卡片标题     |
+| description | string  | -      | 卡片说明     |
+| bordered    | boolean | true   | 是否显示边框 |

@@ -2,14 +2,33 @@
   <Teleport to="body">
     <Transition name="ky-dialog-fade">
       <div v-if="modelValue" class="ky-dialog__overlay" @click="handleOverlay">
-        <section ref="panel" class="ky-dialog" role="alertdialog" aria-modal="true" :aria-labelledby="titleId" :aria-describedby="description ? descriptionId : undefined" tabindex="-1" @click.stop>
-          <div v-if="$slots.illustration" class="ky-dialog__illustration"><slot name="illustration" /></div>
+        <section
+          ref="panel"
+          class="ky-dialog"
+          role="alertdialog"
+          aria-modal="true"
+          :aria-labelledby="titleId"
+          :aria-describedby="description ? descriptionId : undefined"
+          tabindex="-1"
+          @click.stop
+        >
+          <div v-if="$slots.illustration" class="ky-dialog__illustration">
+            <slot name="illustration" />
+          </div>
           <h2 :id="titleId">{{ title }}</h2>
           <p v-if="description" :id="descriptionId">{{ description }}</p>
           <div v-if="$slots.default" class="ky-dialog__content"><slot /></div>
           <div class="ky-dialog__actions">
-            <KyButton v-if="showCancel" variant="secondary" block @click="cancel">{{ cancelText }}</KyButton>
-            <KyButton :variant="danger ? 'danger' : 'primary'" block :loading="loading" @click="$emit('confirm')">{{ confirmText }}</KyButton>
+            <KyButton v-if="showCancel" variant="secondary" block @click="cancel">{{
+              cancelText
+            }}</KyButton>
+            <KyButton
+              :variant="danger ? 'danger' : 'primary'"
+              block
+              :loading="loading"
+              @click="$emit('confirm')"
+              >{{ confirmText }}</KyButton
+            >
           </div>
         </section>
       </div>

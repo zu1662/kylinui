@@ -6,9 +6,25 @@
   "scripts": {
     "dev": "pnpm --filter @kylin-design/doc-site dev",
     "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "format": "prettier --write .",
+    "format:less": "prettier --write \"packages/**/*.less\"",
+    "format:check": "prettier --check .",
+    "lint": "pnpm run lint:script && pnpm run lint:style",
+    "lint:script": "eslint .",
+    "lint:style": "stylelint \"packages/**/*.less\"",
+    "lint:fix": "eslint . --fix && stylelint \"packages/**/*.less\" --fix"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "eslint-plugin-vue": "^10.10.0",
+    "globals": "^17.8.0",
+    "prettier": "^3.9.6",
+    "stylelint": "^17.14.1",
+    "stylelint-config-recess-order": "^7.7.0",
+    "stylelint-config-standard-less": "^4.1.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0"
   }
 }

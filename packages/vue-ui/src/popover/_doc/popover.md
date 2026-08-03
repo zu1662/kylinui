@@ -9,9 +9,9 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | boolean | false | 是否显示 |
-| placement | top / bottom / left / right | top | 展示方位 |
-| trigger | click / manual | click | 触发方式 |
-| closeOnOutside | boolean | true | 点击外部是否关闭 |
+| 属性           | 类型                        | 默认值 | 说明             |
+| -------------- | --------------------------- | ------ | ---------------- |
+| modelValue     | boolean                     | false  | 是否显示         |
+| placement      | top / bottom / left / right | top    | 展示方位         |
+| trigger        | click / manual              | click  | 触发方式         |
+| closeOnOutside | boolean                     | true   | 点击外部是否关闭 |

@@ -10,25 +10,25 @@ export default {
       name: 'title',
       label: '标题',
       type: 'text',
-      defaultValue: '请选择'
+      defaultValue: '请选择',
     },
     {
       name: 'height',
       label: '最大高度',
       type: 'text',
-      defaultValue: '80vh'
+      defaultValue: '80vh',
     },
     {
       name: 'showClose',
       label: '关闭按钮',
       type: 'boolean',
-      defaultValue: true
+      defaultValue: true,
     },
     {
       name: 'closeOnOverlay',
       label: '遮罩关闭',
       type: 'boolean',
-      defaultValue: true
-    }
-  ]
+      defaultValue: true,
+    },
+  ],
 } satisfies UsageConfig;

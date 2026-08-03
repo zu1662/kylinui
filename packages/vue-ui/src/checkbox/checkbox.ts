@@ -1,1 +1,6 @@
-export interface CheckboxProps { modelValue?:boolean; label:string; disabled?:boolean; indeterminate?:boolean; }
+export interface CheckboxProps {
+  modelValue?: boolean;
+  label: string;
+  disabled?: boolean;
+  indeterminate?: boolean;
+}

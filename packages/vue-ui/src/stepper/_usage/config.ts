@@ -10,7 +10,7 @@ export default {
       name: 'label',
       label: '无障碍标签',
       type: 'text',
-      defaultValue: '数量'
+      defaultValue: '数量',
     },
     {
       name: 'min',
@@ -19,7 +19,7 @@ export default {
       defaultValue: 0,
       min: 0,
       max: 99,
-      step: 1
+      step: 1,
     },
     {
       name: 'max',
@@ -28,7 +28,7 @@ export default {
       defaultValue: 9,
       min: 1,
       max: 99,
-      step: 1
+      step: 1,
     },
     {
       name: 'step',
@@ -37,13 +37,13 @@ export default {
       defaultValue: 1,
       min: 1,
       max: 10,
-      step: 1
+      step: 1,
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

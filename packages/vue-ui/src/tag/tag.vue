@@ -1,7 +1,19 @@
 <template>
-  <span class="ky-tag" :class="[`ky-tag--${tone}`, `ky-tag--${variant}`, { 'is-round': round }]" role="status">
+  <span
+    class="ky-tag"
+    :class="[`ky-tag--${tone}`, `ky-tag--${variant}`, { 'is-round': round }]"
+    role="status"
+  >
     <slot />
-    <button v-if="closable" class="ky-tag__close" type="button" aria-label="关闭标签" @click="$emit('close')">×</button>
+    <button
+      v-if="closable"
+      class="ky-tag__close"
+      type="button"
+      aria-label="关闭标签"
+      @click="$emit('close')"
+    >
+      ×
+    </button>
   </span>
 </template>
 

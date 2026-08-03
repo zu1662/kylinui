@@ -1,4 +1,11 @@
-<template><div class="ky-demo-stack"><KyCheckbox v-model="insurance" label="购买出行保险" /><KyCheckbox v-model="notice" label="接收优惠通知" /></div></template>
+<template>
+  <div class="ky-demo-stack">
+    <KyCheckbox v-model="insurance" label="购买出行保险" /><KyCheckbox
+      v-model="notice"
+      label="接收优惠通知"
+    />
+  </div>
+</template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import KyCheckbox from '../index';

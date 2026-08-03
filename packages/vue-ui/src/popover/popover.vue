@@ -2,7 +2,13 @@
   <span ref="root" class="ky-popover" @click="handleTrigger">
     <slot name="reference" />
     <Transition name="ky-popover-fade">
-      <span v-if="visible" class="ky-popover__content" :class="`ky-popover__content--${placement}`" role="tooltip" @click.stop>
+      <span
+        v-if="visible"
+        class="ky-popover__content"
+        :class="`ky-popover__content--${placement}`"
+        role="tooltip"
+        @click.stop
+      >
         <slot />
         <i class="ky-popover__arrow" aria-hidden="true" />
       </span>

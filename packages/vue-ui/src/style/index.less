@@ -1,10 +1,39 @@
 @import './tokens.less';
 
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-tap-highlight-color: transparent; }
-body { margin: 0; color: var(--ky-color-text-primary); background: var(--ky-color-page-bg); font-family: var(--ky-font-family); }
-button, input, textarea, select { font: inherit; }
-button { -webkit-tap-highlight-color: transparent; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ky-font-family);
+  color: var(--ky-color-text-primary);
+  background: var(--ky-color-page-bg);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 1ms !important; transition-duration: 1ms !important; }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
 }

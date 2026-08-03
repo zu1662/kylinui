@@ -1,1 +1,5 @@
-import BottomSheet from './bottom-sheet.vue';import{withInstall}from'../shared/with-install';export const KyBottomSheet=withInstall(BottomSheet,'KyBottomSheet');export default KyBottomSheet;export type{BottomSheetProps}from'./bottom-sheet';
+import BottomSheet from './bottom-sheet.vue';
+import { withInstall } from '../shared/with-install';
+export const KyBottomSheet = withInstall(BottomSheet, 'KyBottomSheet');
+export default KyBottomSheet;
+export type { BottomSheetProps } from './bottom-sheet';

@@ -1,4 +1,13 @@
-<template><div class="ky-demo-row"><KyRadio v-model="value" value="direct" label="直达" name="route" /><KyRadio v-model="value" value="transfer" label="中转" name="route" /></div></template>
+<template>
+  <div class="ky-demo-row">
+    <KyRadio v-model="value" value="direct" label="直达" name="route" /><KyRadio
+      v-model="value"
+      value="transfer"
+      label="中转"
+      name="route"
+    />
+  </div>
+</template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import KyRadio from '../index';

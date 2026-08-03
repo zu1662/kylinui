@@ -10,10 +10,10 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| title | string | - | 标题 |
-| theme | light / dark / gradient | light | 视觉主题 |
-| showBack | boolean | true | 是否显示返回按钮 |
-| safeTop | boolean | true | 是否适配顶部安全区 |
-| sticky | boolean | false | 是否吸顶 |
+| 属性     | 类型                    | 默认值 | 说明               |
+| -------- | ----------------------- | ------ | ------------------ |
+| title    | string                  | -      | 标题               |
+| theme    | light / dark / gradient | light  | 视觉主题           |
+| showBack | boolean                 | true   | 是否显示返回按钮   |
+| safeTop  | boolean                 | true   | 是否适配顶部安全区 |
+| sticky   | boolean                 | false  | 是否吸顶           |

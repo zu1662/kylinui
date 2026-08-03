@@ -10,56 +10,50 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '手机号'
+      defaultValue: '手机号',
     },
     {
       name: 'placeholder',
       label: '占位文案',
       type: 'text',
-      defaultValue: '请输入手机号'
+      defaultValue: '请输入手机号',
     },
     {
       name: 'helper',
       label: '辅助说明',
       type: 'text',
-      defaultValue: ''
+      defaultValue: '',
     },
     {
       name: 'error',
       label: '错误说明',
       type: 'text',
-      defaultValue: ''
+      defaultValue: '',
     },
     {
       name: 'type',
       label: '输入类型',
       type: 'select',
       defaultValue: 'tel',
-      options: [
-        'text',
-        'tel',
-        'email',
-        'password',
-        'number'
-      ]
+      options: ['text', 'tel', 'email', 'password', 'number'],
     },
     {
       name: 'clearable',
       label: '可清空',
       type: 'boolean',
-      defaultValue: true
+      defaultValue: true,
     },
     {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',
-      defaultValue: false
+      defaultValue: false,
     },
     {
       name: 'readonly',
       label: '只读',
       type: 'boolean',
-      defaultValue: false
-    }
-  ]
+      defaultValue: false,
+    },
+  ],
 } satisfies UsageConfig;

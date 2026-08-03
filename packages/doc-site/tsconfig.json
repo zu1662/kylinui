@@ -8,5 +8,11 @@
       "@vue-ui/*": ["../vue-ui/src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "../vue-ui/src/**/*.ts", "../vue-ui/src/**/*.vue", "vite.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "../vue-ui/src/**/*.ts",
+    "../vue-ui/src/**/*.vue",
+    "vite.config.ts"
+  ]
 }

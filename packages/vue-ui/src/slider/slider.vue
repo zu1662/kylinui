@@ -1,8 +1,23 @@
 <template>
   <label class="ky-slider" :class="{ 'is-disabled': disabled }">
-    <span class="ky-slider__header"><span>{{ label }}</span><output v-if="showValue">{{ modelValue }}</output></span>
-    <input :value="modelValue" type="range" :min="min" :max="max" :step="step" :disabled="disabled" :style="trackStyle" @input="update" />
-    <span class="ky-slider__scale"><span>{{ min }}</span><span>{{ max }}</span></span>
+    <span class="ky-slider__header"
+      ><span>{{ label }}</span
+      ><output v-if="showValue">{{ modelValue }}</output></span
+    >
+    <input
+      :value="modelValue"
+      type="range"
+      :min="min"
+      :max="max"
+      :step="step"
+      :disabled="disabled"
+      :style="trackStyle"
+      @input="update"
+    />
+    <span class="ky-slider__scale"
+      ><span>{{ min }}</span
+      ><span>{{ max }}</span></span
+    >
   </label>
 </template>
 

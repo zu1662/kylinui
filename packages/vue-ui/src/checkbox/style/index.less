@@ -1,1 +1,54 @@
-@import './token.less';.ky-checkbox{position:relative;display:inline-flex;align-items:center;gap:10px;min-height:44px;color:var(--ky-color-text-primary);cursor:pointer}.ky-checkbox input{position:absolute;width:1px;height:1px;opacity:0}.ky-checkbox__mark{display:grid;place-items:center;width:var(--ky-checkbox-size);height:var(--ky-checkbox-size);color:transparent;background:#fff;border:1px solid var(--ky-color-divider-strong);border-radius:6px;font-size:14px;font-weight:600;transition:all var(--ky-duration-fast)}.ky-checkbox.is-checked .ky-checkbox__mark,.ky-checkbox.is-indeterminate .ky-checkbox__mark{color:#fff;background:var(--ky-checkbox-active);border-color:var(--ky-checkbox-active)}.ky-checkbox input:focus-visible+.ky-checkbox__mark{outline:3px solid var(--ky-color-brand-200);outline-offset:2px}.ky-checkbox.is-disabled{color:var(--ky-color-text-disabled);cursor:not-allowed}.ky-checkbox.is-disabled .ky-checkbox__mark{background:var(--ky-color-subtle-bg);border-color:var(--ky-color-divider)}
+@import './token.less';
+
+.ky-checkbox {
+  position: relative;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ky-color-text-primary);
+  cursor: pointer;
+}
+
+.ky-checkbox input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.ky-checkbox__mark {
+  display: grid;
+  place-items: center;
+  width: var(--ky-checkbox-size);
+  height: var(--ky-checkbox-size);
+  font-size: 14px;
+  font-weight: 600;
+  color: transparent;
+  background: #fff;
+  border: 1px solid var(--ky-color-divider-strong);
+  border-radius: 6px;
+  transition: all var(--ky-duration-fast);
+}
+
+.ky-checkbox.is-checked .ky-checkbox__mark,
+.ky-checkbox.is-indeterminate .ky-checkbox__mark {
+  color: #fff;
+  background: var(--ky-checkbox-active);
+  border-color: var(--ky-checkbox-active);
+}
+
+.ky-checkbox input:focus-visible + .ky-checkbox__mark {
+  outline: 3px solid var(--ky-color-brand-200);
+  outline-offset: 2px;
+}
+
+.ky-checkbox.is-disabled {
+  color: var(--ky-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ky-checkbox.is-disabled .ky-checkbox__mark {
+  background: var(--ky-color-subtle-bg);
+  border-color: var(--ky-color-divider);
+}

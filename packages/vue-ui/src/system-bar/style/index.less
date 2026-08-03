@@ -1,1 +1,63 @@
-@import './token.less';.ky-system-bar{color:var(--ky-system-bar-color);background:var(--ky-system-bar-bg)}.ky-system-bar.is-safe-top{padding-top:env(safe-area-inset-top)}.ky-system-bar.is-sticky{position:sticky;z-index:100;top:0}.ky-system-bar__inner{display:grid;grid-template-columns:56px 1fr 56px;align-items:center;height:var(--ky-system-bar-height)}.ky-system-bar h1{overflow:hidden;margin:0;text-align:center;text-overflow:ellipsis;white-space:nowrap;font-size:var(--ky-font-size-body-strong);font-weight:var(--ky-font-semibold)}.ky-system-bar__action{display:grid;place-items:center;width:48px;height:48px;padding:0;color:inherit;background:transparent;border:0;font-size:34px;line-height:1}.ky-system-bar__right{display:flex;align-items:center;justify-content:center;min-width:44px}.ky-system-bar--dark{--ky-system-bar-bg:var(--ky-color-brand-strong);--ky-system-bar-color:#fff}.ky-system-bar--gradient{--ky-system-bar-bg:var(--ky-gradient-brand);--ky-system-bar-color:var(--ky-color-text-primary)}
+@import './token.less';
+
+.ky-system-bar {
+  color: var(--ky-system-bar-color);
+  background: var(--ky-system-bar-bg);
+}
+
+.ky-system-bar.is-safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.ky-system-bar.is-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.ky-system-bar__inner {
+  display: grid;
+  grid-template-columns: 56px 1fr 56px;
+  align-items: center;
+  height: var(--ky-system-bar-height);
+}
+
+.ky-system-bar h1 {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ky-font-size-body-strong);
+  font-weight: var(--ky-font-semibold);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ky-system-bar__action {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: 34px;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  border: 0;
+}
+
+.ky-system-bar__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+}
+
+.ky-system-bar--dark {
+  --ky-system-bar-bg: var(--ky-color-brand-strong);
+  --ky-system-bar-color: #fff;
+}
+
+.ky-system-bar--gradient {
+  --ky-system-bar-bg: var(--ky-gradient-brand);
+  --ky-system-bar-color: var(--ky-color-text-primary);
+}

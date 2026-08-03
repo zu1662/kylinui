@@ -19,11 +19,7 @@
           <small>Touch Preview</small>
         </div>
         <div class="demo-card__body">
-          <MobileSimulator
-            compact
-            :src="demoPreviewUrl"
-            :title="`${entry.title}基础示例`"
-          />
+          <MobileSimulator compact :src="demoPreviewUrl" :title="`${entry.title}基础示例`" />
         </div>
       </aside>
     </section>

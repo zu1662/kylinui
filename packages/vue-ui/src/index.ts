@@ -20,7 +20,24 @@ import { KySteps } from './steps';
 import { KySystemBar } from './system-bar';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
-const components = [KyButton, KyTag, KyPopover, KyToast, KyBottomSheet, KyDialog, KyInput, KySlider, KyRating, KyStepper, KySwitch, KyCheckbox, KyRadio, KyFormCard, KySteps, KySystemBar];
+const components = [
+  KyButton,
+  KyTag,
+  KyPopover,
+  KyToast,
+  KyBottomSheet,
+  KyDialog,
+  KyInput,
+  KySlider,
+  KyRating,
+  KyStepper,
+  KySwitch,
+  KyCheckbox,
+  KyRadio,
+  KyFormCard,
+  KySteps,
+  KySystemBar,
+];
 
 export default {
   install(app: App) {

@@ -9,11 +9,11 @@
 
 ## API
 
-| 属性 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| modelValue | number | 0 | 当前值 |
-| min | number | 0 | 最小值 |
-| max | number | 99 | 最大值 |
-| step | number | 1 | 步长 |
-| disabled | boolean | false | 是否禁用 |
-| label | string | 数量 | 无障碍标签 |
+| 属性       | 类型    | 默认值 | 说明       |
+| ---------- | ------- | ------ | ---------- |
+| modelValue | number  | 0      | 当前值     |
+| min        | number  | 0      | 最小值     |
+| max        | number  | 99     | 最大值     |
+| step       | number  | 1      | 步长       |
+| disabled   | boolean | false  | 是否禁用   |
+| label      | string  | 数量   | 无障碍标签 |

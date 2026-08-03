@@ -1,8 +1,17 @@
 <template>
   <ol class="ky-steps" :class="`ky-steps--${direction}`">
-    <li v-for="(item, index) in items" :key="item.title + '-' + index" :class="`is-${resolveStepStatus(index, current, item.status)}`">
-      <span class="ky-steps__node" aria-hidden="true">{{ symbol(resolveStepStatus(index, current, item.status), index) }}</span>
-      <span class="ky-steps__content"><strong>{{ item.title }}</strong><small v-if="item.description">{{ item.description }}</small></span>
+    <li
+      v-for="(item, index) in items"
+      :key="item.title + '-' + index"
+      :class="`is-${resolveStepStatus(index, current, item.status)}`"
+    >
+      <span class="ky-steps__node" aria-hidden="true">{{
+        symbol(resolveStepStatus(index, current, item.status), index)
+      }}</span>
+      <span class="ky-steps__content"
+        ><strong>{{ item.title }}</strong
+        ><small v-if="item.description">{{ item.description }}</small></span
+      >
     </li>
   </ol>
 </template>

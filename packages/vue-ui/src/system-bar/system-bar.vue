@@ -1,7 +1,18 @@
 <template>
-  <header class="ky-system-bar" :class="[`ky-system-bar--${theme}`, { 'is-safe-top': safeTop, 'is-sticky': sticky }]">
+  <header
+    class="ky-system-bar"
+    :class="[`ky-system-bar--${theme}`, { 'is-safe-top': safeTop, 'is-sticky': sticky }]"
+  >
     <div class="ky-system-bar__inner">
-      <button v-if="showBack" type="button" class="ky-system-bar__action" aria-label="返回" @click="$emit('back')">‹</button>
+      <button
+        v-if="showBack"
+        type="button"
+        class="ky-system-bar__action"
+        aria-label="返回"
+        @click="$emit('back')"
+      >
+        ‹
+      </button>
       <span v-else class="ky-system-bar__placeholder" />
       <h1>{{ title }}</h1>
       <div class="ky-system-bar__right"><slot name="right" /></div>
