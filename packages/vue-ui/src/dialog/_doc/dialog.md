@@ -1,30 +1,33 @@
 # Dialog 对话框
 
-对话框用于重要确认、风险告知和需要明确决策的场景。
+对话框用于重要确认、风险告知和需要明确决策的场景。组件复用 Popup 的遮罩和动画能力，默认使用 `zoom` 动画。
 
 ## 使用建议
 
 - 默认不允许点击遮罩关闭。
 - 打开后焦点进入对话框，背景滚动会被锁定，关闭后焦点返回触发元素。
 - 确认事件不强制关闭，便于接入异步提交。
+- `animation` 支持 Popup 内置动画和自定义 Vue Transition 名称。
 
 ## API
 
-| 属性                          | 类型            | 默认值 | 说明                 |
-| ----------------------------- | --------------- | ------ | -------------------- |
-| modelValue / visible          | boolean         | false  | 是否显示             |
-| title                         | string          | -      | 标题                 |
-| description / content         | string          | -      | 说明文案             |
-| confirmText                   | string          | 确认   | 确认按钮文案         |
-| cancelText                    | string          | 取消   | 取消按钮文案         |
-| showCancel                    | boolean         | true   | 是否显示取消按钮     |
-| enableFooter                  | boolean         | true   | 是否显示底部按钮区   |
-| danger                        | boolean         | false  | 是否为危险确认       |
-| loading                       | boolean         | false  | 确认按钮是否加载中   |
-| closeOnOverlay / maskClosable | boolean         | false  | 点击遮罩是否关闭     |
-| closeOnEsc                    | boolean         | true   | 是否允许 Escape 关闭 |
-| zIndex                        | number / string | 900    | 层级                 |
-| boxStyle                      | CSSProperties   | {}     | 对话框容器样式       |
+| 属性                          | 类型                                        | 默认值                     | 说明                 |
+| ----------------------------- | ------------------------------------------- | -------------------------- | -------------------- |
+| modelValue / visible          | boolean                                     | false                      | 是否显示             |
+| title                         | string                                      | -                          | 标题                 |
+| description / content         | string                                      | -                          | 说明文案             |
+| confirmText                   | string                                      | 确认                       | 确认按钮文案         |
+| cancelText                    | string                                      | 取消                       | 取消按钮文案         |
+| showCancel                    | boolean                                     | true                       | 是否显示取消按钮     |
+| enableFooter                  | boolean                                     | true                       | 是否显示底部按钮区   |
+| danger                        | boolean                                     | false                      | 是否为危险确认       |
+| loading                       | boolean                                     | false                      | 确认按钮是否加载中   |
+| closeOnOverlay / maskClosable | boolean                                     | false                      | 点击遮罩是否关闭     |
+| closeOnEsc                    | boolean                                     | true                       | 是否允许 Escape 关闭 |
+| zIndex                        | number / string                             | 900                        | 层级                 |
+| animation                     | PopupAnimation / string                     | zoom                       | 面板动画             |
+| duration                      | number / { enter?: number; leave?: number } | { enter: 300, leave: 275 } | 动画时长，单位毫秒   |
+| boxStyle                      | CSSProperties                               | {}                         | 对话框容器样式       |
 
 ## 命令式调用
 

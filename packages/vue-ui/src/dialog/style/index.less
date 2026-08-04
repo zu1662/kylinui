@@ -1,15 +1,5 @@
 @import './token.less';
 
-.ky-dialog__overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 900;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: var(--ky-color-overlay);
-}
-
 .ky-dialog {
   width: var(--ky-dialog-width);
   padding: 24px 20px 20px;
@@ -48,24 +38,4 @@
   display: flex;
   gap: 12px;
   margin-top: 24px;
-}
-
-.ky-dialog-fade-enter-active,
-.ky-dialog-fade-leave-active {
-  transition: opacity var(--ky-duration-base);
-}
-
-.ky-dialog-fade-enter-from,
-.ky-dialog-fade-leave-to {
-  opacity: 0;
-}
-
-.ky-dialog-fade-enter-active .ky-dialog,
-.ky-dialog-fade-leave-active .ky-dialog {
-  transition: transform var(--ky-duration-base);
-}
-
-.ky-dialog-fade-enter-from .ky-dialog,
-.ky-dialog-fade-leave-to .ky-dialog {
-  transform: scale(0.96);
 }

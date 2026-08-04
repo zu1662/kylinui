@@ -1,14 +1,5 @@
 @import './token.less';
 
-.ky-bottom-sheet__overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 800;
-  display: flex;
-  align-items: flex-end;
-  background: var(--ky-color-overlay);
-}
-
 .ky-bottom-sheet {
   width: 100%;
   overflow: hidden;
@@ -63,24 +54,4 @@
   padding: 12px 16px var(--ky-safe-bottom);
   background: var(--ky-color-surface);
   border-top: 1px solid var(--ky-color-divider);
-}
-
-.ky-overlay-enter-active,
-.ky-overlay-leave-active {
-  transition: opacity var(--ky-duration-base);
-}
-
-.ky-overlay-enter-from,
-.ky-overlay-leave-to {
-  opacity: 0;
-}
-
-.ky-sheet-enter-active,
-.ky-sheet-leave-active {
-  transition: transform var(--ky-duration-base) ease-out;
-}
-
-.ky-sheet-enter-from,
-.ky-sheet-leave-to {
-  transform: translateY(100%);
 }

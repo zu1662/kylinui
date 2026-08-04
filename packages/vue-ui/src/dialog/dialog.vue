@@ -1,53 +1,48 @@
 <template>
-  <Teleport to="body">
-    <Transition name="ky-dialog-fade" @after-leave="emitHide">
-      <div
-        v-if="isVisible"
-        class="ky-dialog__overlay"
-        :style="{ zIndex: String(zIndex) }"
-        @click="handleOverlay"
-      >
-        <section
-          ref="panel"
-          class="ky-dialog"
-          :style="boxStyle"
-          role="alertdialog"
-          aria-modal="true"
-          :aria-labelledby="title ? titleId : undefined"
-          :aria-describedby="resolvedDescription ? descriptionId : undefined"
-          tabindex="-1"
-          @click.stop
-          @keydown="handleKeydown"
-        >
-          <div v-if="$slots.illustration" class="ky-dialog__illustration">
-            <slot name="illustration" />
-          </div>
-          <h2 v-if="title" :id="titleId">{{ title }}</h2>
-          <p v-if="resolvedDescription" :id="descriptionId">{{ resolvedDescription }}</p>
-          <div v-if="$slots.default" class="ky-dialog__content"><slot /></div>
-          <div v-if="enableFooter" class="ky-dialog__actions">
-            <KyButton v-if="showCancel" variant="secondary" block @click="cancel">
-              {{ cancelText }}
-            </KyButton>
-            <KyButton
-              :variant="danger ? 'danger' : 'primary'"
-              block
-              :loading="loading"
-              @click="emit('confirm')"
-            >
-              {{ confirmText }}
-            </KyButton>
-          </div>
-        </section>
+  <KyPopup
+    :model-value="isVisible"
+    position="center"
+    :close-on-overlay="false"
+    :safe-area="false"
+    :z-index="zIndex"
+    :animation="animation"
+    :duration="duration"
+    panel-class="ky-popup__panel--transparent"
+    role="alertdialog"
+    :aria-label="title ? null : '对话框'"
+    :aria-labelledby="title ? titleId : undefined"
+    :aria-describedby="resolvedDescription ? descriptionId : undefined"
+    @click-overlay="handleOverlay"
+    @closed="emitHide"
+  >
+    <section ref="panel" class="ky-dialog" :style="boxStyle" tabindex="-1" @keydown="handleKeydown">
+      <div v-if="$slots.illustration" class="ky-dialog__illustration">
+        <slot name="illustration" />
       </div>
-    </Transition>
-  </Teleport>
+      <h2 v-if="title" :id="titleId">{{ title }}</h2>
+      <p v-if="resolvedDescription" :id="descriptionId">{{ resolvedDescription }}</p>
+      <div v-if="$slots.default" class="ky-dialog__content"><slot /></div>
+      <div v-if="enableFooter" class="ky-dialog__actions">
+        <KyButton v-if="showCancel" variant="secondary" block @click="cancel">
+          {{ cancelText }}
+        </KyButton>
+        <KyButton
+          :variant="danger ? 'danger' : 'primary'"
+          block
+          :loading="loading"
+          @click="emit('confirm')"
+        >
+          {{ confirmText }}
+        </KyButton>
+      </div>
+    </section>
+  </KyPopup>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, ref, useId, watch } from 'vue';
 import KyButton from '../button';
-import { useLockScroll } from '../shared/use-lock-scroll';
+import KyPopup from '../popup';
 import type { DialogProps } from './dialog';
 
 defineOptions({ name: 'KyDialog' });
@@ -77,13 +72,16 @@ const isVisible = computed(() => Boolean(props.modelValue || props.visible));
 const resolvedDescription = computed(() => props.description ?? props.content ?? '');
 const canCloseOnOverlay = computed(() => props.closeOnOverlay || props.maskClosable);
 let previousFocus: HTMLElement | null = null;
-useLockScroll(isVisible);
+let focusTaskId = 0;
 
 watch(isVisible, async (value) => {
+  const taskId = ++focusTaskId;
   if (value) {
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     await nextTick();
-    panel.value?.focus();
+    window.requestAnimationFrame(() => {
+      if (taskId === focusTaskId && isVisible.value) panel.value?.focus();
+    });
   } else {
     previousFocus?.focus();
     previousFocus = null;

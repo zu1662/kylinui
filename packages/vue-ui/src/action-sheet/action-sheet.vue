@@ -7,6 +7,8 @@
     :close-on-overlay="resolvedCloseOnOverlay"
     :safe-area="safeArea"
     :z-index="zIndex"
+    :animation="animation"
+    :duration="duration"
     aria-label="操作面板"
     @update:model-value="setVisible"
     @opened="emit('show')"

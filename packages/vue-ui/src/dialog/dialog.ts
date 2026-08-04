@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'vue';
+import type { PopupAnimation, PopupDuration } from '../popup/popup';
 
 export interface DialogProps {
   modelValue?: boolean;
@@ -18,6 +19,9 @@ export interface DialogProps {
   maskClosable?: boolean;
   closeOnEsc?: boolean;
   zIndex?: number | string;
+  /** 默认按 center 位置使用 zoom，可传入 Popup 支持的其他动画。 */
+  animation?: PopupAnimation | (string & {});
+  duration?: number | PopupDuration;
   boxStyle?: CSSProperties;
 }
 
