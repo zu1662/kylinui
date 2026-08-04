@@ -40,6 +40,18 @@ export default {
       step: 1,
     },
     {
+      name: 'inputAllowed',
+      label: '允许手动输入',
+      type: 'boolean',
+      defaultValue: true,
+    },
+    {
+      name: 'readonly',
+      label: '只读输入框',
+      type: 'boolean',
+      defaultValue: false,
+    },
+    {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',

@@ -1,0 +1,72 @@
+@import './token.less';
+
+.ky-swiper {
+  position: relative;
+  width: 100%;
+}
+
+.ky-swiper__viewport {
+  width: 100%;
+  overflow: hidden;
+  touch-action: pan-y;
+  border-radius: var(--ky-swiper-radius);
+}
+
+.ky-swiper__track {
+  display: flex;
+  transition-timing-function: ease-out;
+  transition-property: transform;
+  will-change: transform;
+}
+
+.ky-swiper__track.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.ky-swiper__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--ky-swiper-radius);
+}
+
+.ky-swiper__slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ky-swiper__fallback {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  padding: var(--ky-space-5);
+  color: var(--ky-color-text-primary);
+  background: var(--ky-gradient-brand-soft);
+}
+
+.ky-swiper__dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: var(--ky-space-3);
+}
+
+.ky-swiper__dots button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  background: var(--ky-swiper-dot);
+  border: 0;
+  border-radius: var(--ky-radius-pill);
+  transition:
+    width var(--ky-duration-fast),
+    background var(--ky-duration-fast);
+}
+
+.ky-swiper__dots button.is-active {
+  width: 20px;
+  background: var(--ky-swiper-dot-active);
+}

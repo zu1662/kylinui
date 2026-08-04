@@ -1,5 +1,9 @@
 import type { ComponentEntry } from './types';
 
+import iconConfig from '@vue-ui/icon/_usage/config';
+import IconUsage from '@vue-ui/icon/_usage/index.vue';
+import IconDemo from '@vue-ui/icon/_demo/basic.vue';
+import iconDoc from '@vue-ui/icon/_doc/icon.md?raw';
 import buttonConfig from '@vue-ui/button/_usage/config';
 import ButtonUsage from '@vue-ui/button/_usage/index.vue';
 import ButtonDemo from '@vue-ui/button/_demo/basic.vue';
@@ -64,9 +68,83 @@ import systemBarConfig from '@vue-ui/system-bar/_usage/config';
 import SystemBarUsage from '@vue-ui/system-bar/_usage/index.vue';
 import SystemBarDemo from '@vue-ui/system-bar/_demo/basic.vue';
 import systemBarDoc from '@vue-ui/system-bar/_doc/system-bar.md?raw';
+import popupConfig from '@vue-ui/popup/_usage/config';
+import PopupUsage from '@vue-ui/popup/_usage/index.vue';
+import PopupDemo from '@vue-ui/popup/_demo/basic.vue';
+import popupDoc from '@vue-ui/popup/_doc/popup.md?raw';
+import actionSheetConfig from '@vue-ui/action-sheet/_usage/config';
+import ActionSheetUsage from '@vue-ui/action-sheet/_usage/index.vue';
+import ActionSheetDemo from '@vue-ui/action-sheet/_demo/basic.vue';
+import actionSheetDoc from '@vue-ui/action-sheet/_doc/action-sheet.md?raw';
+import tabBarConfig from '@vue-ui/tab-bar/_usage/config';
+import TabBarUsage from '@vue-ui/tab-bar/_usage/index.vue';
+import TabBarDemo from '@vue-ui/tab-bar/_demo/basic.vue';
+import tabBarDoc from '@vue-ui/tab-bar/_doc/tab-bar.md?raw';
+import swiperConfig from '@vue-ui/swiper/_usage/config';
+import SwiperUsage from '@vue-ui/swiper/_usage/index.vue';
+import SwiperDemo from '@vue-ui/swiper/_demo/basic.vue';
+import swiperDoc from '@vue-ui/swiper/_doc/swiper.md?raw';
+import pickerConfig from '@vue-ui/picker/_usage/config';
+import PickerUsage from '@vue-ui/picker/_usage/index.vue';
+import PickerDemo from '@vue-ui/picker/_demo/basic.vue';
+import pickerDoc from '@vue-ui/picker/_doc/picker.md?raw';
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
+  {
+    slug: 'icon',
+    group: '基础组件',
+    title: 'Icon 图标',
+    config: iconConfig,
+    usage: IconUsage,
+    demo: IconDemo,
+    doc: iconDoc,
+  },
+  {
+    slug: 'popup',
+    group: '反馈组件',
+    title: 'Popup 弹出层',
+    config: popupConfig,
+    usage: PopupUsage,
+    demo: PopupDemo,
+    doc: popupDoc,
+  },
+  {
+    slug: 'action-sheet',
+    group: '反馈组件',
+    title: 'Action Sheet 动作面板',
+    config: actionSheetConfig,
+    usage: ActionSheetUsage,
+    demo: ActionSheetDemo,
+    doc: actionSheetDoc,
+  },
+  {
+    slug: 'picker',
+    group: '表单组件',
+    title: 'Picker 滚动选择器',
+    config: pickerConfig,
+    usage: PickerUsage,
+    demo: PickerDemo,
+    doc: pickerDoc,
+  },
+  {
+    slug: 'tab-bar',
+    group: '导航组件',
+    title: 'Tab Bar 标签导航',
+    config: tabBarConfig,
+    usage: TabBarUsage,
+    demo: TabBarDemo,
+    doc: tabBarDoc,
+  },
+  {
+    slug: 'swiper',
+    group: '展示组件',
+    title: 'Swiper 轮播',
+    config: swiperConfig,
+    usage: SwiperUsage,
+    demo: SwiperDemo,
+    doc: swiperDoc,
+  },
   {
     slug: 'button',
     group: '基础组件',

@@ -131,3 +131,19 @@
     transform: rotate(360deg);
   }
 }
+
+.ky-button.is-plain:not(:disabled) {
+  color: var(--ky-color-brand-strong);
+  background: transparent;
+  border-color: currentcolor;
+}
+
+.ky-button.has-shadow:not(:disabled) {
+  box-shadow: 0 8px 18px rgb(8 121 90 / 18%);
+}
+
+.ky-button.has-left-subtitle .ky-button__content {
+  display: flex;
+  gap: var(--ky-space-2);
+  align-items: baseline;
+}

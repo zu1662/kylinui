@@ -1,0 +1,119 @@
+@import './token.less';
+
+.ky-picker {
+  overflow: hidden;
+  color: var(--ky-color-text-primary);
+  background: var(--ky-color-surface);
+  border-radius: var(--ky-radius-lg);
+}
+
+.ky-picker__toolbar {
+  display: grid;
+  grid-template-columns: 72px 1fr 72px;
+  align-items: center;
+  min-height: 52px;
+  border-bottom: 1px solid var(--ky-color-divider);
+}
+
+.ky-picker__toolbar strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ky-font-size-body-strong);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ky-picker__toolbar button {
+  min-height: 44px;
+  color: var(--ky-color-link);
+  background: transparent;
+  border: 0;
+}
+
+.ky-picker__columns {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+}
+
+.ky-picker__column {
+  position: relative;
+  z-index: 1;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  touch-action: none;
+  cursor: grab;
+}
+
+.ky-picker__column:active {
+  cursor: grabbing;
+}
+
+.ky-picker__list {
+  display: flex;
+  flex-direction: column;
+  transition-timing-function: cubic-bezier(0.22, 0.72, 0.24, 1);
+  transition-property: transform;
+  will-change: transform;
+}
+
+.ky-picker__list.is-dragging {
+  user-select: none;
+}
+
+.ky-picker__list button {
+  flex: 0 0 var(--ky-picker-item-height);
+  height: var(--ky-picker-item-height);
+  padding: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--ky-color-text-tertiary);
+  white-space: nowrap;
+  background: transparent;
+  border: 0;
+  transition:
+    color var(--ky-duration-fast),
+    transform var(--ky-duration-fast);
+}
+
+.ky-picker__list button.is-selected {
+  font-size: var(--ky-font-size-body-strong);
+  font-weight: var(--ky-font-semibold);
+  color: var(--ky-color-text-primary);
+}
+
+.ky-picker__selection {
+  position: absolute;
+  top: var(--ky-picker-center-offset);
+  right: 12px;
+  left: 12px;
+  z-index: 0;
+  height: var(--ky-picker-item-height);
+  pointer-events: none;
+  background: var(--ky-color-subtle-bg);
+  border-radius: var(--ky-radius-sm);
+}
+
+.ky-picker__mask {
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: var(--ky-picker-center-offset);
+  pointer-events: none;
+}
+
+.ky-picker__mask--top {
+  top: 0;
+  background: linear-gradient(to bottom, var(--ky-color-surface) 10%, rgb(255 255 255 / 15%));
+}
+
+.ky-picker__mask--bottom {
+  bottom: 0;
+  background: linear-gradient(to top, var(--ky-color-surface) 10%, rgb(255 255 255 / 15%));
+}
+
+.ky-picker.is-disabled {
+  opacity: 0.55;
+}

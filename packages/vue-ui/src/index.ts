@@ -3,6 +3,7 @@ import './style/index.less';
 import './style/components.less';
 
 import { KyButton } from './button';
+import { KyIcon } from './icon';
 import { KyTag } from './tag';
 import { KyPopover } from './popover';
 import { KyToast } from './toast';
@@ -18,10 +19,16 @@ import { KyRadio } from './radio';
 import { KyFormCard } from './form-card';
 import { KySteps } from './steps';
 import { KySystemBar } from './system-bar';
+import { KyPopup } from './popup';
+import { KyActionSheet } from './action-sheet';
+import { KyTabBar } from './tab-bar';
+import { KySwiper } from './swiper';
+import { KyPicker } from './picker';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
 const components = [
   KyButton,
+  KyIcon,
   KyTag,
   KyPopover,
   KyToast,
@@ -37,6 +44,11 @@ const components = [
   KyFormCard,
   KySteps,
   KySystemBar,
+  KyPopup,
+  KyActionSheet,
+  KyTabBar,
+  KySwiper,
+  KyPicker,
 ];
 
 export default {
@@ -46,6 +58,7 @@ export default {
 };
 
 export * from './button';
+export * from './icon';
 export * from './tag';
 export * from './popover';
 export * from './toast';
@@ -61,3 +74,8 @@ export * from './radio';
 export * from './form-card';
 export * from './steps';
 export * from './system-bar';
+export * from './popup';
+export * from './action-sheet';
+export * from './tab-bar';
+export * from './swiper';
+export * from './picker';

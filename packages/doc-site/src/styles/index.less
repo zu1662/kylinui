@@ -317,6 +317,8 @@ main {
 }
 
 .mobile-simulator {
+  --mobile-simulator-bezel: 10px;
+
   width: min(100%, 390px);
 }
 
@@ -386,9 +388,14 @@ main {
   border-color: var(--ky-color-brand-strong);
 }
 
+/* 机身固定为 1:2，顶部与左右共用同一黑边尺寸，避免响应式下边框宽度不一致。 */
 .mobile-simulator__device {
   position: relative;
-  padding: 0 7px 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 1/2;
+  padding: var(--mobile-simulator-bezel);
   overflow: hidden;
   background: #201b18;
   border: 1px solid rgb(255 255 255 / 12%);
@@ -400,7 +407,7 @@ main {
 
 .mobile-simulator__speaker {
   position: absolute;
-  top: 9px;
+  top: 3px;
   left: 50%;
   z-index: 2;
   width: 58px;
@@ -412,6 +419,7 @@ main {
 
 .mobile-simulator__status {
   display: flex;
+  flex: 0 0 34px;
   align-items: flex-end;
   justify-content: space-between;
   height: 34px;
@@ -428,7 +436,8 @@ main {
 }
 
 .mobile-simulator__viewport {
-  height: 560px;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
   overscroll-behavior: contain;
   background: var(--ky-color-page-bg);
@@ -453,10 +462,6 @@ main {
 .mobile-simulator--compact {
   width: min(100%, 330px);
   margin: 0 auto;
-}
-
-.mobile-simulator--compact .mobile-simulator__viewport {
-  height: 480px;
 }
 
 .doc-section {
@@ -615,6 +620,7 @@ html.is-preview body {
 
 .preview-page--desktop-dragging {
   cursor: grabbing;
+  user-select: none;
 }
 
 .preview-page__content {
@@ -716,17 +722,7 @@ html.is-preview body {
   }
 
   .mobile-simulator__device {
-    padding-right: 5px;
-    padding-left: 5px;
     border-radius: 34px;
-  }
-
-  .mobile-simulator__viewport {
-    height: 520px;
-  }
-
-  .mobile-simulator--compact .mobile-simulator__viewport {
-    height: 460px;
   }
 
   .playground__controls {

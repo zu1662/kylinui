@@ -27,6 +27,18 @@ export default {
       defaultValue: false,
     },
     {
+      name: 'plain',
+      label: '朴素样式',
+      type: 'boolean',
+      defaultValue: false,
+    },
+    {
+      name: 'shadow',
+      label: '显示阴影',
+      type: 'boolean',
+      defaultValue: false,
+    },
+    {
       name: 'loading',
       label: '加载中',
       type: 'boolean',

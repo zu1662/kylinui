@@ -1,30 +1,68 @@
 import { reactive } from 'vue';
 
 export type ToastType = 'text' | 'success' | 'error' | 'loading';
+export type ToastPosition = 'top' | 'center' | 'bottom';
+
 export interface ToastOptions {
-  message: string;
+  message?: string | number;
+  /** 兼容参考项目的 content 字段。 */
+  content?: string | number;
   type?: ToastType;
   duration?: number;
+  position?: ToastPosition;
+  zIndex?: number | string;
+  forbidClick?: boolean;
+  onClose?: () => void;
 }
 
-export const toastState = reactive({ visible: false, message: '', type: 'text' as ToastType });
+export const toastState = reactive({
+  visible: false,
+  message: '',
+  type: 'text' as ToastType,
+  position: 'bottom' as ToastPosition,
+  zIndex: 1000 as number | string,
+  forbidClick: false,
+});
 let timer: ReturnType<typeof setTimeout> | undefined;
+let closeCallback: (() => void) | undefined;
 
-// 全局只维护一个 Toast，新消息会替换旧消息并重置关闭计时。
-export function showToast(options: string | ToastOptions) {
-  const normalized = typeof options === 'string' ? { message: options } : options;
+// 新消息会覆盖当前 Toast，并重置定时器与关闭回调。
+export function showToast(options: string | number | ToastOptions) {
+  const normalized: ToastOptions =
+    typeof options === 'object' ? options : { message: String(options) };
   if (timer) clearTimeout(timer);
-  toastState.message = normalized.message;
+
+  toastState.message = String(normalized.message ?? normalized.content ?? '');
   toastState.type = normalized.type ?? 'text';
+  toastState.position = normalized.position ?? 'bottom';
+  toastState.zIndex = normalized.zIndex ?? 1000;
+  toastState.forbidClick = normalized.forbidClick ?? false;
+  closeCallback = normalized.onClose;
   toastState.visible = true;
-  if (toastState.type !== 'loading') {
-    const duration = normalized.duration ?? (toastState.type === 'error' ? 3200 : 2000);
-    timer = setTimeout(hideToast, duration);
-  }
+
+  const duration =
+    normalized.duration ??
+    (toastState.type === 'loading' ? 0 : toastState.type === 'error' ? 3200 : 2000);
+  if (duration > 0) timer = setTimeout(hideToast, duration);
+  return { close: hideToast };
+}
+
+export function showLoading(options: string | number | Omit<ToastOptions, 'type'> = '加载中') {
+  const normalized = typeof options === 'object' ? options : { content: options };
+  return showToast({ ...normalized, type: 'loading', duration: normalized.duration ?? 0 });
 }
 
 export function hideToast() {
+  const callback = closeCallback;
   toastState.visible = false;
+  toastState.forbidClick = false;
+  closeCallback = undefined;
   if (timer) clearTimeout(timer);
   timer = undefined;
+  callback?.();
+}
+
+/** 提供适合 setup 中使用的轻量 Hook 接口。 */
+export function useToast() {
+  return { show: showToast, loading: showLoading, hide: hideToast };
 }

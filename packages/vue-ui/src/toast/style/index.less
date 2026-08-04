@@ -1,9 +1,19 @@
-@import './token.less'; /* Toast 固定在移动端易读区域，并通过全局层级覆盖普通页面内容。 */
-.ky-toast {
+@import './token.less';
+
+.ky-toast-layer {
   position: fixed;
-  top: 68%;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ky-toast-layer.is-blocking {
+  pointer-events: auto;
+  background: rgb(38 18 8 / 8%);
+}
+
+.ky-toast {
+  position: absolute;
   left: 50%;
-  z-index: 1000;
   display: flex;
   gap: 8px;
   align-items: center;
@@ -18,8 +28,23 @@
   transform: translate(-50%, -50%);
 }
 
+.ky-toast--top {
+  top: max(88px, calc(env(safe-area-inset-top) + 64px));
+}
+
+.ky-toast--center {
+  top: 50%;
+}
+
+.ky-toast--bottom {
+  top: auto;
+  bottom: max(72px, calc(env(safe-area-inset-bottom) + 56px));
+  transform: translateX(-50%);
+}
+
 .ky-toast__icon {
   display: grid;
+  flex: 0 0 20px;
   place-items: center;
   width: 20px;
   height: 20px;
@@ -29,6 +54,7 @@
 }
 
 .ky-toast__spinner {
+  flex: 0 0 18px;
   width: 18px;
   height: 18px;
   border: 2px solid currentcolor;
@@ -39,13 +65,10 @@
 
 .ky-toast-fade-enter-active,
 .ky-toast-fade-leave-active {
-  transition:
-    opacity var(--ky-duration-fast),
-    transform var(--ky-duration-fast);
+  transition: opacity var(--ky-duration-fast);
 }
 
 .ky-toast-fade-enter-from,
 .ky-toast-fade-leave-to {
   opacity: 0;
-  transform: translateY(8px);
 }

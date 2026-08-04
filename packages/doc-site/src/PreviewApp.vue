@@ -8,14 +8,11 @@
       <component :is="entry.usage" v-if="mode === 'usage'" :config-props="values" />
       <component :is="entry.demo" v-else />
     </section>
-    <!-- Toast 示例需要在 iframe 内挂载承载节点，固定定位才会受手机视口约束。 -->
-    <KyToast v-if="entry.slug === 'toast'" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
-import { KyToast } from '@kylin-design/vue-ui';
 import { useDesktopTouchScroll } from './composables/use-desktop-touch-scroll';
 import { components } from './registry';
 import { isPreviewPropsMessage, type PreviewMode } from './preview';

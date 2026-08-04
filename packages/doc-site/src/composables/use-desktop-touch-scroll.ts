@@ -4,12 +4,9 @@ type GestureAxis = 'x' | 'y';
 
 interface GestureState {
   target: Element | null;
-  scrollElement: HTMLElement | null;
   axis: GestureAxis | null;
   startX: number;
   startY: number;
-  startScrollLeft: number;
-  startScrollTop: number;
   lastX: number;
   lastY: number;
   lastTime: number;
@@ -20,31 +17,37 @@ interface GestureState {
 const DRAG_THRESHOLD = 5;
 const STOP_VELOCITY = 0.02;
 const FRICTION = 0.92;
-const INTERACTIVE_SELECTOR = [
-  'a',
-  'button',
+const CLICK_SUPPRESS_DURATION = 350;
+const NATIVE_GESTURE_SELECTOR = [
   'input',
   'select',
   'textarea',
-  '[contenteditable="true"]',
+  '[contenteditable]:not([contenteditable="false"])',
+  '[draggable="true"]',
   '[data-no-touch-scroll]',
 ].join(',');
 
 function createInitialState(): GestureState {
   return {
     target: null,
-    scrollElement: null,
     axis: null,
     startX: 0,
     startY: 0,
-    startScrollLeft: 0,
-    startScrollTop: 0,
     lastX: 0,
     lastY: 0,
     lastTime: 0,
     velocity: 0,
     moved: false,
   };
+}
+
+function getScrollPosition(element: HTMLElement, axis: GestureAxis) {
+  return axis === 'x' ? element.scrollLeft : element.scrollTop;
+}
+
+function setScrollPosition(element: HTMLElement, axis: GestureAxis, value: number) {
+  if (axis === 'x') element.scrollLeft = value;
+  else element.scrollTop = value;
 }
 
 function isScrollable(element: HTMLElement, axis: GestureAxis) {
@@ -60,7 +63,7 @@ function isScrollable(element: HTMLElement, axis: GestureAxis) {
 }
 
 function canScrollTowards(element: HTMLElement, axis: GestureAxis, delta: number) {
-  const position = axis === 'x' ? element.scrollLeft : element.scrollTop;
+  const position = getScrollPosition(element, axis);
   const maximum =
     axis === 'x'
       ? element.scrollWidth - element.clientWidth
@@ -68,32 +71,72 @@ function canScrollTowards(element: HTMLElement, axis: GestureAxis, delta: number
 
   if (delta < 0) return position > 0;
   if (delta > 0) return position < maximum;
-  return true;
+  return false;
 }
 
 /**
- * 从触摸起点向上查找真正可滚动的区域。
- * 内层滚动区域到达边界后会继续查找父级，避免抽屉、列表等嵌套场景卡住。
+ * 从触摸起点向上查找当前方向真正可滚动的区域。
+ * 已到边界的内层列表会被跳过，手势可以继续传递给外层页面。
  */
 function findScrollElement(target: Element, root: HTMLElement, axis: GestureAxis, delta: number) {
   let current: Element | null = target;
-  let fallback: HTMLElement | null = null;
 
   while (current && root.contains(current)) {
-    if (current instanceof HTMLElement && isScrollable(current, axis)) {
-      fallback ??= current;
-      if (canScrollTowards(current, axis, delta)) return current;
+    if (
+      current instanceof HTMLElement &&
+      isScrollable(current, axis) &&
+      canScrollTowards(current, axis, delta)
+    ) {
+      return current;
     }
 
     if (current === root) break;
     current = current.parentElement;
   }
 
-  return fallback;
+  return null;
+}
+
+/**
+ * 消费一次增量滚动，并把到达边界后剩余的距离继续传递给父级滚动容器。
+ * 每次 touchmove 都重新查找容器，因此反向拖动时也能自然回到内层列表。
+ */
+function scrollByDelta(target: Element, root: HTMLElement, axis: GestureAxis, delta: number) {
+  let searchStart: Element | null = target;
+  let remaining = delta;
+  let moved = false;
+
+  while (searchStart && root.contains(searchStart) && Math.abs(remaining) > 0.5) {
+    const scrollElement = findScrollElement(searchStart, root, axis, remaining);
+    if (!scrollElement) break;
+
+    const before = getScrollPosition(scrollElement, axis);
+    setScrollPosition(scrollElement, axis, before + remaining);
+    const consumed = getScrollPosition(scrollElement, axis) - before;
+
+    if (consumed !== 0) {
+      moved = true;
+      remaining -= consumed;
+    }
+
+    if (scrollElement === root) break;
+    searchStart = scrollElement.parentElement;
+  }
+
+  return moved;
 }
 
 function readTouch(event: TouchEvent) {
   return event.touches.item(0) ?? event.changedTouches.item(0);
+}
+
+function isRelatedTarget(eventTarget: EventTarget | null, gestureTarget: Element | null) {
+  if (!(eventTarget instanceof Element) || !gestureTarget) return false;
+  return (
+    eventTarget === gestureTarget ||
+    eventTarget.contains(gestureTarget) ||
+    gestureTarget.contains(eventTarget)
+  );
 }
 
 /**
@@ -104,8 +147,9 @@ function readTouch(event: TouchEvent) {
 export function useDesktopTouchScroll(rootRef: Ref<HTMLElement | null>) {
   const isDragging = ref(false);
   let state = createInitialState();
+  let boundRoot: HTMLElement | null = null;
   let momentumFrame = 0;
-  let suppressNextClick = false;
+  let suppressedClickTarget: Element | null = null;
   let suppressClickTimer = 0;
 
   function stopMomentum() {
@@ -113,22 +157,33 @@ export function useDesktopTouchScroll(rootRef: Ref<HTMLElement | null>) {
     momentumFrame = 0;
   }
 
-  function startMomentum(element: HTMLElement, axis: GestureAxis, initialVelocity: number) {
+  function clearClickSuppression() {
+    suppressedClickTarget = null;
+    window.clearTimeout(suppressClickTimer);
+  }
+
+  function scheduleClickSuppression(target: Element) {
+    suppressedClickTarget = target;
+    window.clearTimeout(suppressClickTimer);
+    suppressClickTimer = window.setTimeout(clearClickSuppression, CLICK_SUPPRESS_DURATION);
+  }
+
+  function startMomentum(
+    target: Element,
+    root: HTMLElement,
+    axis: GestureAxis,
+    initialVelocity: number,
+  ) {
     let velocity = initialVelocity;
 
     function step() {
       velocity *= FRICTION;
-      if (Math.abs(velocity) < STOP_VELOCITY || !element.isConnected) {
+      if (Math.abs(velocity) < STOP_VELOCITY || !target.isConnected || !root.isConnected) {
         momentumFrame = 0;
         return;
       }
 
-      const previous = axis === 'x' ? element.scrollLeft : element.scrollTop;
-      if (axis === 'x') element.scrollLeft += velocity * 16;
-      else element.scrollTop += velocity * 16;
-
-      const current = axis === 'x' ? element.scrollLeft : element.scrollTop;
-      if (current === previous) {
+      if (!scrollByDelta(target, root, axis, velocity * 16)) {
         momentumFrame = 0;
         return;
       }
@@ -147,7 +202,9 @@ export function useDesktopTouchScroll(rootRef: Ref<HTMLElement | null>) {
     const touch = readTouch(event);
     const target = event.target instanceof Element ? event.target : null;
     if (!root || !touch || !target || !root.contains(target)) return;
-    if (target.closest(INTERACTIVE_SELECTOR)) return;
+
+    // 输入、文本编辑、原生拖放等控件保留自身手势；按钮和链接仍可通过拖动页面滚动。
+    if (target.closest(NATIVE_GESTURE_SELECTOR)) return;
 
     stopMomentum();
     state = {
@@ -179,57 +236,41 @@ export function useDesktopTouchScroll(rootRef: Ref<HTMLElement | null>) {
       const preferredDelta = preferredAxis === 'x' ? -deltaX : -deltaY;
       const fallbackDelta = fallbackAxis === 'x' ? -deltaX : -deltaY;
 
-      state.scrollElement = findScrollElement(state.target, root, preferredAxis, preferredDelta);
-      state.axis = state.scrollElement ? preferredAxis : fallbackAxis;
-      state.scrollElement ??= findScrollElement(state.target, root, fallbackAxis, fallbackDelta);
-
-      if (!state.scrollElement) {
-        state.axis = null;
+      if (findScrollElement(state.target, root, preferredAxis, preferredDelta)) {
+        state.axis = preferredAxis;
+      } else if (findScrollElement(state.target, root, fallbackAxis, fallbackDelta)) {
+        state.axis = fallbackAxis;
+      } else {
         return;
       }
-
-      state.startScrollLeft = state.scrollElement.scrollLeft;
-      state.startScrollTop = state.scrollElement.scrollTop;
     }
 
     const axis = state.axis;
-    const scrollElement = state.scrollElement;
-    if (!axis || !scrollElement) return;
+    const currentPoint = axis === 'x' ? touch.clientX : touch.clientY;
+    const lastPoint = axis === 'x' ? state.lastX : state.lastY;
+    const scrollDelta = lastPoint - currentPoint;
+    const now = performance.now();
+    const elapsed = Math.max(now - state.lastTime, 1);
 
-    const previous = axis === 'x' ? scrollElement.scrollLeft : scrollElement.scrollTop;
-    if (axis === 'x') scrollElement.scrollLeft = state.startScrollLeft - deltaX;
-    else scrollElement.scrollTop = state.startScrollTop - deltaY;
-
-    const current = axis === 'x' ? scrollElement.scrollLeft : scrollElement.scrollTop;
-    if (current !== previous) {
+    if (scrollByDelta(state.target, root, axis, scrollDelta)) {
       event.preventDefault();
       state.moved = true;
       isDragging.value = true;
     }
 
-    const now = performance.now();
-    const elapsed = Math.max(now - state.lastTime, 1);
-    const currentPoint = axis === 'x' ? touch.clientX : touch.clientY;
-    const lastPoint = axis === 'x' ? state.lastX : state.lastY;
-    state.velocity = -(currentPoint - lastPoint) / elapsed;
+    state.velocity = scrollDelta / elapsed;
     state.lastX = touch.clientX;
     state.lastY = touch.clientY;
     state.lastTime = now;
   }
 
   function finishGesture(withMomentum: boolean) {
-    const { axis, scrollElement, velocity, moved } = state;
+    const { axis, target, velocity, moved } = state;
+    const root = rootRef.value;
 
-    if (moved) {
-      suppressNextClick = true;
-      window.clearTimeout(suppressClickTimer);
-      suppressClickTimer = window.setTimeout(() => {
-        suppressNextClick = false;
-      }, 350);
-    }
-
-    if (withMomentum && moved && axis && scrollElement) {
-      startMomentum(scrollElement, axis, velocity);
+    if (moved && target) scheduleClickSuppression(target);
+    if (withMomentum && moved && axis && target && root) {
+      startMomentum(target, root, axis, velocity);
     }
 
     state = createInitialState();
@@ -245,37 +286,36 @@ export function useDesktopTouchScroll(rootRef: Ref<HTMLElement | null>) {
   }
 
   function handleClick(event: MouseEvent) {
-    if (!suppressNextClick) return;
+    if (!isRelatedTarget(event.target, suppressedClickTarget)) return;
 
-    suppressNextClick = false;
-    window.clearTimeout(suppressClickTimer);
+    clearClickSuppression();
     event.preventDefault();
     event.stopPropagation();
     event.stopImmediatePropagation();
   }
 
   onMounted(() => {
-    const root = rootRef.value;
-    if (!root) return;
+    boundRoot = rootRef.value;
+    if (!boundRoot) return;
 
-    root.addEventListener('touchstart', handleTouchStart, { passive: true });
-    root.addEventListener('touchmove', handleTouchMove, { passive: false });
-    root.addEventListener('touchend', handleTouchEnd, { passive: true });
-    root.addEventListener('touchcancel', handleTouchCancel, { passive: true });
-    root.addEventListener('click', handleClick, true);
+    boundRoot.addEventListener('touchstart', handleTouchStart, { passive: true });
+    boundRoot.addEventListener('touchmove', handleTouchMove, { passive: false });
+    boundRoot.addEventListener('touchend', handleTouchEnd, { passive: true });
+    boundRoot.addEventListener('touchcancel', handleTouchCancel, { passive: true });
+    boundRoot.addEventListener('click', handleClick, true);
   });
 
   onBeforeUnmount(() => {
-    const root = rootRef.value;
     stopMomentum();
-    window.clearTimeout(suppressClickTimer);
+    clearClickSuppression();
 
-    if (!root) return;
-    root.removeEventListener('touchstart', handleTouchStart);
-    root.removeEventListener('touchmove', handleTouchMove);
-    root.removeEventListener('touchend', handleTouchEnd);
-    root.removeEventListener('touchcancel', handleTouchCancel);
-    root.removeEventListener('click', handleClick, true);
+    if (!boundRoot) return;
+    boundRoot.removeEventListener('touchstart', handleTouchStart);
+    boundRoot.removeEventListener('touchmove', handleTouchMove);
+    boundRoot.removeEventListener('touchend', handleTouchEnd);
+    boundRoot.removeEventListener('touchcancel', handleTouchCancel);
+    boundRoot.removeEventListener('click', handleClick, true);
+    boundRoot = null;
   });
 
   return { isDragging };

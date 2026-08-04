@@ -1,0 +1,22 @@
+@import './token.less';
+
+.ky-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--ky-icon-size);
+  height: var(--ky-icon-size);
+  line-height: 1;
+  vertical-align: -0.15em;
+}
+
+.ky-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ky-icon.is-spinning {
+  animation: ky-spin 0.8s linear infinite;
+}
