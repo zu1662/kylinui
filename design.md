@@ -323,7 +323,7 @@ font-family:
 | `--radius-sm`   |   `8px` | 标签、小型状态块、轻量控件       |
 | `--radius-md`   |  `12px` | 按钮、输入框、列表项             |
 | `--radius-lg`   |  `16px` | 普通卡片、弹窗内容区             |
-| `--radius-xl`   |  `24px` | 大型卡片、底部浮层、首屏重点容器 |
+| `--radius-xl`   |  `24px` | 大型卡片、动作面板、首屏重点容器 |
 | `--radius-pill` | `999px` | 胶囊按钮、标签、开关             |
 
 同一个组件族必须使用相同圆角，不允许业务页面随意调整。优先通过留白和柔和圆角形成年轻、亲和的视觉，不使用过度膨胀的圆角破坏信息密度。
@@ -467,9 +467,9 @@ error
 
 ---
 
-## 9. 浮层 Bottom Sheet / Overlay
+## 9. 动作面板 Action Sheet / Overlay
 
-源组件库将浮层拆分为：基础浮层、插图浮层、文本浮层、浮层顶栏、浮层 Tab 及底栏操作区。
+源组件库将底部操作区域拆分为：基础面板、插图内容、文本内容、面板顶栏、面板 Tab 及底栏操作区。落地时统一由 Action Sheet 组合承载，不再拆分独立 Bottom Sheet 组件。
 
 ### 9.1 基础结构
 
@@ -826,7 +826,7 @@ src/
 │  ├─ toast/
 │  ├─ popover/
 │  ├─ dialog/
-│  ├─ bottom-sheet/
+│  ├─ action-sheet/
 │  ├─ input/
 │  ├─ selector/
 │  ├─ stepper/

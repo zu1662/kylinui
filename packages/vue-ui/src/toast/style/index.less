@@ -12,6 +12,8 @@
 }
 
 .ky-toast {
+  --ky-toast-translate-y: -50%;
+
   position: absolute;
   left: 50%;
   display: flex;
@@ -25,7 +27,7 @@
   background: var(--ky-toast-bg);
   border-radius: var(--ky-radius-md);
   box-shadow: var(--ky-shadow-floating);
-  transform: translate(-50%, -50%);
+  transform: translate3d(-50%, var(--ky-toast-translate-y), 0);
 }
 
 .ky-toast--top {
@@ -37,9 +39,10 @@
 }
 
 .ky-toast--bottom {
+  --ky-toast-translate-y: 0;
+
   top: auto;
   bottom: max(72px, calc(env(safe-area-inset-bottom) + 56px));
-  transform: translateX(-50%);
 }
 
 .ky-toast__icon {
@@ -63,12 +66,43 @@
   animation: ky-spin 0.8s linear infinite;
 }
 
-.ky-toast-fade-enter-active,
+.ky-toast-fade-enter-active {
+  transition: background-color var(--ky-duration-base) var(--ky-easing-standard);
+}
+
+.ky-toast-fade-enter-active .ky-toast {
+  transition:
+    opacity var(--ky-duration-base) var(--ky-easing-standard),
+    transform var(--ky-duration-base) var(--ky-easing-enter);
+}
+
 .ky-toast-fade-leave-active {
-  transition: opacity var(--ky-duration-fast);
+  transition: background-color var(--ky-duration-fast) var(--ky-easing-leave);
+}
+
+.ky-toast-fade-leave-active .ky-toast {
+  transition:
+    opacity var(--ky-duration-fast) var(--ky-easing-leave),
+    transform var(--ky-duration-fast) var(--ky-easing-leave);
+}
+
+.ky-toast-fade-enter-active .ky-toast,
+.ky-toast-fade-leave-active .ky-toast {
+  will-change: transform, opacity;
 }
 
 .ky-toast-fade-enter-from,
 .ky-toast-fade-leave-to {
+  background-color: transparent;
+}
+
+.ky-toast-fade-enter-from .ky-toast,
+.ky-toast-fade-leave-to .ky-toast {
   opacity: 0;
+  transform: translate3d(
+      -50%,
+      calc(var(--ky-toast-translate-y) + var(--ky-toast-motion-distance)),
+      0
+    )
+    scale(var(--ky-toast-motion-scale));
 }

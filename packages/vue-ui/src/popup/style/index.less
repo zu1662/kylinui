@@ -4,16 +4,27 @@
   position: fixed;
   inset: 0;
   display: flex;
+}
+
+.ky-popup::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: '';
   background: var(--ky-color-overlay);
 }
 
 .ky-popup--without-overlay {
   pointer-events: none;
+}
+
+.ky-popup--without-overlay::before {
   background: transparent;
 }
 
 .ky-popup__panel {
   position: relative;
+  z-index: 1;
   max-width: 100%;
   max-height: 100%;
   overflow: auto;
@@ -21,18 +32,12 @@
   pointer-events: auto;
   background: var(--ky-popup-panel-bg);
   box-shadow: var(--ky-shadow-floating);
-  will-change: transform, opacity;
 }
 
 .ky-popup__panel--transparent {
   overflow: visible;
   background: transparent;
   box-shadow: none;
-}
-
-.ky-popup__panel--post-up {
-  bottom: 0;
-  will-change: bottom;
 }
 
 .ky-popup--center {
@@ -91,17 +96,17 @@
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* 遮罩和面板使用独立过渡，避免面板位移动画被遮罩淡入淡出干扰。 */
-.ky-popup-fade-enter-active {
-  transition: opacity var(--ky-popup-enter-duration) var(--ky-popup-fade-enter-easing);
+/* 遮罩与面板独立过渡：遮罩保持平滑淡入淡出，面板按位置只动画 transform/opacity。 */
+.ky-popup-fade-enter-active::before {
+  transition: opacity var(--ky-popup-enter-duration) var(--ky-popup-mask-easing);
 }
 
-.ky-popup-fade-leave-active {
-  transition: opacity var(--ky-popup-leave-duration) linear;
+.ky-popup-fade-leave-active::before {
+  transition: opacity var(--ky-popup-leave-duration) var(--ky-popup-mask-easing);
 }
 
-.ky-popup-fade-enter-from,
-.ky-popup-fade-leave-to,
+.ky-popup-fade-enter-from::before,
+.ky-popup-fade-leave-to::before,
 .ky-popup-fade-enter-from.ky-popup__panel,
 .ky-popup-fade-leave-to.ky-popup__panel {
   opacity: 0;
@@ -110,13 +115,13 @@
 .ky-popup-zoom-enter-from,
 .ky-popup-zoom-leave-to {
   opacity: 0;
-  transform: scale(0.75);
+  transform: scale(var(--ky-popup-zoom-start-scale));
 }
 
 .ky-popup-punch-enter-from,
 .ky-popup-punch-leave-to {
   opacity: 0;
-  transform: scale(1.35);
+  transform: scale(var(--ky-popup-punch-start-scale));
 }
 
 .ky-popup-zoom-enter-active,
@@ -125,10 +130,12 @@
 .ky-popup-fade-up-enter-active,
 .ky-popup-fade-down-enter-active,
 .ky-popup-fade-left-enter-active,
-.ky-popup-fade-right-enter-active {
+.ky-popup-fade-right-enter-active,
+.ky-popup-post-up-enter-active {
   transition:
-    transform var(--ky-popup-enter-duration) var(--ky-popup-fade-enter-easing),
-    opacity var(--ky-popup-enter-duration) var(--ky-popup-fade-enter-easing);
+    transform var(--ky-popup-enter-duration) var(--ky-popup-enter-easing),
+    opacity var(--ky-popup-enter-duration) var(--ky-popup-mask-easing);
+  will-change: transform, opacity;
 }
 
 .ky-popup-zoom-leave-active,
@@ -137,10 +144,12 @@
 .ky-popup-fade-up-leave-active,
 .ky-popup-fade-down-leave-active,
 .ky-popup-fade-left-leave-active,
-.ky-popup-fade-right-leave-active {
+.ky-popup-fade-right-leave-active,
+.ky-popup-post-up-leave-active {
   transition:
-    transform var(--ky-popup-leave-duration) linear,
-    opacity var(--ky-popup-leave-duration) linear;
+    transform var(--ky-popup-leave-duration) var(--ky-popup-leave-easing),
+    opacity var(--ky-popup-leave-duration) var(--ky-popup-leave-easing);
+  will-change: transform, opacity;
 }
 
 .ky-popup-slide-up-enter-from,
@@ -168,53 +177,46 @@
 .ky-popup-slide-left-enter-active,
 .ky-popup-slide-right-enter-active {
   transition: transform var(--ky-popup-enter-duration) var(--ky-popup-enter-easing);
+  will-change: transform;
 }
 
-.ky-popup-slide-up-leave-active {
-  transition: transform var(--ky-popup-leave-duration) ease-in;
-}
-
+.ky-popup-slide-up-leave-active,
 .ky-popup-slide-down-leave-active,
 .ky-popup-slide-left-leave-active,
 .ky-popup-slide-right-leave-active {
-  transition: transform var(--ky-popup-leave-duration) var(--ky-popup-enter-easing);
+  transition: transform var(--ky-popup-leave-duration) var(--ky-popup-leave-easing);
+  will-change: transform;
 }
 
 .ky-popup-fade-up-enter-from,
 .ky-popup-fade-up-leave-to {
   opacity: 0;
-  transform: translate3d(0, 20%, 0);
+  transform: translate3d(0, var(--ky-popup-fade-distance), 0);
 }
 
 .ky-popup-fade-down-enter-from,
 .ky-popup-fade-down-leave-to {
   opacity: 0;
-  transform: translate3d(0, -20%, 0);
+  transform: translate3d(0, calc(0px - var(--ky-popup-fade-distance)), 0);
 }
 
 .ky-popup-fade-right-enter-from,
 .ky-popup-fade-right-leave-to {
   opacity: 0;
-  transform: translate3d(-20%, 0, 0);
+  transform: translate3d(calc(0px - var(--ky-popup-fade-distance)), 0, 0);
 }
 
 .ky-popup-fade-left-enter-from,
 .ky-popup-fade-left-leave-to {
   opacity: 0;
-  transform: translate3d(20%, 0, 0);
+  transform: translate3d(var(--ky-popup-fade-distance), 0, 0);
 }
 
+/* post-up 使用合成层位移代替 bottom 布局动画，并保留短距离上浮的视觉语义。 */
 .ky-popup-post-up-enter-from,
 .ky-popup-post-up-leave-to {
-  bottom: -100%;
-}
-
-.ky-popup-post-up-enter-active {
-  transition: bottom var(--ky-popup-enter-duration) var(--ky-popup-enter-easing);
-}
-
-.ky-popup-post-up-leave-active {
-  transition: bottom var(--ky-popup-leave-duration) ease-in;
+  opacity: 0;
+  transform: translate3d(0, var(--ky-popup-post-up-distance), 0);
 }
 
 @media (prefers-reduced-motion: reduce) {

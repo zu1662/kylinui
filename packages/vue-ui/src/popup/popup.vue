@@ -24,7 +24,6 @@
               {
                 'is-round': round,
                 'is-safe-area': safeArea,
-                'ky-popup__panel--post-up': resolvedAnimation === 'post-up',
               },
             ]"
             :role="role"

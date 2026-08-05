@@ -4,6 +4,10 @@ import iconConfig from '@vue-ui/icon/_usage/config';
 import IconUsage from '@vue-ui/icon/_usage/index.vue';
 import IconDemo from '@vue-ui/icon/_demo/basic.vue';
 import iconDoc from '@vue-ui/icon/_doc/icon.md?raw';
+import transitionConfig from '@vue-ui/transition/_usage/config';
+import TransitionUsage from '@vue-ui/transition/_usage/index.vue';
+import TransitionDemo from '@vue-ui/transition/_demo/basic.vue';
+import transitionDoc from '@vue-ui/transition/_doc/transition.md?raw';
 import buttonConfig from '@vue-ui/button/_usage/config';
 import ButtonUsage from '@vue-ui/button/_usage/index.vue';
 import ButtonDemo from '@vue-ui/button/_demo/basic.vue';
@@ -20,10 +24,6 @@ import toastConfig from '@vue-ui/toast/_usage/config';
 import ToastUsage from '@vue-ui/toast/_usage/index.vue';
 import ToastDemo from '@vue-ui/toast/_demo/basic.vue';
 import toastDoc from '@vue-ui/toast/_doc/toast.md?raw';
-import sheetConfig from '@vue-ui/bottom-sheet/_usage/config';
-import SheetUsage from '@vue-ui/bottom-sheet/_usage/index.vue';
-import SheetDemo from '@vue-ui/bottom-sheet/_demo/basic.vue';
-import sheetDoc from '@vue-ui/bottom-sheet/_doc/bottom-sheet.md?raw';
 import dialogConfig from '@vue-ui/dialog/_usage/config';
 import DialogUsage from '@vue-ui/dialog/_usage/index.vue';
 import DialogDemo from '@vue-ui/dialog/_demo/basic.vue';
@@ -91,6 +91,15 @@ import pickerDoc from '@vue-ui/picker/_doc/picker.md?raw';
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
+  {
+    slug: 'transition',
+    group: '基础组件',
+    title: 'Transition 动画',
+    config: transitionConfig,
+    usage: TransitionUsage,
+    demo: TransitionDemo,
+    doc: transitionDoc,
+  },
   {
     slug: 'icon',
     group: '基础组件',
@@ -180,15 +189,6 @@ export const components: ComponentEntry[] = [
     usage: ToastUsage,
     demo: ToastDemo,
     doc: toastDoc,
-  },
-  {
-    slug: 'bottom-sheet',
-    group: '反馈组件',
-    title: 'Bottom Sheet 底部浮层',
-    config: sheetConfig,
-    usage: SheetUsage,
-    demo: SheetDemo,
-    doc: sheetDoc,
   },
   {
     slug: 'dialog',

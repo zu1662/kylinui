@@ -1,6 +1,6 @@
 # Action Sheet 动作面板
 
-Action Sheet 从页面底部弹出，用于展示一组操作、规则说明或需要确认的临时流程。组件基于 Popup 实现，并补充标题、选项卡、固定高度、操作项和下拉关闭能力。
+Action Sheet 从页面底部弹出，统一承载底部操作、筛选选择、规则说明和需要确认的临时流程。组件基于 Popup 实现，并提供标题、选项卡、固定高度、任意内容插槽、底栏操作区和下拉关闭能力，不再额外拆分 Bottom Sheet 组件。
 
 默认动画与 siskin-next 的 Popup 行为一致：面板使用 `slide-up`，进入 300ms、退出 275ms；滑动动画只改变 `transform`，不会额外淡化面板。通过 `animation` 和 `duration` 可以复用 Popup 的其他动画或自定义 Transition。
 
@@ -22,6 +22,7 @@ Action Sheet 从页面底部弹出，用于展示一组操作、规则说明或�
 | confirmText                   | string                                      | -                          | 确认按钮文字                 |
 | tabs / tabArea                | ActionSheetTab[]                            | []                         | 顶部选项卡                   |
 | activeTab                     | number                                      | 0                          | 当前选项卡                   |
+| height                        | string                                      | -                          | 面板固定高度                 |
 | heightFixed                   | boolean                                     | false                      | 是否使用固定视口高度         |
 | heightFixedValue              | number                                      | 86                         | 固定高度，单位 vh            |
 | maxHeight                     | string                                      | 86vh                       | 最大高度                     |
@@ -29,7 +30,16 @@ Action Sheet 从页面底部弹出，用于展示一组操作、规则说明或�
 | zIndex                        | number / string                             | 1000                       | 层级                         |
 | animation                     | PopupAnimation / string                     | slide-up                   | 面板动画                     |
 | duration                      | number / { enter?: number; leave?: number } | { enter: 300, leave: 275 } | 动画时长，单位毫秒           |
+| safeArea                      | boolean                                     | true                       | 是否由 Popup 追加安全区间距  |
 
 ## 事件
 
 `select`、`tabChange`、`confirm`、`cancel`、`show`、`hide`、`update:modelValue`、`update:visible`、`update:activeTab`。
+
+## 插槽
+
+| 名称    | 说明                                           |
+| ------- | ---------------------------------------------- |
+| default | 自定义面板内容，可用于筛选、选择、说明或表单   |
+| header  | 自定义顶栏；提供后替代默认标题区域             |
+| footer  | 自定义底栏操作区；提供后替代确认与取消按钮组合 |

@@ -4,10 +4,10 @@ import './style/components.less';
 
 import { KyButton } from './button';
 import { KyIcon } from './icon';
+import { KyTransition } from './transition';
 import { KyTag } from './tag';
 import { KyPopover } from './popover';
 import { KyToast } from './toast';
-import { KyBottomSheet } from './bottom-sheet';
 import { KyDialog } from './dialog';
 import { KyInput } from './input';
 import { KySlider } from './slider';
@@ -29,10 +29,10 @@ import { KyPicker } from './picker';
 const components = [
   KyButton,
   KyIcon,
+  KyTransition,
   KyTag,
   KyPopover,
   KyToast,
-  KyBottomSheet,
   KyDialog,
   KyInput,
   KySlider,
@@ -59,10 +59,10 @@ export default {
 
 export * from './button';
 export * from './icon';
+export * from './transition';
 export * from './tag';
 export * from './popover';
 export * from './toast';
-export * from './bottom-sheet';
 export * from './dialog';
 export * from './input';
 export * from './slider';

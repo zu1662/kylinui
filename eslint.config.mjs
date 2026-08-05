@@ -57,13 +57,6 @@ export default tseslint.config(
     },
   },
   {
-    files: ['packages/vue-ui/src/bottom-sheet/bottom-sheet.vue'],
-    rules: {
-      // BottomSheet 的内层过渡由外层显隐统一驱动，不要求重复声明 v-if 或 v-show。
-      'vue/require-toggle-inside-transition': 'off',
-    },
-  },
-  {
     files: ['*.{js,mjs,cjs,ts}', 'packages/*/vite.config.ts'],
     languageOptions: {
       globals: {

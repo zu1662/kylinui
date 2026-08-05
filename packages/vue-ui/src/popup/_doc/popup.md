@@ -9,6 +9,7 @@ Popup 用于在当前页面上方承载临时内容，是对话框、底部操�
 - 点击遮罩是否关闭由 `closeOnOverlay` 控制，并支持锁定背景滚动。
 - 遮罩和面板使用独立 Transition。默认面板动画随位置自动选择：`bottom → slide-up`、`top → slide-down`、`left → slide-right`、`right → slide-left`、`center → zoom`。
 - 默认进入时长为 300ms，退出时长为 275ms；也可以传入单个数字覆盖为统一时长。
+- 内置动画只使用 `transform` 与 `opacity`，进入阶段采用减速曲线、退出阶段采用加速曲线；系统开启“减少动态效果”时会自动压缩动画时长。
 
 ## API
 

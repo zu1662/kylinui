@@ -23,25 +23,29 @@
 .ky-popover__content--top {
   bottom: calc(100% + var(--ky-popover-offset));
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
+  transform-origin: center bottom;
 }
 
 .ky-popover__content--bottom {
   top: calc(100% + var(--ky-popover-offset));
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
+  transform-origin: center top;
 }
 
 .ky-popover__content--left {
   top: 50%;
   right: calc(100% + var(--ky-popover-offset));
-  transform: translateY(-50%);
+  transform: translate3d(0, -50%, 0);
+  transform-origin: right center;
 }
 
 .ky-popover__content--right {
   top: 50%;
   left: calc(100% + var(--ky-popover-offset));
-  transform: translateY(-50%);
+  transform: translate3d(0, -50%, 0);
+  transform-origin: left center;
 }
 
 .ky-popover__arrow {
@@ -76,14 +80,45 @@
   margin-top: -5px;
 }
 
-.ky-popover-fade-enter-active,
+.ky-popover-fade-enter-active {
+  transition:
+    opacity var(--ky-duration-fast) var(--ky-easing-standard),
+    transform var(--ky-duration-fast) var(--ky-easing-enter);
+  will-change: transform, opacity;
+}
+
 .ky-popover-fade-leave-active {
   transition:
-    opacity var(--ky-duration-fast),
-    transform var(--ky-duration-fast);
+    opacity var(--ky-duration-fast) var(--ky-easing-leave),
+    transform var(--ky-duration-fast) var(--ky-easing-leave);
+  will-change: transform, opacity;
 }
 
 .ky-popover-fade-enter-from,
 .ky-popover-fade-leave-to {
   opacity: 0;
+}
+
+.ky-popover-fade-enter-from.ky-popover__content--top,
+.ky-popover-fade-leave-to.ky-popover__content--top {
+  transform: translate3d(-50%, var(--ky-popover-motion-distance), 0)
+    scale(var(--ky-popover-motion-scale));
+}
+
+.ky-popover-fade-enter-from.ky-popover__content--bottom,
+.ky-popover-fade-leave-to.ky-popover__content--bottom {
+  transform: translate3d(-50%, calc(0px - var(--ky-popover-motion-distance)), 0)
+    scale(var(--ky-popover-motion-scale));
+}
+
+.ky-popover-fade-enter-from.ky-popover__content--left,
+.ky-popover-fade-leave-to.ky-popover__content--left {
+  transform: translate3d(var(--ky-popover-motion-distance), -50%, 0)
+    scale(var(--ky-popover-motion-scale));
+}
+
+.ky-popover-fade-enter-from.ky-popover__content--right,
+.ky-popover-fade-leave-to.ky-popover__content--right {
+  transform: translate3d(calc(0px - var(--ky-popover-motion-distance)), -50%, 0)
+    scale(var(--ky-popover-motion-scale));
 }
