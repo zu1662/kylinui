@@ -13,13 +13,25 @@
           role="status"
           aria-live="polite"
         >
-          <span v-if="toastState.type === 'loading'" class="ky-toast__spinner" aria-hidden="true" />
-          <span v-else-if="toastState.type === 'success'" class="ky-toast__icon" aria-hidden="true"
-            >✓</span
-          >
-          <span v-else-if="toastState.type === 'error'" class="ky-toast__icon" aria-hidden="true"
-            >!</span
-          >
+          <KyIconX
+            v-if="toastState.type === 'loading'"
+            class="ky-toast__spinner"
+            name="loading"
+            :size="18"
+            spin
+          />
+          <KyIconX
+            v-else-if="toastState.type === 'success'"
+            class="ky-toast__icon"
+            name="checked"
+            :size="20"
+          />
+          <KyIconX
+            v-else-if="toastState.type === 'error'"
+            class="ky-toast__icon"
+            name="clear"
+            :size="20"
+          />
           <span>{{ toastState.message }}</span>
         </div>
       </div>
@@ -28,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import KyIconX from '../iconx';
 import { toastState } from './toast';
 
 defineOptions({ name: 'KyToast' });

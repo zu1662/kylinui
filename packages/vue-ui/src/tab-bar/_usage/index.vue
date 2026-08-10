@@ -12,11 +12,11 @@ import KyTabBar from '../index';
 defineProps<{ configProps: Record<string, unknown> }>();
 const current = ref('flight');
 const tabs = [
-  { label: '机票', value: 'flight' },
-  { label: '火车票', value: 'train', badge: 2 },
-  { label: '酒店', value: 'hotel' },
-  { label: '用车', value: 'car' },
-  { label: '门票', value: 'ticket' },
+  { label: '机票', value: 'flight', icon: 'flight-line' },
+  { label: '火车票', value: 'train', icon: 'train-line', badge: 2 },
+  { label: '酒店', value: 'hotel', icon: 'hotel-line' },
+  { label: '用车', value: 'car', icon: 'car-line' },
+  { label: '门票', value: 'ticket', icon: 'spot-ticket-line' },
 ];
 const currentLabel = computed(() => tabs.find((item) => item.value === current.value)?.label);
 </script>

@@ -12,12 +12,13 @@
       aria-label="关闭标签"
       @click="$emit('close')"
     >
-      ×
+      <KyIconX name="close" :size="12" />
     </button>
   </span>
 </template>
 
 <script setup lang="ts">
+import KyIconX from '../iconx';
 import type { TagProps } from './tag';
 
 defineOptions({ name: 'KyTag' });

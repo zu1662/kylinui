@@ -15,7 +15,9 @@
       :aria-checked="indeterminate ? 'mixed' : modelValue"
       @change="update"
     />
-    <span class="ky-checkbox__mark" aria-hidden="true">{{ indeterminate ? '−' : '✓' }}</span>
+    <span class="ky-checkbox__mark" aria-hidden="true">
+      <KyIconX :name="indeterminate ? 'reduce' : 'tick'" :size="14" />
+    </span>
     <span
       ><slot>{{ label }}</slot></span
     >
@@ -23,6 +25,7 @@
 </template>
 
 <script setup lang="ts">
+import KyIconX from '../iconx';
 import type { CheckboxProps } from './checkbox';
 
 defineOptions({ name: 'KyCheckbox' });

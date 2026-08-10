@@ -23,7 +23,9 @@
       @keydown.right.prevent="moveFocus(index, 1)"
     >
       <span v-if="item.icon || $slots.icon" class="ky-tab-bar__icon" aria-hidden="true">
-        <slot name="icon" :item="item" :index="index">{{ item.icon }}</slot>
+        <slot name="icon" :item="item" :index="index">
+          <KyIconX v-if="item.icon" :name="item.icon" :size="18" />
+        </slot>
       </span>
       <span class="ky-tab-bar__label">{{ item.label ?? item.title }}</span>
       <span v-if="item.badge !== undefined" class="ky-tab-bar__badge">{{ item.badge }}</span>
@@ -34,6 +36,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref, watch, type ComponentPublicInstance } from 'vue';
+import KyIconX from '../iconx';
 import type { TabBarItem, TabBarProps, TabBarValue } from './tab-bar';
 
 defineOptions({ name: 'KyTabBar' });

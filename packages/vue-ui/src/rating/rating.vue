@@ -11,13 +11,14 @@
       :class="{ 'is-active': index <= modelValue }"
       @click="select(index)"
     >
-      ★
+      <KyIconX :name="index <= modelValue ? 'enshrine' : 'enshrine-line'" :size="26" />
     </button>
     <output>{{ modelValue }} 分</output>
   </div>
 </template>
 
 <script setup lang="ts">
+import KyIconX from '../iconx';
 import type { RatingProps } from './rating';
 
 defineOptions({ name: 'KyRating' });

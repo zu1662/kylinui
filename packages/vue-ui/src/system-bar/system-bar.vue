@@ -11,7 +11,7 @@
         aria-label="返回"
         @click="$emit('back')"
       >
-        ‹
+        <KyIconX name="arrow-left" :size="24" />
       </button>
       <span v-else class="ky-system-bar__placeholder" />
       <h1>{{ title }}</h1>
@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import KyIconX from '../iconx';
 import type { SystemBarProps } from './system-bar';
 
 defineOptions({ name: 'KySystemBar' });

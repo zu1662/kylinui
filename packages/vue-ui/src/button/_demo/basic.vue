@@ -1,6 +1,6 @@
 <template>
   <div class="ky-demo-row">
-    <KyButton>主要操作</KyButton><KyButton variant="secondary">次要操作</KyButton
+    <KyButton icon="checked">主要操作</KyButton><KyButton variant="secondary">次要操作</KyButton
     ><KyButton variant="gradient">品牌渐变</KyButton><KyButton variant="danger">删除</KyButton>
   </div>
 </template>

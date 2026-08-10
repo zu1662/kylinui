@@ -23,7 +23,7 @@
         aria-label="清空输入"
         @click="clear"
       >
-        ×
+        <KyIconX name="clear" :size="18" />
       </button>
       <span v-if="$slots.suffix" class="ky-input__suffix"><slot name="suffix" /></span>
     </span>
@@ -35,6 +35,7 @@
 
 <script setup lang="ts">
 import { useId } from 'vue';
+import KyIconX from '../iconx';
 import type { InputProps } from './input';
 
 defineOptions({ name: 'KyInput' });
