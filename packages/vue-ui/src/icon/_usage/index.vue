@@ -13,7 +13,7 @@ const props = defineProps<{ configProps: Record<string, unknown> }>();
 // name 是 Icon 的必填属性，文档站配置异常时使用稳定的默认图标兜底。
 const resolvedProps = computed(() => ({
   ...props.configProps,
-  name: String(props.configProps.name ?? 'arrow-right'),
+  name: String(props.configProps.name ?? 'chevron-right'),
 }));
 </script>
 

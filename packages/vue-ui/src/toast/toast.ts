@@ -4,9 +4,7 @@ export type ToastType = 'text' | 'success' | 'error' | 'loading';
 export type ToastPosition = 'top' | 'center' | 'bottom';
 
 export interface ToastOptions {
-  message?: string | number;
-  /** 兼容参考项目的 content 字段。 */
-  content?: string | number;
+  message: string | number;
   type?: ToastType;
   duration?: number;
   position?: ToastPosition;
@@ -29,10 +27,10 @@ let closeCallback: (() => void) | undefined;
 // 新消息会覆盖当前 Toast，并重置定时器与关闭回调。
 export function showToast(options: string | number | ToastOptions) {
   const normalized: ToastOptions =
-    typeof options === 'object' ? options : { message: String(options) };
+    typeof options === 'object' ? options : { message: options };
   if (timer) clearTimeout(timer);
 
-  toastState.message = String(normalized.message ?? normalized.content ?? '');
+  toastState.message = String(normalized.message);
   toastState.type = normalized.type ?? 'text';
   toastState.position = normalized.position ?? 'bottom';
   toastState.zIndex = normalized.zIndex ?? 1000;
@@ -48,7 +46,7 @@ export function showToast(options: string | number | ToastOptions) {
 }
 
 export function showLoading(options: string | number | Omit<ToastOptions, 'type'> = '加载中') {
-  const normalized = typeof options === 'object' ? options : { content: options };
+  const normalized = typeof options === 'object' ? options : { message: options };
   return showToast({ ...normalized, type: 'loading', duration: normalized.duration ?? 0 });
 }
 

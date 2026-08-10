@@ -12,12 +12,12 @@
 import KyIcon from '../index';
 
 const icons = [
-  { name: 'arrow-right', label: '向右' },
-  { name: 'information-line', label: '说明' },
-  { name: 'checked', label: '完成' },
-  { name: 'calendar-line', label: '日历' },
-  { name: 'edit-line', label: '编辑' },
-  { name: 'trash-line', label: '删除' },
+  { name: 'chevron-right', label: '向右' },
+  { name: 'info', label: '说明' },
+  { name: 'check-circle', label: '完成' },
+  { name: 'calendar', label: '日历' },
+  { name: 'edit', label: '编辑' },
+  { name: 'trash', label: '删除' },
 ];
 </script>
 

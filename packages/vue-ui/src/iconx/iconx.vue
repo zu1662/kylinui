@@ -1,7 +1,7 @@
 <template>
   <i
     class="ky-iconx"
-    :class="[`ky-iconx--${normalizedName}`, { 'is-spinning': spin }]"
+    :class="[`ky-iconx--${props.name}`, { 'is-spinning': spin }]"
     :style="iconStyle"
     :role="label ? 'img' : undefined"
     :aria-label="label"
@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { normalizeIconXName, resolveIconXSize, type IconXProps } from './iconx';
+import { resolveIconXSize, type IconXProps } from './iconx';
 
 defineOptions({ name: 'KyIconX' });
 const props = withDefaults(defineProps<IconXProps>(), {
@@ -21,7 +21,6 @@ const props = withDefaults(defineProps<IconXProps>(), {
   spin: false,
 });
 
-const normalizedName = computed(() => normalizeIconXName(props.name));
 const iconStyle = computed(() => ({
   fontSize: resolveIconXSize(props.size),
   color: props.color,

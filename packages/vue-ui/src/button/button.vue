@@ -38,16 +38,13 @@ defineOptions({ name: 'KyButton' });
 const props = withDefaults(defineProps<ButtonProps>(), {
   nativeType: 'button',
   subtitlePosition: 'bottom',
-  subtextPosition: 'bottom',
 });
 const emit = defineEmits<{ click: [event: MouseEvent] }>();
 
-const resolvedVariant = computed(() => resolveButtonVariant(props.variant, props.type));
+const resolvedVariant = computed(() => resolveButtonVariant(props.variant));
 const resolvedSize = computed(() => resolveButtonSize(props.size));
-const resolvedSubtitle = computed(() => props.subtitle ?? props.subtext ?? '');
-const resolvedSubtitlePosition = computed(
-  () => props.subtitlePosition ?? props.subtextPosition ?? 'bottom',
-);
+const resolvedSubtitle = computed(() => props.subtitle ?? '');
+const resolvedSubtitlePosition = computed(() => props.subtitlePosition ?? 'bottom');
 
 // loading 与 disabled 状态都拦截点击，避免业务侧收到重复事件。
 function handleClick(event: MouseEvent) {

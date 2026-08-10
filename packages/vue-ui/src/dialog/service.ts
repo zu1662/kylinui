@@ -35,12 +35,12 @@ export function showDialog(options: DialogServiceOptions) {
 }
 
 export function showAlert(options: string | DialogServiceOptions) {
-  const normalized = typeof options === 'string' ? { content: options } : options;
+  const normalized = typeof options === 'string' ? { description: options } : options;
   return showDialog({ ...normalized, showCancel: false });
 }
 
 export function showConfirm(options: string | DialogServiceOptions) {
-  const normalized = typeof options === 'string' ? { content: options } : options;
+  const normalized = typeof options === 'string' ? { description: options } : options;
   return showDialog({ ...normalized, showCancel: true });
 }
 

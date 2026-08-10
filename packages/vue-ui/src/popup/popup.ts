@@ -24,10 +24,7 @@ export interface PopupDuration {
 }
 
 export interface PopupProps {
-  /** 推荐使用的双向绑定值。 */
   modelValue?: boolean;
-  /** 兼容参考项目的 visible 双向绑定。 */
-  visible?: boolean;
   position?: PopupPosition;
   overlay?: boolean;
   closeOnOverlay?: boolean;

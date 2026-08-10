@@ -52,25 +52,21 @@ const props = withDefaults(defineProps<DialogProps>(), {
   showCancel: true,
   enableFooter: true,
   closeOnOverlay: false,
-  maskClosable: false,
   closeOnEsc: true,
   zIndex: 900,
   boxStyle: () => ({}),
 });
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'update:visible': [value: boolean];
   confirm: [];
   cancel: [];
   hide: [];
-  onHide: [];
 }>();
 const panel = ref<HTMLElement | null>(null);
 const titleId = `ky-dialog-title-${useId()}`;
 const descriptionId = `ky-dialog-desc-${useId()}`;
-const isVisible = computed(() => Boolean(props.modelValue || props.visible));
-const resolvedDescription = computed(() => props.description ?? props.content ?? '');
-const canCloseOnOverlay = computed(() => props.closeOnOverlay || props.maskClosable);
+const isVisible = computed(() => Boolean(props.modelValue));
+const resolvedDescription = computed(() => props.description ?? '');
 let previousFocus: HTMLElement | null = null;
 let focusTaskId = 0;
 
@@ -90,7 +86,6 @@ watch(isVisible, async (value) => {
 
 function setVisible(value: boolean) {
   emit('update:modelValue', value);
-  emit('update:visible', value);
 }
 
 function cancel() {
@@ -100,12 +95,11 @@ function cancel() {
 }
 
 function handleOverlay() {
-  if (canCloseOnOverlay.value) cancel();
+  if (props.closeOnOverlay) cancel();
 }
 
 function emitHide() {
   emit('hide');
-  emit('onHide');
 }
 
 // 用 Tab 焦点循环限制键盘导航范围，并允许 Escape 按配置关闭对话框。

@@ -1,7 +1,7 @@
 <template>
   <div class="iconx-usage">
     <KyIconX v-bind="resolvedProps" label="当前选择的字体图标" />
-    <span>支持尺寸、颜色、角度和旋转动画，也兼容带 icon- 前缀的名称。</span>
+    <span>支持尺寸、颜色、角度和旋转动画。</span>
   </div>
 </template>
 

@@ -13,7 +13,7 @@
     aria-label="操作面板"
     @update:model-value="setVisible"
     @opened="emit('show')"
-    @closed="emit('hide')"
+    @closed="handlePopupClosed"
   >
     <section class="ky-action-sheet" :class="{ 'is-dragging': dragOffset > 0 }" :style="sheetStyle">
       <div
@@ -97,24 +97,19 @@ defineOptions({ name: 'KyActionSheet' });
 const props = withDefaults(defineProps<ActionSheetProps>(), {
   actions: () => [],
   showClose: true,
-  closeIcon: true,
   closeOnOverlay: true,
-  maskClosable: true,
   closeOnSwipe: true,
   overlay: true,
-  hasMask: true,
   zIndex: 1000,
   maxHeight: '86vh',
   heightFixedValue: 86,
   contentStyle: () => ({}),
   tabs: () => [],
-  tabArea: () => [],
   activeTab: 0,
   safeArea: true,
 });
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'update:visible': [value: boolean];
   'update:activeTab': [value: number];
   select: [action: ActionSheetAction, index: number];
   tabChange: [index: number];
@@ -126,14 +121,12 @@ const emit = defineEmits<{
 
 const dragOffset = ref(0);
 const currentTab = ref(props.activeTab);
-const isVisible = computed(() => Boolean(props.modelValue || props.visible));
-const resolvedShowClose = computed(() => props.showClose && props.closeIcon);
-const resolvedOverlay = computed(() => props.overlay && props.hasMask);
-const resolvedCloseOnOverlay = computed(() => props.closeOnOverlay && props.maskClosable);
+const isVisible = computed(() => Boolean(props.modelValue));
+const resolvedShowClose = computed(() => props.showClose);
+const resolvedOverlay = computed(() => props.overlay);
+const resolvedCloseOnOverlay = computed(() => props.closeOnOverlay);
 const resolvedTabs = computed<ActionSheetTab[]>(() =>
-  (props.tabs.length ? props.tabs : props.tabArea).map((item) =>
-    typeof item === 'object' ? item : { title: item },
-  ),
+  props.tabs.map((item) => (typeof item === 'object' ? item : { title: item })),
 );
 const resolvedHeight = computed(() => {
   if (props.height) return props.height;
@@ -154,13 +147,14 @@ watch(
     currentTab.value = value;
   },
 );
-watch(isVisible, (value) => {
-  if (!value) dragOffset.value = 0;
-});
 
 function setVisible(value: boolean) {
   emit('update:modelValue', value);
-  emit('update:visible', value);
+}
+
+function handlePopupClosed() {
+  dragOffset.value = 0;
+  emit('hide');
 }
 
 function close() {
@@ -204,8 +198,14 @@ function finishDrag(sessionId: number, cancelled = false) {
   if (sessionId !== dragSessionId) return;
   const shouldClose = !cancelled && dragOffset.value > 72;
   stopActiveDrag();
-  dragOffset.value = 0;
-  if (shouldClose) close();
+  if (shouldClose) {
+    // 关闭时保留 dragOffset，让 popup 退场动画从当前位置接管，
+    // 避免先归零 transform（视觉上先弹回原位）再触发退场动画造成的"向上抖动"。
+    close();
+  } else {
+    // 未达阈值：归零 dragOffset，让 action-sheet 弹回原位。
+    dragOffset.value = 0;
+  }
 }
 
 // PointerEvent 负责真实触屏和普通浏览器；监听 window 可避免指针移出拖拽条后丢失结束事件。

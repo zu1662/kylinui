@@ -66,7 +66,6 @@ const props = withDefaults(defineProps<PopupProps>(), {
 });
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
-  'update:visible': [value: boolean];
   open: [];
   opened: [];
   close: [];
@@ -98,8 +97,7 @@ const POSITION_ANIMATION: Record<NonNullable<PopupProps['position']>, PopupAnima
   right: 'slide-left',
 };
 
-// 同时兼容 modelValue 与 visible，便于旧业务平滑迁移到统一 API。
-const isVisible = computed(() => Boolean(props.modelValue || props.visible));
+const isVisible = computed(() => Boolean(props.modelValue));
 const teleportTarget = computed(() => (props.teleport === false ? 'body' : props.teleport));
 const transitionDuration = computed<Required<PopupDuration>>(() => {
   if (typeof props.duration === 'number') {
@@ -175,7 +173,6 @@ function handleAfterLeave() {
 
 function close() {
   emit('update:modelValue', false);
-  emit('update:visible', false);
   emit('close');
 }
 

@@ -3,5 +3,5 @@ import { withInstall } from '../shared/with-install';
 
 export const KyIconX = withInstall(IconX, 'KyIconX');
 export default KyIconX;
-export { normalizeIconXName, resolveIconXSize } from './iconx';
+export { resolveIconXSize } from './iconx';
 export type { IconXProps, IconXSize } from './iconx';

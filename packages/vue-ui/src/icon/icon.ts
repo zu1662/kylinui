@@ -10,33 +10,6 @@ export interface IconProps {
   label?: string;
 }
 
-// 兼容参考项目中的高频名称，统一映射到当前轻量 SVG 图标集合。
-const iconAliases: Record<string, string> = {
-  'arrow-right': 'chevron-right',
-  'caret-right': 'chevron-right',
-  'arrowhead-line': 'chevron-right',
-  'arrow-down': 'chevron-down',
-  'caret-down': 'chevron-down',
-  'arrow-up': 'chevron-up',
-  'arrow-left-wide': 'chevron-left',
-  'information-line': 'info',
-  'explain-line': 'info',
-  'doubt-line': 'help',
-  clear: 'close',
-  'clear-line1': 'close',
-  checked: 'check-circle',
-  tick: 'check',
-  uncheck: 'circle',
-  'add-line': 'plus',
-  add: 'plus',
-  'calendar-line': 'calendar',
-  'trash-line': 'trash',
-  'edit-line': 'edit',
-  'copy-line': 'copy',
-  'smallbell-line': 'bell',
-  'horn-line': 'speaker',
-};
-
 // 路径使用 24×24 线性图标坐标，避免引入字体文件和额外运行时依赖。
 const iconPaths: Record<string, string[]> = {
   'chevron-right': ['M9 5l7 7-7 7'],
@@ -63,11 +36,9 @@ const iconPaths: Record<string, string[]> = {
   none: [],
 };
 
-/** 解析别名并返回 SVG 路径；未知名称交由默认插槽兜底。 */
+/** 返回名称对应的 SVG 路径；未知名称返回空数组，由默认插槽兜底。 */
 export function resolveIconPaths(name: string) {
-  const normalized = name.trim();
-  const resolvedName = iconAliases[normalized] ?? normalized;
-  return iconPaths[resolvedName] ?? [];
+  return iconPaths[name.trim()] ?? [];
 }
 
 /** 数字尺寸自动补充 px，字符串尺寸原样保留。 */

@@ -18,16 +18,12 @@ export interface ActionSheetTab {
 
 export interface ActionSheetProps {
   modelValue?: boolean;
-  visible?: boolean;
   title?: string | number;
   actions?: ActionSheetAction[];
   showClose?: boolean;
-  closeIcon?: boolean;
   closeOnOverlay?: boolean;
-  maskClosable?: boolean;
   closeOnSwipe?: boolean;
   overlay?: boolean;
-  hasMask?: boolean;
   cancelText?: string;
   confirmText?: string;
   zIndex?: number | string;
@@ -40,7 +36,6 @@ export interface ActionSheetProps {
   heightFixedValue?: number;
   contentStyle?: CSSProperties;
   tabs?: ActionSheetTab[] | Array<string | number>;
-  tabArea?: ActionSheetTab[] | Array<string | number>;
   activeTab?: number;
   safeArea?: boolean;
 }
