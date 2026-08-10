@@ -9,6 +9,7 @@
     :z-index="zIndex"
     :animation="animation"
     :duration="duration"
+    :panel-class="popupPanelClass"
     aria-label="操作面板"
     @update:model-value="setVisible"
     @opened="emit('show')"
@@ -143,6 +144,9 @@ const sheetStyle = computed(() => ({
   height: resolvedHeight.value,
   transform: dragOffset.value ? `translateY(${dragOffset.value}px)` : undefined,
 }));
+// 透传到 Popup 面板，标记由 ActionSheet 承载：关闭面板自身的滚动与背景，
+// 避免内部 overscroll 触发外层 Popup 出现滚动条，也避免面板背景/阴影覆盖 ActionSheet 圆角。
+const popupPanelClass = 'ky-action-sheet__popup-panel';
 
 watch(
   () => props.activeTab,

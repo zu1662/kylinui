@@ -1,11 +1,20 @@
 @import './token.less';
 
+// 关闭 Popup 面板自身的滚动与背景，由 .ky-action-sheet 承载滚动与圆角背景。
+.ky-action-sheet__popup-panel {
+  overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+}
+
 .ky-action-sheet {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-height: 120px;
   overflow: hidden;
+  // 阻止内部 overscroll 触发外层 Popup 出现滚动条。
+  overscroll-behavior: contain;
   color: var(--ky-color-text-primary);
   background: var(--ky-action-sheet-bg);
   border-radius: var(--ky-action-sheet-radius) var(--ky-action-sheet-radius) 0 0;
@@ -14,6 +23,11 @@
 
 .ky-action-sheet.is-dragging {
   transition: none;
+}
+
+// 拖动期间锁定内容区滚动，避免拖动手势与 body 滚动冲突。
+.ky-action-sheet.is-dragging .ky-action-sheet__body {
+  overflow: hidden;
 }
 
 .ky-action-sheet__drag-area {
