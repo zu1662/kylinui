@@ -18,9 +18,9 @@
     :aria-busy="loading"
     @click="handleClick"
   >
-    <KyIconX v-if="loading" class="ky-button__spinner" name="loading" :size="16" spin />
+    <KyIcon source="iconfont" v-if="loading" class="ky-button__spinner" name="loading" :size="16" spin />
     <span v-else-if="$slots.icon || icon" class="ky-button__icon" aria-hidden="true">
-      <slot name="icon"><KyIconX v-if="icon" :name="icon" :size="16" /></slot>
+      <slot name="icon"><KyIcon source="iconfont" v-if="icon" :name="icon" :size="16" /></slot>
     </span>
     <span class="ky-button__content">
       <span class="ky-button__label"><slot /></span>
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import KyIconX from '../iconx';
+import KyIcon from '../icon';
 import { resolveButtonSize, resolveButtonVariant, type ButtonProps } from './button';
 
 defineOptions({ name: 'KyButton' });

@@ -21,7 +21,7 @@
 | loading    | boolean                                        | false   | 是否显示加载状态   |
 | disabled   | boolean                                        | false   | 是否禁用           |
 | subtitle   | string                                         | -       | 按钮副标题         |
-| icon       | string                                         | -       | IconX 字体图标名称 |
+| icon       | string                                         | -       | Icon 字体图标名称  |
 | nativeType | button / submit / reset                        | button  | 原生按钮类型       |
 
-`icon` 字符串会交给 `KyIconX` 渲染；如需自定义 SVG 或组件，继续使用 `icon` 插槽。
+`icon` 字符串会交给 `KyIcon` 的 Iconfont 模式渲染；如需自定义 SVG 或组件，继续使用 `icon` 插槽。

@@ -1,7 +1,9 @@
 export type IconSize = number | string;
+export type IconSource = 'auto' | 'svg' | 'iconfont';
 
 export interface IconProps {
   name: string;
+  source?: IconSource;
   size?: IconSize;
   color?: string;
   strokeWidth?: number;

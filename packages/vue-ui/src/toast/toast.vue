@@ -13,20 +13,20 @@
           role="status"
           aria-live="polite"
         >
-          <KyIconX
+          <KyIcon source="iconfont"
             v-if="toastState.type === 'loading'"
             class="ky-toast__spinner"
             name="loading"
             :size="18"
             spin
           />
-          <KyIconX
+          <KyIcon source="iconfont"
             v-else-if="toastState.type === 'success'"
             class="ky-toast__icon"
             name="checked"
             :size="20"
           />
-          <KyIconX
+          <KyIcon source="iconfont"
             v-else-if="toastState.type === 'error'"
             class="ky-toast__icon"
             name="clear"
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import KyIconX from '../iconx';
+import KyIcon from '../icon';
 import { toastState } from './toast';
 
 defineOptions({ name: 'KyToast' });

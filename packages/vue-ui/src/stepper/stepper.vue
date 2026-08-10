@@ -6,7 +6,7 @@
       aria-label="减少数量"
       @click="change(-step, 'minus')"
     >
-      <KyIconX name="reduce" :size="20" />
+      <KyIcon source="iconfont" name="reduce" :size="20" />
     </button>
     <input
       :value="modelValue"
@@ -26,13 +26,13 @@
       aria-label="增加数量"
       @click="change(step, 'plus')"
     >
-      <KyIconX name="plus1" :size="20" />
+      <KyIcon source="iconfont" name="plus1" :size="20" />
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import KyIconX from '../iconx';
+import KyIcon from '../icon';
 import { normalizeStepper, type StepperProps } from './stepper';
 
 defineOptions({ name: 'KyStepper' });

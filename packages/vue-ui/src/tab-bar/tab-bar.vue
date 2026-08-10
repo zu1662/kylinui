@@ -24,7 +24,7 @@
     >
       <span v-if="item.icon || $slots.icon" class="ky-tab-bar__icon" aria-hidden="true">
         <slot name="icon" :item="item" :index="index">
-          <KyIconX v-if="item.icon" :name="item.icon" :size="18" />
+          <KyIcon source="iconfont" v-if="item.icon" :name="item.icon" :size="18" />
         </slot>
       </span>
       <span class="ky-tab-bar__label">{{ item.label ?? item.title }}</span>
@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref, watch, type ComponentPublicInstance } from 'vue';
-import KyIconX from '../iconx';
+import KyIcon from '../icon';
 import type { TabBarItem, TabBarProps, TabBarValue } from './tab-bar';
 
 defineOptions({ name: 'KyTabBar' });

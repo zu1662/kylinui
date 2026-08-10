@@ -4,10 +4,6 @@ import iconConfig from '@vue-ui/icon/_usage/config';
 import IconUsage from '@vue-ui/icon/_usage/index.vue';
 import IconDemo from '@vue-ui/icon/_demo/basic.vue';
 import iconDoc from '@vue-ui/icon/_doc/icon.md?raw';
-import iconXConfig from '@vue-ui/iconx/_usage/config';
-import IconXUsage from '@vue-ui/iconx/_usage/index.vue';
-import IconXDemo from '@vue-ui/iconx/_demo/basic.vue';
-import iconXDoc from '@vue-ui/iconx/_doc/iconx.md?raw';
 import transitionConfig from '@vue-ui/transition/_usage/config';
 import TransitionUsage from '@vue-ui/transition/_usage/index.vue';
 import TransitionDemo from '@vue-ui/transition/_demo/basic.vue';
@@ -112,15 +108,6 @@ export const components: ComponentEntry[] = [
     usage: IconUsage,
     demo: IconDemo,
     doc: iconDoc,
-  },
-  {
-    slug: 'iconx',
-    group: '基础组件',
-    title: 'IconX 字体图标',
-    config: iconXConfig,
-    usage: IconXUsage,
-    demo: IconXDemo,
-    doc: iconXDoc,
   },
   {
     slug: 'popup',

@@ -12,6 +12,6 @@ Tab Bar 用于在同一页面内切换同级内容。项目数量较少时按固
 | scrollable           | boolean         | 自动判断 | 是否强制横向滚动           |
 | animated             | boolean         | true     | 切换后是否平滑滚动到当前项 |
 
-`TabBarItem` 支持 `label`、`title`、`value`、`badge`、`disabled` 和 `icon`。其中 `icon` 为 `KyIconX` 的字体图标名称；需要完全自定义时可使用 `icon` 插槽。
+`TabBarItem` 支持 `label`、`title`、`value`、`badge`、`disabled` 和 `icon`。其中 `icon` 为 `KyIcon` 的字体图标名称；需要完全自定义时可使用 `icon` 插槽。
 
 组件使用 WAI-ARIA tablist/tab 语义，并支持键盘左右方向键切换。

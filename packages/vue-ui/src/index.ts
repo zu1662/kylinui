@@ -4,7 +4,6 @@ import './style/components.less';
 
 import { KyButton } from './button';
 import { KyIcon } from './icon';
-import { KyIconX } from './iconx';
 import { KyTransition } from './transition';
 import { KyTag } from './tag';
 import { KyPopover } from './popover';
@@ -30,7 +29,6 @@ import { KyPicker } from './picker';
 const components = [
   KyButton,
   KyIcon,
-  KyIconX,
   KyTransition,
   KyTag,
   KyPopover,
@@ -61,7 +59,6 @@ export default {
 
 export * from './button';
 export * from './icon';
-export * from './iconx';
 export * from './transition';
 export * from './tag';
 export * from './popover';

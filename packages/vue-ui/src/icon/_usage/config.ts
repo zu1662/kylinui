@@ -3,7 +3,7 @@ import type { UsageConfig } from '../../usage';
 export default {
   name: 'Icon 图标',
   component: 'KyIcon',
-  description: '切换图标名称、尺寸、颜色、旋转和动画，实时查看线性 SVG 图标效果。',
+  description: '统一预览内置 SVG 与本地 Iconfont 图标，支持尺寸、颜色、旋转和动画。',
   props: [
     {
       name: 'name',
@@ -28,6 +28,11 @@ export default {
         'copy',
         'bell',
         'speaker',
+        'arrow-left',
+        'arrow-right',
+        'warning',
+        'loading',
+        'enshrine',
       ],
     },
     { name: 'size', label: '尺寸', type: 'number', defaultValue: 24, min: 12, max: 48, step: 2 },

@@ -39,7 +39,7 @@
           aria-label="关闭操作面板"
           @click="close"
         >
-          <KyIconX name="close" :size="20" />
+          <KyIcon source="iconfont" name="close" :size="20" />
         </button>
       </header>
 
@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import KyButton from '../button';
-import KyIconX from '../iconx';
+import KyIcon from '../icon';
 import KyPopup from '../popup';
 import type { ActionSheetAction, ActionSheetProps, ActionSheetTab } from './action-sheet';
 

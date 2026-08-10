@@ -6,7 +6,7 @@
       :class="`is-${resolveStepStatus(index, current, item.status)}`"
     >
       <span class="ky-steps__node" aria-hidden="true">
-        <KyIconX
+        <KyIcon source="iconfont"
           v-if="statusIcon(resolveStepStatus(index, current, item.status))"
           :name="statusIcon(resolveStepStatus(index, current, item.status)) || ''"
           :size="14"
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import KyIconX from '../iconx';
+import KyIcon from '../icon';
 import { resolveStepStatus } from './steps';
 import type { StepsProps, StepStatus } from './steps';
 
