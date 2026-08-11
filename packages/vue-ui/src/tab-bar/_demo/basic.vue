@@ -19,6 +19,12 @@ const descriptions = ['查看最新内容', '查看消息通知', '处理订单�
 </script>
 
 <style scoped lang="less">
+.tab-bar-demo {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
 .tab-bar-demo p {
   margin: 0;
   padding: 32px 16px;

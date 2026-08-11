@@ -84,6 +84,7 @@ const emit = defineEmits<{
 
 const viewport = ref<HTMLElement | null>(null);
 const track = ref<HTMLElement | null>(null);
+const viewportWidth = ref(0);
 const internalIndex = ref(normalizeIndex(props.modelValue ?? props.initialIndex));
 const trackIndex = ref(toTrackIndex(internalIndex.value));
 const dragOffset = ref(0);
@@ -93,6 +94,7 @@ let timer: ReturnType<typeof setInterval> | undefined;
 let boundaryResetTimer: ReturnType<typeof setTimeout> | undefined;
 let transitionFrame: number | undefined;
 let stopDragListeners: (() => void) | undefined;
+let resizeObserver: ResizeObserver | undefined;
 let dragSessionId = 0;
 let disposed = false;
 
@@ -127,11 +129,14 @@ const slideStyle = computed(() => ({
   width: `${Math.max(0.1, Math.min(1, props.scale)) * 100}%`,
 }));
 const trackStyle = computed(() => {
-  const width = viewport.value?.clientWidth || 1;
-  const itemWidth = width * Math.max(0.1, Math.min(1, props.scale)) + props.gap;
+  const width = viewportWidth.value || viewport.value?.clientWidth || 1;
+  const scale = Math.max(0.1, Math.min(1, props.scale));
+  const slideWidth = width * scale;
+  const itemWidth = slideWidth + props.gap;
+  const centerOffset = (width - slideWidth) / 2;
   return {
     gap: `${props.gap}px`,
-    transform: `translate3d(${-trackIndex.value * itemWidth + dragOffset.value}px, 0, 0)`,
+    transform: `translate3d(${centerOffset - trackIndex.value * itemWidth + dragOffset.value}px, 0, 0)`,
     transitionDuration: dragging.value || !transitionEnabled.value ? '0ms' : `${props.duration}ms`,
   };
 });
@@ -420,9 +425,19 @@ watch(
   },
 );
 watch(() => [props.autoplay, props.interval], restart);
-onMounted(resume);
+onMounted(() => {
+  viewportWidth.value = viewport.value?.clientWidth ?? 0;
+  if (typeof ResizeObserver !== 'undefined' && viewport.value) {
+    resizeObserver = new ResizeObserver(([entry]) => {
+      viewportWidth.value = entry?.contentRect.width ?? viewport.value?.clientWidth ?? 0;
+    });
+    resizeObserver.observe(viewport.value);
+  }
+  resume();
+});
 onBeforeUnmount(() => {
   disposed = true;
+  resizeObserver?.disconnect();
   stopActiveDrag();
   pause();
   clearBoundaryReset();

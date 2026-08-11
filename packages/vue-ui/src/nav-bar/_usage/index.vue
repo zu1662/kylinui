@@ -1,29 +1,21 @@
-<template><KyNavBar v-bind="configProps" /></template>
+<template>
+  <div class="nav-bar-demo">
+    <KyNavBar
+      v-bind="configProps"
+      :before-back="beforeBack"
+      @click-left="showToast('已触发返回事件')"
+      @click-right="showToast('已触发右侧操作')"
+    />
+    <KyToast />
+  </div>
+</template>
 <script setup lang="ts">
+import KyToast, { showToast } from '../../toast';
 import KyNavBar from '../index';
+
 defineProps<{ configProps: Record<string, unknown> }>();
+
+function beforeBack() {
+  return true;
+}
 </script>
-<style scoped>
-.demo-target {
-  display: inline-grid;
-  min-width: 64px;
-  height: 40px;
-  padding: 0 12px;
-  place-items: center;
-  background: var(--ky-color-brand-soft);
-  border-radius: var(--ky-radius-sm);
-}
-.ky-demo-stack {
-  display: grid;
-  gap: 20px;
-}
-.demo-count b {
-  display: inline-grid;
-  min-width: 30px;
-  height: 30px;
-  place-items: center;
-  color: #fff;
-  background: var(--ky-color-brand-strong);
-  border-radius: 6px;
-}
-</style>

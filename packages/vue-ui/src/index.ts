@@ -18,7 +18,6 @@ import { KyCheckbox } from './checkbox';
 import { KyRadio } from './radio';
 import { KyFormCard } from './form-card';
 import { KySteps } from './steps';
-import { KySystemBar } from './system-bar';
 import { KyPopup } from './popup';
 import { KyActionSheet } from './action-sheet';
 import { KyTabBar } from './tab-bar';
@@ -54,7 +53,6 @@ const components = [
   KyRadio,
   KyFormCard,
   KySteps,
-  KySystemBar,
   KyPopup,
   KyActionSheet,
   KyTabBar,
@@ -97,7 +95,6 @@ export * from './checkbox';
 export * from './radio';
 export * from './form-card';
 export * from './steps';
-export * from './system-bar';
 export * from './popup';
 export * from './action-sheet';
 export * from './tab-bar';

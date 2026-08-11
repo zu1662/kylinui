@@ -1,73 +1,129 @@
 <template>
-  <span class="ky-count-down" role="timer"
-    ><slot :current="current">{{ formatted }}</slot></span
-  >
+  <span class="ky-count-down" role="timer">
+    <slot v-bind="current" :current="current">{{ formatted }}</slot>
+  </span>
 </template>
+
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import type { CountDownCurrent, CountDownProps } from './count-down';
+import { computed, onActivated, onBeforeUnmount, onDeactivated, ref, watch } from 'vue';
+import {
+  formatCountDownTime,
+  normalizeCountDownTime,
+  parseCountDownTime,
+  type CountDownCurrentTime,
+  type CountDownProps,
+} from './count-down';
+
 defineOptions({ name: 'KyCountDown' });
+
 const props = withDefaults(defineProps<CountDownProps>(), {
   time: 0,
   format: 'HH:mm:ss',
   autoStart: true,
   millisecond: false,
 });
-const emit = defineEmits<{ change: [current: CountDownCurrent]; finish: [] }>();
-const remain = ref(Math.max(0, props.time));
-let timer: number | undefined;
-let endAt = 0;
-const current = computed<CountDownCurrent>(() => {
-  const total = Math.max(0, remain.value);
-  const days = Math.floor(total / 86400000);
-  const hours = Math.floor(total / 3600000) % 24;
-  const minutes = Math.floor(total / 60000) % 60;
-  const seconds = Math.floor(total / 1000) % 60;
-  return { total, days, hours, minutes, seconds, milliseconds: total % 1000 };
-});
-const pad = (value: number, length = 2) => String(value).padStart(length, '0');
-const formatted = computed(() => {
-  // ??????????? 0-23???? DD ????????????
-  const hours = props.format.includes('DD')
-    ? current.value.hours
-    : current.value.hours + current.value.days * 24;
-  return props.format
-    .replace('DD', pad(current.value.days))
-    .replace('HH', pad(hours))
-    .replace('mm', pad(current.value.minutes))
-    .replace('ss', pad(current.value.seconds))
-    .replace('SSS', pad(current.value.milliseconds, 3));
-});
-const clear = () => {
-  if (timer !== undefined) {
-    window.clearInterval(timer);
-    timer = undefined;
+
+const emit = defineEmits<{
+  change: [currentTime: CountDownCurrentTime];
+  finish: [];
+}>();
+
+const remain = ref(0);
+const current = computed<CountDownCurrentTime>(() => parseCountDownTime(remain.value));
+const formatted = computed(() => formatCountDownTime(props.format, current.value));
+
+let frameId: number | undefined;
+let endTime = 0;
+let counting = false;
+let resumeAfterActivated = false;
+
+const inBrowser = typeof window !== 'undefined';
+
+function requestFrame(callback: (timestamp: number) => void): number {
+  if (typeof window.requestAnimationFrame === 'function') {
+    return window.requestAnimationFrame(callback);
   }
-};
-const tick = () => {
-  remain.value = Math.max(0, endAt - Date.now());
+
+  return window.setTimeout(() => callback(Date.now()), 16);
+}
+
+function cancelFrame(id: number): void {
+  if (typeof window.cancelAnimationFrame === 'function') {
+    window.cancelAnimationFrame(id);
+  } else {
+    window.clearTimeout(id);
+  }
+}
+
+function pause(): void {
+  counting = false;
+
+  if (frameId !== undefined && inBrowser) {
+    cancelFrame(frameId);
+    frameId = undefined;
+  }
+}
+
+function setRemain(value: number): void {
+  remain.value = Math.max(0, value);
   emit('change', current.value);
-  if (remain.value <= 0) {
-    clear();
+
+  if (remain.value === 0) {
+    pause();
     emit('finish');
   }
-};
-const start = () => {
-  if (remain.value <= 0 || timer !== undefined) return;
-  endAt = Date.now() + remain.value;
-  timer = window.setInterval(tick, props.millisecond ? 30 : 250);
+}
+
+function isSameSecond(first: number, second: number): boolean {
+  return Math.floor(first / 1000) === Math.floor(second / 1000);
+}
+
+function tick(): void {
+  if (!inBrowser || !counting) return;
+
+  frameId = requestFrame(() => {
+    frameId = undefined;
+    if (!counting) return;
+
+    const nextRemain = Math.max(0, endTime - Date.now());
+    if (props.millisecond || nextRemain === 0 || !isSameSecond(nextRemain, remain.value)) {
+      setRemain(nextRemain);
+    }
+
+    if (counting && remain.value > 0) tick();
+  });
+}
+
+function start(): void {
+  if (!inBrowser || counting) return;
+
+  endTime = Date.now() + remain.value;
+  counting = true;
   tick();
-};
-const pause = clear;
-const reset = () => {
-  clear();
-  remain.value = Math.max(0, props.time);
+}
+
+function reset(): void {
+  pause();
+  remain.value = normalizeCountDownTime(props.time);
+
   if (props.autoStart) start();
-};
-defineExpose({ start, pause, reset });
-watch(() => props.time, reset);
-onMounted(() => {
-  if (props.autoStart) start();
+}
+
+watch(() => props.time, reset, { immediate: true });
+
+onDeactivated(() => {
+  resumeAfterActivated = counting;
+  if (counting) pause();
 });
-onBeforeUnmount(clear);
+
+onActivated(() => {
+  if (resumeAfterActivated) {
+    resumeAfterActivated = false;
+    start();
+  }
+});
+
+onBeforeUnmount(pause);
+
+defineExpose({ start, pause, reset });
 </script>

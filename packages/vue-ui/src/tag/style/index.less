@@ -4,6 +4,8 @@
   display: inline-flex;
   gap: 4px;
   align-items: center;
+  width: fit-content;
+  max-width: 100%;
   min-height: 24px;
   padding: 2px 8px;
   font-size: var(--ky-font-size-assist);
@@ -57,10 +59,12 @@
 
 .ky-tag__close {
   display: grid;
+  flex: 0 0 18px;
   place-items: center;
   width: 18px;
   height: 18px;
   padding: 0;
+  margin-left: auto;
   color: inherit;
   cursor: pointer;
   background: transparent;

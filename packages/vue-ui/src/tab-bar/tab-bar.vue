@@ -128,13 +128,19 @@ function updateIndicator(index = activeIndex()) {
   }
 }
 
-// 激活项变化后将其滚动到可视区域中央，兼顾点击与键盘切换场景。
+// 激活项变化后只滚动当前 TabBar，并将其尽量定位到容器中央。
 function reveal(index: number) {
-  if (!isScrollable.value) return;
-  itemRefs.value[index]?.scrollIntoView({
+  const scroller = root.value;
+  const item = itemRefs.value[index];
+  if (!scroller || !item || scroller.scrollWidth <= scroller.clientWidth + 1) return;
+
+  const maximum = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+  const itemCenter = item.offsetLeft + item.offsetWidth / 2;
+  const target = Math.min(maximum, Math.max(0, itemCenter - scroller.clientWidth / 2));
+
+  scroller.scrollTo({
+    left: target,
     behavior: props.animated ? 'smooth' : 'auto',
-    block: 'nearest',
-    inline: 'center',
   });
 }
 

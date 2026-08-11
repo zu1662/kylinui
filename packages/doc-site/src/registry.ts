@@ -64,10 +64,6 @@ import stepsConfig from '@vue-ui/steps/_usage/config';
 import StepsUsage from '@vue-ui/steps/_usage/index.vue';
 import StepsDemo from '@vue-ui/steps/_demo/basic.vue';
 import stepsDoc from '@vue-ui/steps/_doc/steps.md?raw';
-import systemBarConfig from '@vue-ui/system-bar/_usage/config';
-import SystemBarUsage from '@vue-ui/system-bar/_usage/index.vue';
-import SystemBarDemo from '@vue-ui/system-bar/_demo/basic.vue';
-import systemBarDoc from '@vue-ui/system-bar/_doc/system-bar.md?raw';
 import popupConfig from '@vue-ui/popup/_usage/config';
 import PopupUsage from '@vue-ui/popup/_usage/index.vue';
 import PopupDemo from '@vue-ui/popup/_demo/basic.vue';
@@ -423,14 +419,5 @@ export const components: ComponentEntry[] = [
     usage: StepsUsage,
     demo: StepsDemo,
     doc: stepsDoc,
-  },
-  {
-    slug: 'system-bar',
-    group: '导航组件',
-    title: 'System Bar 系统栏',
-    config: systemBarConfig,
-    usage: SystemBarUsage,
-    demo: SystemBarDemo,
-    doc: systemBarDoc,
   },
 ];

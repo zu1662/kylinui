@@ -1,5 +1,5 @@
 ﻿<template>
-  <div>
+  <div class="tab-bar-usage">
     <KyTabBar v-model="current" :data="tabs" v-bind="configProps" />
     <div class="tab-bar-usage__content">当前频道：{{ currentLabel }}</div>
   </div>
@@ -22,6 +22,12 @@ const currentLabel = computed(() => tabs.find((item) => item.value === current.v
 </script>
 
 <style scoped lang="less">
+.tab-bar-usage {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
 .tab-bar-usage__content {
   min-height: 180px;
   padding: 32px 16px;

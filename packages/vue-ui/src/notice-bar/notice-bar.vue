@@ -29,7 +29,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import KyIcon from '../icon';
 import type { NoticeBarProps } from './notice-bar';
 defineOptions({ name: 'KyNoticeBar' });
@@ -50,6 +50,8 @@ const wrap = ref<HTMLElement | null>(null);
 const content = ref<HTMLElement | null>(null);
 const distance = ref(0);
 const shouldScroll = ref(false);
+let resizeObserver: ResizeObserver | undefined;
+let measureVersion = 0;
 const duration = computed(() => distance.value / Math.max(1, props.speed));
 const barStyle = computed(() => ({
   color: props.color || undefined,
@@ -65,16 +67,30 @@ const contentStyle = computed(() =>
     : undefined,
 );
 const measure = async () => {
+  const version = ++measureVersion;
+  // 先移除滚动态的左侧占位，避免重复测量时把 padding 计入文本宽度。
+  shouldScroll.value = false;
   await nextTick();
-  if (!wrap.value || !content.value || props.wrapable || !props.scrollable) {
-    shouldScroll.value = false;
-    return;
-  }
-  distance.value = content.value.scrollWidth + wrap.value.clientWidth;
-  shouldScroll.value = content.value.scrollWidth > wrap.value.clientWidth;
+  if (version !== measureVersion) return;
+  if (!wrap.value || !content.value || props.wrapable || !props.scrollable) return;
+
+  const wrapWidth = wrap.value.clientWidth;
+  const contentWidth = content.value.scrollWidth;
+  distance.value = contentWidth + wrapWidth;
+  shouldScroll.value = contentWidth > wrapWidth + 1;
 };
-onMounted(measure);
-watch(() => [props.text, props.wrapable, props.scrollable], measure);
+onMounted(() => {
+  if (typeof ResizeObserver !== 'undefined' && wrap.value) {
+    resizeObserver = new ResizeObserver(() => void measure());
+    resizeObserver.observe(wrap.value);
+  }
+  void measure();
+});
+onBeforeUnmount(() => resizeObserver?.disconnect());
+watch(
+  () => [props.text, props.wrapable, props.scrollable],
+  () => void measure(),
+);
 const handleAction = () => {
   if (props.mode === 'closeable') {
     visible.value = false;

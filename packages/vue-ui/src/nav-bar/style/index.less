@@ -7,12 +7,18 @@
   align-items: center;
   min-height: var(--ky-nav-bar-height);
   padding: 0 var(--ky-space-4);
+  color: var(--ky-nav-bar-color);
   background: var(--ky-nav-bar-bg);
-  border-bottom: 1px solid var(--ky-color-divider);
+  border-bottom: 1px solid var(--ky-nav-bar-border-color);
 }
 
 .ky-nav-bar.has-safe-top {
   padding-top: env(safe-area-inset-top);
+}
+
+.ky-nav-bar.is-sticky {
+  position: sticky;
+  top: 0;
 }
 
 .ky-nav-bar.is-fixed {
@@ -20,6 +26,20 @@
   top: 0;
   right: 0;
   left: 0;
+}
+
+.ky-nav-bar.ky-nav-bar--dark {
+  --ky-nav-bar-bg: var(--ky-color-brand-strong);
+  --ky-nav-bar-color: #fff;
+  --ky-nav-bar-action-color: #fff;
+  --ky-nav-bar-border-color: transparent;
+}
+
+.ky-nav-bar.ky-nav-bar--gradient {
+  --ky-nav-bar-bg: var(--ky-gradient-brand);
+  --ky-nav-bar-color: var(--ky-color-text-primary);
+  --ky-nav-bar-action-color: var(--ky-color-text-primary);
+  --ky-nav-bar-border-color: transparent;
 }
 
 .ky-nav-bar__placeholder {
@@ -45,9 +65,13 @@
   align-items: center;
   min-width: 0;
   padding: var(--ky-space-2) 0;
-  color: var(--ky-color-brand-strong);
+  color: var(--ky-nav-bar-action-color);
   background: transparent;
   border: 0;
+}
+
+.ky-nav-bar__side-placeholder {
+  min-width: 0;
 }
 
 .ky-nav-bar__left {

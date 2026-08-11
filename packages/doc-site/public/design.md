@@ -831,7 +831,7 @@ src/
 │  ├─ selector/
 │  ├─ stepper/
 │  ├─ form/
-│  └─ system-bar/
+│  └─ nav-bar/
 └─ assets/
    ├─ icons/
    └─ brand/

@@ -4,6 +4,9 @@
 .ky-popover {
   position: relative;
   display: inline-flex;
+  // 避免作为 Grid/Flex 子项时被拉伸，确保浮层始终以触发内容为定位基准。
+  width: fit-content;
+  max-width: 100%;
 }
 
 .ky-popover__content {

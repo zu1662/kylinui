@@ -1,29 +1,45 @@
-<template><KyCountDown v-bind="configProps" /></template>
+<template>
+  <div class="count-down-usage">
+    <KyCountDown v-bind="previewProps" />
+    <p v-if="usesFallbackMillisecondFormat" class="count-down-usage__hint">
+      当前格式未包含毫秒占位符，预览已自动使用 {{ previewProps.format }}。
+    </p>
+  </div>
+</template>
+
 <script setup lang="ts">
+import { computed } from 'vue';
 import KyCountDown from '../index';
-defineProps<{ configProps: Record<string, unknown> }>();
+
+const props = defineProps<{ configProps: Record<string, unknown> }>();
+
+const usesFallbackMillisecondFormat = computed(() => {
+  const format = String(props.configProps.format ?? 'HH:mm:ss');
+  return props.configProps.millisecond === true && !format.includes('S');
+});
+
+const previewProps = computed(() => {
+  if (!usesFallbackMillisecondFormat.value) return props.configProps;
+
+  const format = String(props.configProps.format ?? 'HH:mm:ss');
+  return {
+    ...props.configProps,
+    format: `${format}:SSS`,
+  };
+});
 </script>
+
 <style scoped>
-.demo-target {
-  display: inline-grid;
-  min-width: 64px;
-  height: 40px;
-  padding: 0 12px;
-  place-items: center;
-  background: var(--ky-color-brand-soft);
-  border-radius: var(--ky-radius-sm);
-}
-.ky-demo-stack {
+.count-down-usage {
   display: grid;
-  gap: 20px;
+  gap: 10px;
+  justify-items: start;
 }
-.demo-count b {
-  display: inline-grid;
-  min-width: 30px;
-  height: 30px;
-  place-items: center;
-  color: #fff;
-  background: var(--ky-color-brand-strong);
-  border-radius: 6px;
+
+.count-down-usage__hint {
+  margin: 0;
+  font-size: var(--ky-font-size-caption);
+  line-height: 18px;
+  color: var(--ky-color-text-secondary);
 }
 </style>
