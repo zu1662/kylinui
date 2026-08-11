@@ -45,7 +45,7 @@ const transitionProps = computed(() => ({
   overflow: hidden;
   place-items: center;
   background:
-    radial-gradient(circle at 20% 10%, rgb(20 199 115 / 16%), transparent 38%),
+    radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--ky-color-brand) 16%, transparent), transparent 38%),
     var(--ky-color-subtle-bg);
   border: 1px solid var(--ky-color-divider);
   border-radius: var(--ky-radius-lg);
@@ -58,7 +58,7 @@ const transitionProps = computed(() => ({
   padding: var(--ky-space-5);
   color: var(--ky-color-text-primary);
   background: var(--ky-color-surface);
-  border: 1px solid rgb(20 199 115 / 24%);
+  border: 1px solid color-mix(in srgb, var(--ky-color-brand) 24%, transparent);
   border-radius: var(--ky-radius-lg);
   box-shadow: var(--ky-shadow-card);
   transform-origin: center;

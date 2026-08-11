@@ -13,12 +13,28 @@
         <span class="brand__mark">K</span>
         <span>
           <strong>Kylin Design</strong>
-          <small>温润青玉 · Vue 3 Mobile</small>
+          <small>{{ currentTheme.label }} · Vue 3 Mobile</small>
         </span>
       </a>
-      <div class="topbar__meta">
-        <span>v0.1.0</span>
-        <a href="/design.md" target="_blank" rel="noreferrer">设计规范</a>
+      <div class="topbar__actions">
+        <button
+          class="theme-switch"
+          type="button"
+          :aria-label="`当前主题：${currentTheme.label}。点击切换至${nextTheme.label}`"
+          :title="`切换至${nextTheme.label}`"
+          @click="cycleTheme"
+        >
+          <span class="theme-switch__swatch" aria-hidden="true" />
+          <span class="theme-switch__copy">
+            <small>主题</small>
+            <strong>{{ currentTheme.label }}</strong>
+          </span>
+          <span class="theme-switch__arrow" aria-hidden="true">↻</span>
+        </button>
+        <div class="topbar__meta">
+          <span>v0.1.0</span>
+          <a href="/design.md" target="_blank" rel="noreferrer">设计规范</a>
+        </div>
       </div>
     </header>
 
@@ -46,7 +62,7 @@
     </aside>
 
     <main>
-      <ComponentPage :entry="current" :index="currentIndex" />
+      <ComponentPage :entry="current" :index="currentIndex" :theme="theme" />
     </main>
     <button
       v-if="menuOpen"
@@ -59,11 +75,29 @@
 </template>
 
 <script setup lang="ts">
+import {
+  KYLIN_THEME_OPTIONS,
+  getKylinTheme,
+  setKylinTheme,
+  type KylinTheme,
+} from '@kylin-design/vue-ui';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import ComponentPage from './components/ComponentPage.vue';
 import { components } from './registry';
 
+const THEME_STORAGE_KEY = 'kylin-design-theme';
 const menuOpen = ref(false);
+const theme = ref<KylinTheme>(getKylinTheme());
+const currentThemeIndex = computed(() =>
+  Math.max(
+    0,
+    KYLIN_THEME_OPTIONS.findIndex((item) => item.value === theme.value),
+  ),
+);
+const currentTheme = computed(() => KYLIN_THEME_OPTIONS[currentThemeIndex.value]);
+const nextTheme = computed(
+  () => KYLIN_THEME_OPTIONS[(currentThemeIndex.value + 1) % KYLIN_THEME_OPTIONS.length],
+);
 const hash = ref(window.location.hash.slice(1) || components[0].slug);
 const currentIndex = computed(() =>
   Math.max(
@@ -87,6 +121,13 @@ function syncHash() {
 function select(slug: string) {
   hash.value = slug;
   menuOpen.value = false;
+}
+
+/** 单击按预设顺序轮换主题，并持久化用户选择。 */
+function cycleTheme() {
+  theme.value = nextTheme.value.value;
+  setKylinTheme(theme.value);
+  window.localStorage.setItem(THEME_STORAGE_KEY, theme.value);
 }
 
 onMounted(() => window.addEventListener('hashchange', syncHash));

@@ -27,7 +27,7 @@ import KyDivider from '../index';
   min-width: 30px;
   height: 30px;
   place-items: center;
-  color: #fff;
+  color: var(--ky-color-on-brand);
   background: var(--ky-color-brand-strong);
   border-radius: 6px;
 }

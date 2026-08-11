@@ -1,10 +1,14 @@
 import { createApp } from 'vue';
-import KylinDesign from '@kylin-design/vue-ui';
+import KylinDesign, { resolveKylinTheme, setKylinTheme } from '@kylin-design/vue-ui';
 import './styles/index.less';
 
 /** 文档正文与手机预览使用不同根组件，iframe 内的 Teleport 会自然限制在移动视口中。 */
 async function bootstrap() {
-  const isPreview = new URLSearchParams(window.location.search).has('preview');
+  const search = new URLSearchParams(window.location.search);
+  const isPreview = search.has('preview');
+  const requestedTheme = search.get('theme');
+  const storedTheme = window.localStorage.getItem('kylin-design-theme');
+  setKylinTheme(resolveKylinTheme(requestedTheme ?? storedTheme));
 
   if (isPreview) {
     document.documentElement.classList.add('is-preview');

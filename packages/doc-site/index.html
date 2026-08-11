@@ -3,7 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Kylin Design 温润青玉主题 Vue 3 移动端组件库" />
+    <meta name="description" content="Kylin Design 多主题 Vue 3 移动端组件库" />
+    <script>
+      (() => {
+        const themes = ['jade', 'ocean', 'sunset', 'midnight'];
+        const queryTheme = new URLSearchParams(window.location.search).get('theme');
+        const storedTheme = window.localStorage.getItem('kylin-design-theme');
+        const theme = themes.includes(queryTheme) ? queryTheme : themes.includes(storedTheme) ? storedTheme : 'jade';
+        document.documentElement.setAttribute('data-ky-theme', theme);
+      })();
+    </script>
     <title>Kylin Design</title>
   </head>
   <body>

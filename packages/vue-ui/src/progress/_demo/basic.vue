@@ -1,6 +1,6 @@
 <template>
   <div class="ky-demo-stack">
-    <KyProgress :percentage="32" /><KyProgress :percentage="68" color="#08795a" /><KyProgress
+    <KyProgress :percentage="32" /><KyProgress :percentage="68" color="var(--ky-color-brand-strong)" /><KyProgress
       :percentage="100"
       :show-pivot="false"
     />
@@ -28,7 +28,7 @@ import KyProgress from '../index';
   min-width: 30px;
   height: 30px;
   place-items: center;
-  color: #fff;
+  color: var(--ky-color-on-brand);
   background: var(--ky-color-brand-strong);
   border-radius: 6px;
 }

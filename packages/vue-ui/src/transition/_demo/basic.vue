@@ -145,7 +145,7 @@ function toggleAll() {
   font-weight: var(--ky-font-semibold);
   background: var(--ky-gradient-brand);
   border-radius: 15px;
-  box-shadow: 0 8px 18px rgb(8 121 90 / 20%);
+  box-shadow: var(--ky-shadow-brand);
   transform-origin: center;
   place-items: center;
 }

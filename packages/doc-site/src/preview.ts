@@ -1,3 +1,5 @@
+import type { KylinTheme } from '@kylin-design/vue-ui';
+
 export type PreviewMode = 'usage' | 'demo';
 
 export const PREVIEW_MESSAGE_SOURCE = 'kylin-design-doc-site';
@@ -10,12 +12,13 @@ export interface PreviewPropsMessage {
 }
 
 /** 根据当前部署地址生成同源预览页地址，兼容站点部署在二级目录的场景。 */
-export function createPreviewUrl(slug: string, mode: PreviewMode) {
+export function createPreviewUrl(slug: string, mode: PreviewMode, theme: KylinTheme) {
   const url = new URL(window.location.href);
   url.hash = '';
   url.search = '';
   url.searchParams.set('preview', mode);
   url.searchParams.set('component', slug);
+  url.searchParams.set('theme', theme);
   return url.toString();
 }
 

@@ -38,7 +38,7 @@
 }
 
 .ky-button--primary {
-  color: #fff;
+  color: var(--ky-color-on-brand);
   background: var(--ky-color-brand-strong);
 }
 
@@ -59,12 +59,12 @@
 }
 
 .ky-button--danger {
-  color: #fff;
+  color: var(--ky-color-on-danger);
   background: var(--ky-color-danger);
 }
 
 .ky-button--gradient {
-  color: var(--ky-color-text-primary);
+  color: var(--ky-color-on-gradient);
   background: var(--ky-gradient-brand);
 }
 
@@ -128,7 +128,7 @@
 }
 
 .ky-button.has-shadow:not(:disabled) {
-  box-shadow: 0 8px 18px rgb(8 121 90 / 18%);
+  box-shadow: var(--ky-shadow-brand);
 }
 
 .ky-button.has-left-subtitle .ky-button__content {

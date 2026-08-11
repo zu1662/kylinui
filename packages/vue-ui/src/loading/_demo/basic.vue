@@ -1,6 +1,6 @@
 <template>
   <KySpace size="large"
-    ><KyLoading>加载中...</KyLoading><KyLoading type="spinner" color="#08795a" /><KyLoading
+    ><KyLoading>加载中...</KyLoading><KyLoading type="spinner" color="var(--ky-color-brand-strong)" /><KyLoading
       vertical
       :size="36"
       >提交中</KyLoading
@@ -30,7 +30,7 @@ import KySpace from '../../space';
   min-width: 30px;
   height: 30px;
   place-items: center;
-  color: #fff;
+  color: var(--ky-color-on-brand);
   background: var(--ky-color-brand-strong);
   border-radius: 6px;
 }

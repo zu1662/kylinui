@@ -40,8 +40,13 @@ export default {
       name: 'color',
       label: '颜色',
       type: 'select',
-      defaultValue: '#08795a',
-      options: ['#08795a', '#261208', '#7b6f67', '#c73851'],
+      defaultValue: 'var(--ky-color-brand-strong)',
+      options: [
+        'var(--ky-color-brand-strong)',
+        'var(--ky-color-text-primary)',
+        'var(--ky-color-text-secondary)',
+        'var(--ky-color-danger)',
+      ],
     },
     {
       name: 'rotate',

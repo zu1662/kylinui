@@ -111,3 +111,5 @@ export * from './empty';
 export * from './nav-bar';
 export * from './notice-bar';
 export * from './count-down';
+
+export * from './theme';

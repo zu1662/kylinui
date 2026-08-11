@@ -54,12 +54,13 @@
 </template>
 
 <script setup lang="ts">
+import type { KylinTheme } from '@kylin-design/vue-ui';
 import { computed, reactive, ref, watch } from 'vue';
 import type { ComponentEntry } from '../types';
 import { createPreviewPropsMessage, createPreviewUrl } from '../preview';
 import MobileSimulator from './MobileSimulator.vue';
 
-const props = defineProps<{ entry: ComponentEntry }>();
+const props = defineProps<{ entry: ComponentEntry; theme: KylinTheme }>();
 const values = reactive<Record<string, unknown>>({});
 const copied = ref(false);
 const simulator = ref<InstanceType<typeof MobileSimulator> | null>(null);
@@ -67,7 +68,7 @@ const slotContent: Record<string, string> = {
   KyButton: '主要操作',
   KyTag: '标签',
 };
-const previewUrl = computed(() => createPreviewUrl(props.entry.slug, 'usage'));
+const previewUrl = computed(() => createPreviewUrl(props.entry.slug, 'usage', props.theme));
 
 // 配置定义是唯一数据源，预览控件与代码片段始终保持一致。
 function reset() {
