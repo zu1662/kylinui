@@ -44,6 +44,9 @@ importers:
       '@kylin-design/vue-ui':
         specifier: workspace:*
         version: link:../vue-ui
+      '@vant/touch-emulator':
+        specifier: 1.5.0
+        version: 1.5.0
       markdown-it:
         specifier: ^15.0.0
         version: 15.0.0
@@ -467,6 +470,9 @@ packages:
   '@typescript-eslint/visitor-keys@8.65.0':
     resolution: {integrity: sha512-8C71BQkGjiMmXtop7pHVJu1l2NNShFdkCyD6a2ezzs5vU/L3LRtb69EtcteFwz0mYMPzIgOw0n6OV4VBUWZd7A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@vant/touch-emulator@1.5.0':
+    resolution: {integrity: sha512-/L2W/pehJLHGftSIiG31E0P8nibeA+SBcNptdyRymukM9zQ4Pn5Ku7Cndx5oXsY5SE9uyHaJ4M9oj+q2AROHhQ==}
 
   '@vitejs/plugin-vue@6.0.8':
     resolution: {integrity: sha512-0ZjgOg7oO6farnNGup7yvoM/YXZV84OZxHAwtflItNa/6zzQyVb5LNxyea3FEKEX2XlagIKzrlH7wwxkKgtiew==}
@@ -1934,6 +1940,8 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.65.0
       eslint-visitor-keys: 5.0.1
+
+  '@vant/touch-emulator@1.5.0': {}
 
   '@vitejs/plugin-vue@6.0.8(vite@8.2.0(@types/node@24.13.3)(less@4.8.1(supports-color@10.2.2)))(vue@3.5.40(typescript@5.9.3))':
     dependencies:
