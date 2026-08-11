@@ -464,7 +464,7 @@ const iconfontSourceNames = [
 
 export type IconfontName = (typeof iconfontSourceNames)[number];
 
-// 示例展示顺序：高频通用操作与状态图标优先，其余生活服务、出行业务图标保持字体原始顺序后置。
+// 示例展示顺序：高频通用操作与状态图标优先，其余图标保持字体原始顺序后置。
 const commonIconfontNames = [
   // 导航与方向
   'arrow-left',

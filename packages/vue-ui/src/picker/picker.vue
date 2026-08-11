@@ -213,7 +213,7 @@ function startPointerDrag(event: PointerEvent, columnIndex: number) {
   };
 }
 
-// Vant 触摸模拟器使用非可信 TouchEvent，兼容桌面鼠标模拟且避免真实手机重复触发。
+// 桌面触摸模拟器使用非可信 TouchEvent，兼容鼠标操作且避免真实触摸重复触发。
 function startSyntheticTouchDrag(event: TouchEvent, columnIndex: number) {
   if (event.isTrusted || props.disabled || event.touches.length !== 1) return;
   const touch = event.touches.item(0);

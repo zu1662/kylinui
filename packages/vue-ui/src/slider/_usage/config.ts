@@ -10,7 +10,7 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '出行天数',
+      defaultValue: '完成进度',
     },
     {
       name: 'min',

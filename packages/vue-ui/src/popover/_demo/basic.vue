@@ -1,7 +1,7 @@
 <template>
   <KyPopover v-model="visible" placement="bottom">
-    <template #reference><KyButton variant="text">行李规则</KyButton></template>
-    每人可携带 2 件随身行李。
+    <template #reference><KyButton variant="text">选项说明</KyButton></template>
+    每个账号最多可添加 2 个选项。
   </KyPopover>
 </template>
 <script setup lang="ts">

@@ -10,7 +10,7 @@ export default {
       name: 'label',
       label: '无障碍标签',
       type: 'text',
-      defaultValue: '行程评分',
+      defaultValue: '服务评分',
     },
     {
       name: 'count',

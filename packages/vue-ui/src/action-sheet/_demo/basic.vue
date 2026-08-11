@@ -1,9 +1,9 @@
 <template>
   <div>
-    <KyButton block @click="visible = true">打开行李规则</KyButton>
+    <KyButton block @click="visible = true">打开方案说明</KyButton>
     <KyActionSheet
       v-model="visible"
-      title="行李规则"
+      title="方案说明"
       :tabs="tabs"
       :active-tab="activeTab"
       confirm-text="确认并继续"
@@ -26,12 +26,8 @@ import KyActionSheet from '../index';
 
 const visible = ref(false);
 const activeTab = ref(0);
-const tabs = [{ title: '经济舱' }, { title: '公务舱', subTitle: '推荐' }, { title: '头等舱' }];
-const descriptions = [
-  '含 20kg 免费托运行李',
-  '含 30kg 免费托运行李及优先登机',
-  '含 40kg 免费托运行李及专属服务',
-];
+const tabs = [{ title: '基础版' }, { title: '进阶版', subTitle: '推荐' }, { title: '专业版' }];
+const descriptions = ['包含常用基础能力', '包含扩展能力及优先支持', '包含完整能力及专属服务'];
 </script>
 
 <style scoped lang="less">

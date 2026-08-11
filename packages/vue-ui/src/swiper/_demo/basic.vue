@@ -13,9 +13,9 @@
 import KySwiper from '../index';
 
 const cards = [
-  { title: '灵活退改', caption: '行程有变也能从容处理' },
-  { title: '航班提醒', caption: '及时接收值机与登机信息' },
-  { title: '行李服务', caption: '按需购买额外托运行李' },
+  { title: '灵活配置', caption: '内容变化也能从容处理' },
+  { title: '状态提醒', caption: '及时接收重要状态信息' },
+  { title: '扩展服务', caption: '按需启用额外能力' },
 ];
 </script>
 

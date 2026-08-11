@@ -16,7 +16,7 @@ export default {
       name: 'description',
       label: '说明',
       type: 'text',
-      defaultValue: '用于接收订单与行程通知',
+      defaultValue: '用于接收订单与状态通知',
     },
     {
       name: 'bordered',

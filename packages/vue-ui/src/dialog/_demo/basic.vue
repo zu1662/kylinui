@@ -1,8 +1,8 @@
 <template>
-  <KyButton variant="danger" @click="visible = true">删除当前行程</KyButton>
+  <KyButton variant="danger" @click="visible = true">删除当前记录</KyButton>
   <KyDialog
     v-model="visible"
-    title="确认删除行程？"
+    title="确认删除记录？"
     description="删除后无法恢复，请谨慎操作。"
     danger
     confirm-text="删除"

@@ -1,4 +1,4 @@
-<template><KyRating v-model="value" label="行程满意度" /></template>
+<template><KyRating v-model="value" label="服务满意度" /></template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import KyRating from '../index';

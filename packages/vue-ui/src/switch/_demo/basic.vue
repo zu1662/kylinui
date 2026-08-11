@@ -1,4 +1,4 @@
-<template><KySwitch v-model="value" label="接收行程变更提醒" /></template>
+<template><KySwitch v-model="value" label="接收状态变更提醒" /></template>
 <script setup lang="ts">
 import { ref } from 'vue';
 import KySwitch from '../index';

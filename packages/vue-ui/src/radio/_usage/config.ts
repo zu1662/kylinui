@@ -10,7 +10,7 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '经济舱',
+      defaultValue: '基础方案',
     },
     {
       name: 'disabled',

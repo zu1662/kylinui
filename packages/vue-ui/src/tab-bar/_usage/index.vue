@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div>
     <KyTabBar v-model="current" :data="tabs" v-bind="configProps" />
     <div class="tab-bar-usage__content">当前频道：{{ currentLabel }}</div>
@@ -10,13 +10,13 @@ import { computed, ref } from 'vue';
 import KyTabBar from '../index';
 
 defineProps<{ configProps: Record<string, unknown> }>();
-const current = ref('flight');
+const current = ref('home');
 const tabs = [
-  { label: '机票', value: 'flight', icon: 'flight-line' },
-  { label: '火车票', value: 'train', icon: 'train-line', badge: 2 },
-  { label: '酒店', value: 'hotel', icon: 'hotel-line' },
-  { label: '用车', value: 'car', icon: 'car-line' },
-  { label: '门票', value: 'ticket', icon: 'spot-ticket-line' },
+  { label: '首页', value: 'home', icon: 'home-line' },
+  { label: '消息', value: 'message', icon: 'notice-line', badge: 2 },
+  { label: '日历', value: 'calendar', icon: 'calendar-line' },
+  { label: '订单', value: 'order', icon: 'order-line' },
+  { label: '我的', value: 'profile', icon: 'mine-line' },
 ];
 const currentLabel = computed(() => tabs.find((item) => item.value === current.value)?.label);
 </script>

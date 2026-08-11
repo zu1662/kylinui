@@ -1,5 +1,5 @@
 <template>
-  <KySystemBar title="行程详情" theme="gradient"
+  <KySystemBar title="页面详情" theme="gradient"
     ><template #right><span>分享</span></template></KySystemBar
   >
 </template>

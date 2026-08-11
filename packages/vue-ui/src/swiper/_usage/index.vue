@@ -2,7 +2,7 @@
   <KySwiper :data="items" v-bind="configProps">
     <template #item="{ item, index }">
       <article class="swiper-usage__card" :class="`is-${index}`">
-        <small>精选目的地</small>
+        <small>精选内容</small>
         <strong>{{ typeof item === 'string' ? item : item.title }}</strong>
         <span>{{ typeof item === 'string' ? '' : item.description }}</span>
       </article>
@@ -15,9 +15,9 @@ import KySwiper from '../index';
 
 defineProps<{ configProps: Record<string, unknown> }>();
 const items = [
-  { title: '上海周末游', description: '往返机票 · 2 天 1 晚' },
-  { title: '成都美食行', description: '精品酒店 · 3 天 2 晚' },
-  { title: '厦门看海', description: '自由行程 · 2 天 1 晚' },
+  { title: '设计规范', description: '颜色、排版与间距说明' },
+  { title: '组件示例', description: '常用交互与状态展示' },
+  { title: '开发指南', description: '安装、配置与最佳实践' },
 ];
 </script>
 

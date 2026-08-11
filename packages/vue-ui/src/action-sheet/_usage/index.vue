@@ -22,8 +22,8 @@ defineProps<{ configProps: Record<string, unknown> }>();
 const visible = ref(false);
 const selected = ref('尚未选择');
 const actions: ActionSheetAction[] = [
-  { name: '购买额外行李', description: '适合托运行李较多的旅客' },
-  { name: '预约贵宾休息室', description: '开放时间 07:00 - 23:00' },
+  { name: '启用增强选项', description: '适合需要更多配置的场景' },
+  { name: '预约专属服务', description: '开放时间 07:00 - 23:00' },
   { name: '删除当前服务', danger: true },
 ];
 </script>

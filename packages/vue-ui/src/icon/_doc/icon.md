@@ -1,6 +1,6 @@
 # Icon 图标
 
-Icon 统一支持内置线性 SVG 和随组件库本地打包的 Iconfont（Project id 2722740），不依赖运行时远程地址。字体图标来自[同程出行字体图标示例](https://file.40017.cn/flightnew/icons/demo_index.html)。
+Icon 统一支持内置线性 SVG 和随组件库本地打包的 Iconfont（Project id 2722740），不依赖运行时远程地址。
 
 ## 基础用法
 
@@ -16,16 +16,16 @@ Icon 统一支持内置线性 SVG 和随组件库本地打包的 Iconfont（Proj
 
 ## API
 
-| 属性        | 类型                      | 默认值       | 说明                                      |
-| ----------- | ------------------------- | ------------ | ----------------------------------------- |
-| name        | string                    | 必填         | SVG 或 Iconfont 图标名称                  |
-| source      | auto / svg / iconfont     | auto         | 图标来源；auto 优先 SVG，再匹配 Iconfont |
-| size        | number / string           | 20           | 图标尺寸，数字自动转换为 `px`             |
-| color       | string                    | currentColor | 图标颜色                                  |
-| strokeWidth | number                    | 2            | SVG 图标线条宽度                          |
-| rotate      | number                    | 0            | 静态旋转角度                              |
-| spin        | boolean                   | false        | 是否持续旋转                              |
-| label       | string                    | -            | 可访问名称；未提供时作为装饰图标隐藏      |
+| 属性        | 类型                  | 默认值       | 说明                                     |
+| ----------- | --------------------- | ------------ | ---------------------------------------- |
+| name        | string                | 必填         | SVG 或 Iconfont 图标名称                 |
+| source      | auto / svg / iconfont | auto         | 图标来源；auto 优先 SVG，再匹配 Iconfont |
+| size        | number / string       | 20           | 图标尺寸，数字自动转换为 `px`            |
+| color       | string                | currentColor | 图标颜色                                 |
+| strokeWidth | number                | 2            | SVG 图标线条宽度                         |
+| rotate      | number                | 0            | 静态旋转角度                             |
+| spin        | boolean               | false        | 是否持续旋转                             |
+| label       | string                | -            | 可访问名称；未提供时作为装饰图标隐藏     |
 
 内置 SVG 图标集合：`chevron-right`、`chevron-left`、`chevron-down`、`chevron-up`、`close`、`check`、`check-circle`、`circle`、`info`、`help`、`plus`、`calendar`、`trash`、`edit`、`copy`、`bell`、`speaker`。
 

@@ -141,7 +141,7 @@ function isRelatedTarget(eventTarget: EventTarget | null, gestureTarget: Element
 
 /**
  * 为手机预览页补充桌面拖拽滚动。
- * Vant touch-emulator 负责把鼠标转换为合成 TouchEvent，本 Hook 只处理合成事件；
+ * 桌面触摸模拟器负责把鼠标转换为合成 TouchEvent，本 Hook 只处理合成事件；
  * 真实手机上的可信触摸事件仍交给浏览器原生滚动，避免出现双重位移。
  */
 export function useDesktopTouchScroll(rootRef: Ref<HTMLElement | null>) {

@@ -1,6 +1,6 @@
 <template>
   <div class="ky-demo-inline">
-    <span>出行人数</span><KyStepper v-model="value" :min="1" :max="5" />
+    <span>参与人数</span><KyStepper v-model="value" :min="1" :max="5" />
   </div>
 </template>
 <script setup lang="ts">

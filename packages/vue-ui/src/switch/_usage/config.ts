@@ -10,7 +10,7 @@ export default {
       name: 'label',
       label: '标签',
       type: 'text',
-      defaultValue: '接收行程提醒',
+      defaultValue: '接收状态提醒',
     },
     {
       name: 'size',

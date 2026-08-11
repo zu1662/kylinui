@@ -1,6 +1,6 @@
 <template>
   <div class="ky-demo-stack">
-    <KyCheckbox v-model="insurance" label="购买出行保险" /><KyCheckbox
+    <KyCheckbox v-model="insurance" label="启用自动同步" /><KyCheckbox
       v-model="notice"
       label="接收优惠通知"
     />

@@ -1,9 +1,9 @@
 <template>
   <div class="popup-demo">
     <KyButton block @click="visible = true">打开底部弹层</KyButton>
-    <KyPopup v-model="visible" position="bottom" round aria-label="行程详情">
+    <KyPopup v-model="visible" position="bottom" round aria-label="内容详情">
       <article class="popup-demo__content">
-        <h3>行程详情</h3>
+        <h3>内容详情</h3>
         <p>底部弹层适合展示补充信息、筛选条件或快捷操作。</p>
         <KyButton block @click="visible = false">关闭弹层</KyButton>
       </article>

@@ -10,7 +10,7 @@ export default {
       name: 'title',
       label: '标题',
       type: 'text',
-      defaultValue: '行程详情',
+      defaultValue: '页面详情',
     },
     {
       name: 'theme',

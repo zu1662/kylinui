@@ -1,5 +1,5 @@
 基于 [design.md](design.md) 创建移动端组件库，技术栈为 vue3,。使用 vue template setup + hooks 形式，不用jsx。
-文档说明参考 https://tdesign.tencent.com/vue-next/components/button ，需要可以切换配置展示不同效果
+文档说明需要支持配置切换并展示不同效果
 具体代码实现可以先查找github已比较成熟的框架，找出更清晰、更完善的方案，然后再做实现。
 
 每个组件的文件夹内部要拆分为：
