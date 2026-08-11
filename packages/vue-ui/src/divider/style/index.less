@@ -1,0 +1,54 @@
+@import './token.less';
+
+.ky-divider {
+  display: flex;
+  gap: var(--ky-space-3);
+  align-items: center;
+  margin: var(--ky-space-4) 0;
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-divider-text-color);
+  white-space: nowrap;
+  border: 0 solid var(--ky-divider-color);
+}
+
+.ky-divider::before,
+.ky-divider::after {
+  flex: 1;
+  height: 1px;
+  content: '';
+  background: var(--ky-divider-color);
+}
+
+.ky-divider--left::before {
+  max-width: 10%;
+}
+
+.ky-divider--right::after {
+  max-width: 10%;
+}
+
+.ky-divider.is-dashed::before,
+.ky-divider.is-dashed::after {
+  height: 0;
+  background: none;
+  border-top: 1px dashed var(--ky-divider-color);
+}
+
+.ky-divider.is-hairline::before,
+.ky-divider.is-hairline::after {
+  transform: scaleY(0.5);
+}
+
+.ky-divider.is-vertical {
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin: 0 var(--ky-space-2);
+  vertical-align: middle;
+  background: var(--ky-divider-color);
+}
+
+.ky-divider.is-vertical::before,
+.ky-divider.is-vertical::after {
+  display: none;
+}

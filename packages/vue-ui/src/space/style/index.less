@@ -1,0 +1,36 @@
+@import './token.less';
+
+.ky-space {
+  display: inline-flex;
+  gap: var(--ky-space-default-gap);
+  max-width: 100%;
+}
+
+.ky-space--vertical {
+  flex-direction: column;
+}
+
+.ky-space--start {
+  align-items: flex-start;
+}
+
+.ky-space--center {
+  align-items: center;
+}
+
+.ky-space--end {
+  align-items: flex-end;
+}
+
+.ky-space--baseline {
+  align-items: baseline;
+}
+
+.ky-space.is-wrap {
+  flex-wrap: wrap;
+}
+
+.ky-space.is-fill {
+  display: flex;
+  width: 100%;
+}

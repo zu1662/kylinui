@@ -1,0 +1,59 @@
+@import './token.less';
+
+.ky-nav-bar {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(64px, 1fr) auto minmax(64px, 1fr);
+  align-items: center;
+  min-height: var(--ky-nav-bar-height);
+  padding: 0 var(--ky-space-4);
+  background: var(--ky-nav-bar-bg);
+  border-bottom: 1px solid var(--ky-color-divider);
+}
+
+.ky-nav-bar.has-safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.ky-nav-bar.is-fixed {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.ky-nav-bar__placeholder {
+  height: var(--ky-nav-bar-height);
+}
+
+.ky-nav-bar__placeholder.has-safe-top {
+  height: calc(var(--ky-nav-bar-height) + env(safe-area-inset-top));
+}
+
+.ky-nav-bar__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ky-font-size-body-strong);
+  font-weight: var(--ky-font-semibold);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.ky-nav-bar__side {
+  display: inline-flex;
+  gap: 2px;
+  align-items: center;
+  min-width: 0;
+  padding: var(--ky-space-2) 0;
+  color: var(--ky-color-brand-strong);
+  background: transparent;
+  border: 0;
+}
+
+.ky-nav-bar__left {
+  justify-self: start;
+}
+
+.ky-nav-bar__right {
+  justify-self: end;
+}

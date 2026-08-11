@@ -29,17 +29,17 @@ const copiedName = ref<string | null>(null);
 let resetTimer: ReturnType<typeof setTimeout> | null = null;
 
 async function copyName(name: string) {
-  let success = false;
-  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-    try {
-      await navigator.clipboard.writeText(name);
-      success = true;
-    } catch {
-      success = fallbackCopy(name);
+  const success = await (async () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(name);
+        return true;
+      } catch {
+        return fallbackCopy(name);
+      }
     }
-  } else {
-    success = fallbackCopy(name);
-  }
+    return fallbackCopy(name);
+  })();
   if (!success) return;
   copiedName.value = name;
   if (resetTimer) clearTimeout(resetTimer);
@@ -57,14 +57,13 @@ function fallbackCopy(text: string) {
   textarea.style.opacity = '0';
   document.body.appendChild(textarea);
   textarea.select();
-  let ok = false;
   try {
-    ok = document.execCommand('copy');
+    return document.execCommand('copy');
   } catch {
-    ok = false;
+    return false;
+  } finally {
+    document.body.removeChild(textarea);
   }
-  document.body.removeChild(textarea);
-  return ok;
 }
 </script>
 
@@ -100,7 +99,9 @@ function fallbackCopy(text: string) {
   background: var(--ky-color-surface);
   border: 1px solid var(--ky-color-divider);
   border-radius: var(--ky-radius-md);
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
 }
 
 .icon-demo__item:hover {

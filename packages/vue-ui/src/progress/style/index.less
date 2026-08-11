@@ -1,0 +1,32 @@
+@import './token.less';
+
+.ky-progress {
+  position: relative;
+  height: 8px;
+  background: var(--ky-progress-track-color);
+  border-radius: var(--ky-radius-pill);
+}
+
+.ky-progress__portion {
+  position: absolute;
+  inset: 0 auto 0 0;
+  min-width: 0;
+  background: var(--ky-progress-color);
+  border-radius: inherit;
+  transition: width var(--ky-duration-base) var(--ky-easing-standard);
+}
+
+.ky-progress__pivot {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  min-width: 34px;
+  padding: 2px 5px;
+  font-size: 10px;
+  line-height: 14px;
+  color: #fff;
+  text-align: center;
+  background: var(--ky-progress-color);
+  border-radius: var(--ky-radius-pill);
+  transform: translate(50%, -50%);
+}

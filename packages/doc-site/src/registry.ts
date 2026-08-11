@@ -89,8 +89,152 @@ import PickerUsage from '@vue-ui/picker/_usage/index.vue';
 import PickerDemo from '@vue-ui/picker/_demo/basic.vue';
 import pickerDoc from '@vue-ui/picker/_doc/picker.md?raw';
 
+import badgeConfig from '@vue-ui/badge/_usage/config';
+import BadgeUsage from '@vue-ui/badge/_usage/index.vue';
+import BadgeDemo from '@vue-ui/badge/_demo/basic.vue';
+import badgeDoc from '@vue-ui/badge/_doc/badge.md?raw';
+import dividerConfig from '@vue-ui/divider/_usage/config';
+import DividerUsage from '@vue-ui/divider/_usage/index.vue';
+import DividerDemo from '@vue-ui/divider/_demo/basic.vue';
+import dividerDoc from '@vue-ui/divider/_doc/divider.md?raw';
+import spaceConfig from '@vue-ui/space/_usage/config';
+import SpaceUsage from '@vue-ui/space/_usage/index.vue';
+import SpaceDemo from '@vue-ui/space/_demo/basic.vue';
+import spaceDoc from '@vue-ui/space/_doc/space.md?raw';
+import gridConfig from '@vue-ui/grid/_usage/config';
+import GridUsage from '@vue-ui/grid/_usage/index.vue';
+import GridDemo from '@vue-ui/grid/_demo/basic.vue';
+import gridDoc from '@vue-ui/grid/_doc/grid.md?raw';
+import cellConfig from '@vue-ui/cell/_usage/config';
+import CellUsage from '@vue-ui/cell/_usage/index.vue';
+import CellDemo from '@vue-ui/cell/_demo/basic.vue';
+import cellDoc from '@vue-ui/cell/_doc/cell.md?raw';
+import loadingConfig from '@vue-ui/loading/_usage/config';
+import LoadingUsage from '@vue-ui/loading/_usage/index.vue';
+import LoadingDemo from '@vue-ui/loading/_demo/basic.vue';
+import loadingDoc from '@vue-ui/loading/_doc/loading.md?raw';
+import progressConfig from '@vue-ui/progress/_usage/config';
+import ProgressUsage from '@vue-ui/progress/_usage/index.vue';
+import ProgressDemo from '@vue-ui/progress/_demo/basic.vue';
+import progressDoc from '@vue-ui/progress/_doc/progress.md?raw';
+import emptyConfig from '@vue-ui/empty/_usage/config';
+import EmptyUsage from '@vue-ui/empty/_usage/index.vue';
+import EmptyDemo from '@vue-ui/empty/_demo/basic.vue';
+import emptyDoc from '@vue-ui/empty/_doc/empty.md?raw';
+import navBarConfig from '@vue-ui/nav-bar/_usage/config';
+import NavBarUsage from '@vue-ui/nav-bar/_usage/index.vue';
+import NavBarDemo from '@vue-ui/nav-bar/_demo/basic.vue';
+import navBarDoc from '@vue-ui/nav-bar/_doc/nav-bar.md?raw';
+import noticeBarConfig from '@vue-ui/notice-bar/_usage/config';
+import NoticeBarUsage from '@vue-ui/notice-bar/_usage/index.vue';
+import NoticeBarDemo from '@vue-ui/notice-bar/_demo/basic.vue';
+import noticeBarDoc from '@vue-ui/notice-bar/_doc/notice-bar.md?raw';
+import countDownConfig from '@vue-ui/count-down/_usage/config';
+import CountDownUsage from '@vue-ui/count-down/_usage/index.vue';
+import CountDownDemo from '@vue-ui/count-down/_demo/basic.vue';
+import countDownDoc from '@vue-ui/count-down/_doc/count-down.md?raw';
+
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
+  {
+    slug: 'badge',
+    group: '基础组件',
+    title: 'Badge 徽标',
+    config: badgeConfig,
+    usage: BadgeUsage,
+    demo: BadgeDemo,
+    doc: badgeDoc,
+  },
+  {
+    slug: 'divider',
+    group: '基础组件',
+    title: 'Divider 分割线',
+    config: dividerConfig,
+    usage: DividerUsage,
+    demo: DividerDemo,
+    doc: dividerDoc,
+  },
+  {
+    slug: 'space',
+    group: '基础组件',
+    title: 'Space 间距',
+    config: spaceConfig,
+    usage: SpaceUsage,
+    demo: SpaceDemo,
+    doc: spaceDoc,
+  },
+  {
+    slug: 'grid',
+    group: '展示组件',
+    title: 'Grid 宫格',
+    config: gridConfig,
+    usage: GridUsage,
+    demo: GridDemo,
+    doc: gridDoc,
+  },
+  {
+    slug: 'cell',
+    group: '展示组件',
+    title: 'Cell 单元格',
+    config: cellConfig,
+    usage: CellUsage,
+    demo: CellDemo,
+    doc: cellDoc,
+  },
+  {
+    slug: 'loading',
+    group: '反馈组件',
+    title: 'Loading 加载',
+    config: loadingConfig,
+    usage: LoadingUsage,
+    demo: LoadingDemo,
+    doc: loadingDoc,
+  },
+  {
+    slug: 'progress',
+    group: '反馈组件',
+    title: 'Progress 进度条',
+    config: progressConfig,
+    usage: ProgressUsage,
+    demo: ProgressDemo,
+    doc: progressDoc,
+  },
+  {
+    slug: 'empty',
+    group: '反馈组件',
+    title: 'Empty 空状态',
+    config: emptyConfig,
+    usage: EmptyUsage,
+    demo: EmptyDemo,
+    doc: emptyDoc,
+  },
+  {
+    slug: 'nav-bar',
+    group: '导航组件',
+    title: 'NavBar 导航栏',
+    config: navBarConfig,
+    usage: NavBarUsage,
+    demo: NavBarDemo,
+    doc: navBarDoc,
+  },
+  {
+    slug: 'notice-bar',
+    group: '反馈组件',
+    title: 'NoticeBar 通知栏',
+    config: noticeBarConfig,
+    usage: NoticeBarUsage,
+    demo: NoticeBarDemo,
+    doc: noticeBarDoc,
+  },
+  {
+    slug: 'count-down',
+    group: '展示组件',
+    title: 'CountDown 倒计时',
+    config: countDownConfig,
+    usage: CountDownUsage,
+    demo: CountDownDemo,
+    doc: countDownDoc,
+  },
   {
     slug: 'transition',
     group: '基础组件',

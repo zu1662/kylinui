@@ -24,6 +24,17 @@ import { KyActionSheet } from './action-sheet';
 import { KyTabBar } from './tab-bar';
 import { KySwiper } from './swiper';
 import { KyPicker } from './picker';
+import { KyBadge } from './badge';
+import { KyDivider } from './divider';
+import { KySpace } from './space';
+import { KyGrid, KyGridItem } from './grid';
+import { KyCell, KyCellGroup } from './cell';
+import { KyLoading } from './loading';
+import { KyProgress } from './progress';
+import { KyEmpty } from './empty';
+import { KyNavBar } from './nav-bar';
+import { KyNoticeBar } from './notice-bar';
+import { KyCountDown } from './count-down';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
 const components = [
@@ -49,6 +60,19 @@ const components = [
   KyTabBar,
   KySwiper,
   KyPicker,
+  KyBadge,
+  KyDivider,
+  KySpace,
+  KyGrid,
+  KyGridItem,
+  KyCell,
+  KyCellGroup,
+  KyLoading,
+  KyProgress,
+  KyEmpty,
+  KyNavBar,
+  KyNoticeBar,
+  KyCountDown,
 ];
 
 export default {
@@ -79,3 +103,14 @@ export * from './action-sheet';
 export * from './tab-bar';
 export * from './swiper';
 export * from './picker';
+export * from './badge';
+export * from './divider';
+export * from './space';
+export * from './grid';
+export * from './cell';
+export * from './loading';
+export * from './progress';
+export * from './empty';
+export * from './nav-bar';
+export * from './notice-bar';
+export * from './count-down';

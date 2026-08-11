@@ -1,0 +1,36 @@
+@import './token.less';
+
+.ky-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px var(--ky-space-6);
+  text-align: center;
+}
+
+.ky-empty__image {
+  display: grid;
+  place-items: center;
+  color: var(--ky-color-brand-strong);
+  background: var(--ky-empty-image-bg);
+  border: 1px solid var(--ky-color-brand-mist);
+  border-radius: 50%;
+}
+
+.ky-empty__symbol {
+  font-size: 42px;
+  font-weight: var(--ky-font-regular);
+  line-height: 1;
+}
+
+.ky-empty__description {
+  max-width: 260px;
+  margin: var(--ky-space-4) 0 0;
+  font-size: var(--ky-font-size-body);
+  line-height: 22px;
+  color: var(--ky-color-text-secondary);
+}
+
+.ky-empty__bottom {
+  margin-top: var(--ky-space-5);
+}

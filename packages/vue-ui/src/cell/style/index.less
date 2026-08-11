@@ -1,0 +1,104 @@
+@import './token.less';
+
+.ky-cell-group__title {
+  padding: var(--ky-space-3) var(--ky-space-4) var(--ky-space-2);
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-color-text-secondary);
+}
+
+.ky-cell-group__content {
+  overflow: hidden;
+  background: var(--ky-cell-bg);
+}
+
+.ky-cell-group__content.is-inset {
+  margin-inline: var(--ky-space-4);
+  border-radius: var(--ky-radius-md);
+  box-shadow: var(--ky-shadow-card);
+}
+
+.ky-cell-group__content.is-bordered {
+  border-block: 1px solid var(--ky-color-divider);
+}
+
+.ky-cell {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-height: var(--ky-cell-height);
+  padding: var(--ky-space-3) var(--ky-space-4);
+  color: inherit;
+  text-align: left;
+  background: var(--ky-cell-bg);
+  border: 0;
+}
+
+.ky-cell.is-bordered::after {
+  position: absolute;
+  right: var(--ky-space-4);
+  bottom: 0;
+  left: var(--ky-space-4);
+  height: 1px;
+  content: '';
+  background: var(--ky-color-divider);
+  transform: scaleY(0.5);
+}
+
+.ky-cell--large {
+  min-height: 64px;
+  padding-block: var(--ky-space-4);
+}
+
+.ky-cell.is-center {
+  align-items: center;
+}
+
+.ky-cell.is-clickable {
+  cursor: pointer;
+}
+
+.ky-cell.is-clickable:active {
+  background: var(--ky-color-subtle-bg);
+}
+
+.ky-cell.is-disabled {
+  color: var(--ky-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ky-cell__icon {
+  margin-right: var(--ky-space-3);
+  color: var(--ky-color-brand-strong);
+}
+
+.ky-cell__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ky-cell__title {
+  font-size: var(--ky-font-size-body);
+  line-height: 22px;
+  color: currentcolor;
+}
+
+.ky-cell__required {
+  margin-right: 3px;
+  color: var(--ky-color-danger);
+}
+
+.ky-cell__label {
+  margin-top: 2px;
+  font-size: var(--ky-font-size-assist);
+  line-height: 18px;
+  color: var(--ky-color-text-tertiary);
+}
+
+.ky-cell__value {
+  margin-left: var(--ky-space-3);
+  font-size: var(--ky-font-size-body);
+  line-height: 22px;
+  color: var(--ky-color-text-secondary);
+  text-align: right;
+}
