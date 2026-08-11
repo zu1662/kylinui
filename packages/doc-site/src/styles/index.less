@@ -671,6 +671,19 @@ html.is-preview body {
   user-select: none;
 }
 
+/* 模拟器保持原生滚动能力，但统一隐藏根页面和组件内部的滚动条。 */
+html.is-preview,
+html.is-preview * {
+  scrollbar-width: none;
+}
+
+html.is-preview::-webkit-scrollbar,
+html.is-preview *::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .preview-page {
   width: 100%;
   height: 100%;
@@ -678,13 +691,8 @@ html.is-preview body {
   overscroll-behavior: contain;
   touch-action: pan-x pan-y;
   cursor: grab;
-  scrollbar-width: none;
   background: var(--ky-color-page-bg);
   -webkit-overflow-scrolling: touch;
-}
-
-.preview-page::-webkit-scrollbar {
-  display: none;
 }
 
 .preview-page--desktop-dragging {
@@ -737,7 +745,6 @@ html.is-preview body {
   .topbar__meta {
     display: none;
   }
-
 
   .topbar__actions {
     gap: var(--ky-space-2);
@@ -822,7 +829,6 @@ html.is-preview body {
     width: 128px;
   }
 }
-
 
 @media (width <= 460px) {
   .brand span:last-child {

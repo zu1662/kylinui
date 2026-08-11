@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Kylin Doc Site 文档站开发'
+  short_description: '按 Registry 和预览规范开发组件文档站'
+  default_prompt: '使用 $kylin-doc-site-development 按文档站规范完成此项修改。'

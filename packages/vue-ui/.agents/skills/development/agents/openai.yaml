@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Kylin Vue UI 组件库开发'
+  short_description: '按组件契约和设计规范开发 Vue UI 组件库'
+  default_prompt: '使用 $kylin-vue-ui-development 按组件库规范完成此项修改。'
