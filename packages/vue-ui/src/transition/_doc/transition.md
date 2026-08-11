@@ -59,13 +59,25 @@ const visible = ref(true);
 
 ## 事件
 
-组件转发常用生命周期事件，事件参数均为当前过渡元素：
-
-- `before-enter` / `after-enter` / `enter-cancelled`
-- `before-leave` / `after-leave` / `leave-cancelled`
-- `before-appear` / `after-appear` / `appear-cancelled`
+| 事件名           | 说明                   | 回调参数           |
+| ---------------- | ---------------------- | ------------------ |
+| before-enter     | 进入动画开始前触发     | `element: Element` |
+| after-enter      | 进入动画完成后触发     | `element: Element` |
+| enter-cancelled  | 进入动画取消时触发     | `element: Element` |
+| before-leave     | 离开动画开始前触发     | `element: Element` |
+| after-leave      | 离开动画完成后触发     | `element: Element` |
+| leave-cancelled  | 离开动画取消时触发     | `element: Element` |
+| before-appear    | 首次进入动画开始前触发 | `element: Element` |
+| after-appear     | 首次进入动画完成后触发 | `element: Element` |
+| appear-cancelled | 首次进入动画取消时触发 | `element: Element` |
 
 原生 Vue Transition 的其他属性和监听器会通过 `$attrs` 继续传入内部 `<Transition>`。
+
+## 插槽
+
+| 名称    | 说明                                                |
+| ------- | --------------------------------------------------- |
+| default | 参与过渡的单个元素或组件，由 `v-if` / `v-show` 控制 |
 
 ## 自定义动画
 

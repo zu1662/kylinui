@@ -1,6 +1,6 @@
 # Icon 图标
 
-Icon 统一支持内置线性 SVG 和随组件库本地打包的 Iconfont（Project id 2722740），不依赖运行时远程地址。
+Icon 统一支持内置线性 SVG 和随组件库本地打包的 Iconfont（Project id 2722740），无需运行时请求远程资源。
 
 ## 基础用法
 
@@ -29,4 +29,10 @@ Icon 统一支持内置线性 SVG 和随组件库本地打包的 Iconfont（Proj
 
 内置 SVG 图标集合：`chevron-right`、`chevron-left`、`chevron-down`、`chevron-up`、`close`、`check`、`check-circle`、`circle`、`info`、`help`、`plus`、`calendar`、`trash`、`edit`、`copy`、`bell`、`speaker`。
 
-字体图标的完整集合已在上方基础示例中展示，也可通过导出的 `iconfontNames` 获取。默认插槽可用于传入业务自定义 SVG，从而保留统一的尺寸、颜色和动画容器。
+字体图标的完整集合已在上方基础示例中展示，也可通过导出的 `iconfontNames` 获取。
+
+## 插槽
+
+| 名称    | 说明                                                 |
+| ------- | ---------------------------------------------------- |
+| default | 传入业务自定义 SVG，并复用统一的尺寸、颜色和动画容器 |

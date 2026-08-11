@@ -42,6 +42,6 @@ description: 用于修改 packages/vue-ui 内的 Vue 3 移动端组件、公共�
 - 聚合样式包含新增公共组件。
 - Usage 默认值与组件默认值一致。
 - Demo 覆盖主要变体和关键状态。
-- Markdown 包含适用的 Props、Events、Slots 或服务 API。
+- Markdown 以用途描述开篇，并包含统一的 `API`、适用的 `事件`、`插槽` 或服务 API；不得使用 Vant 等第三方组件库作对照描述。
 - 文档站可以通过 Registry 访问组件。
 - 类型检查和构建通过，或已说明准确失败范围。

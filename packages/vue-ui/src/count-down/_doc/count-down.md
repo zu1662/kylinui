@@ -1,6 +1,6 @@
 # CountDown 倒计时
 
-用于实时展示倒计时数值，支持秒级或毫秒级更新、自定义格式、自定义内容和手动控制。
+CountDown 用于实时展示倒计时数值，支持秒级或毫秒级更新、自定义格式、自定义内容和手动控制。
 
 ## 基础用法
 
@@ -89,14 +89,14 @@ const onFinish = () => console.log('倒计时结束');
 | SS   | 毫秒（2 位） |
 | SSS  | 毫秒（3 位） |
 
-### Events
+## 事件
 
 | 事件名 | 回调参数                          | 说明             |
 | ------ | --------------------------------- | ---------------- |
 | change | currentTime: CountDownCurrentTime | 倒计时变化时触发 |
 | finish | -                                 | 倒计时结束时触发 |
 
-### Slots
+## 插槽
 
 | 名称    | 参数                        | 说明       |
 | ------- | --------------------------- | ---------- |
@@ -104,7 +104,7 @@ const onFinish = () => console.log('倒计时结束');
 
 为兼容已有用法，默认插槽还提供 `current`，其值为完整的 `CountDownCurrentTime` 对象。
 
-### CurrentTime
+## CurrentTime
 
 | 字段         | 类型   | 说明                 |
 | ------------ | ------ | -------------------- |
@@ -115,7 +115,7 @@ const onFinish = () => console.log('倒计时结束');
 | seconds      | number | 剩余秒数             |
 | milliseconds | number | 剩余毫秒             |
 
-### 实例方法
+## 实例方法
 
 | 方法  | 参数 | 返回值 | 说明                                                 |
 | ----- | ---- | ------ | ---------------------------------------------------- |
@@ -123,7 +123,7 @@ const onFinish = () => console.log('倒计时结束');
 | pause | -    | void   | 暂停倒计时                                           |
 | reset | -    | void   | 重置为 `time`；`auto-start` 为 true 时重置后自动开始 |
 
-### 类型导出
+## 类型导出
 
 ```ts
 import type { CountDownProps, CountDownInstance, CountDownCurrentTime } from '@kylin-design/vue-ui';

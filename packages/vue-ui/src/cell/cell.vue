@@ -1,42 +1,62 @@
 <template>
   <component
-    :is="clickable || isLink ? 'button' : 'div'"
+    :is="isClickable ? 'button' : 'div'"
     class="ky-cell"
     :class="[
       `ky-cell--${size}`,
       {
         'is-bordered': border,
         'is-center': center,
-        'is-clickable': clickable || isLink,
+        'is-clickable': isClickable,
         'is-disabled': disabled,
+        'has-title': hasMain,
+        'has-value': hasValue,
       },
     ]"
-    :type="clickable || isLink ? 'button' : undefined"
-    :disabled="clickable || isLink ? disabled : undefined"
-    @click="$emit('click', $event)"
-    ><div v-if="icon || $slots.icon" class="ky-cell__icon">
-      <slot name="icon"><KyIcon :name="icon" source="iconfont" /></slot>
+    :type="isClickable ? 'button' : undefined"
+    :disabled="isClickable ? disabled : undefined"
+    :aria-disabled="disabled ? 'true' : undefined"
+    @click="handleClick"
+  >
+    <div v-if="icon || slots.icon" class="ky-cell__left-icon">
+      <slot name="icon"><KyIcon :name="icon" size="var(--ky-cell-icon-size)" /></slot>
     </div>
-    <div class="ky-cell__main">
-      <div class="ky-cell__title">
-        <span v-if="required" class="ky-cell__required" aria-hidden="true">*</span
-        ><slot name="title">{{ title }}</slot>
+
+    <div v-if="hasMain" class="ky-cell__main">
+      <div v-if="hasTitle" class="ky-cell__title">
+        <span v-if="required" class="ky-cell__required" aria-hidden="true">*</span>
+        <slot name="title">{{ title }}</slot>
       </div>
-      <div v-if="label || $slots.label" class="ky-cell__label">
+      <div v-if="hasLabel" class="ky-cell__label">
         <slot name="label">{{ label }}</slot>
       </div>
     </div>
-    <div v-if="value !== '' || $slots.value" class="ky-cell__value">
-      <slot name="value">{{ value }}</slot>
+
+    <div v-if="hasValue" class="ky-cell__value">
+      <slot name="value"
+        ><slot>{{ value }}</slot></slot
+      >
     </div>
-    <slot name="right-icon"><KyIcon v-if="isLink" name="chevron-right" :size="18" /></slot
-  ></component>
+
+    <div v-if="isLink || slots['right-icon']" class="ky-cell__right-icon">
+      <slot name="right-icon">
+        <KyIcon :name="arrowIcon" size="var(--ky-cell-right-icon-size)" />
+      </slot>
+    </div>
+
+    <div v-if="slots.extra" class="ky-cell__extra">
+      <slot name="extra" />
+    </div>
+  </component>
 </template>
+
 <script setup lang="ts">
+import { computed, useSlots } from 'vue';
 import KyIcon from '../icon';
 import type { CellProps } from './cell';
+
 defineOptions({ name: 'KyCell' });
-withDefaults(defineProps<CellProps>(), {
+const props = withDefaults(defineProps<CellProps>(), {
   title: '',
   value: '',
   label: '',
@@ -44,10 +64,25 @@ withDefaults(defineProps<CellProps>(), {
   size: 'normal',
   border: true,
   center: false,
-  clickable: false,
+  clickable: null,
   isLink: false,
+  arrowDirection: 'right',
   required: false,
   disabled: false,
 });
-defineEmits<{ click: [event: MouseEvent] }>();
+const emit = defineEmits<{ click: [event: MouseEvent] }>();
+const slots = useSlots();
+
+const hasTitle = computed(() => props.title !== '' || Boolean(slots.title));
+const hasLabel = computed(() => props.label !== '' || Boolean(slots.label));
+const hasMain = computed(() => hasTitle.value || hasLabel.value);
+const hasValue = computed(() => props.value !== '' || Boolean(slots.value || slots.default));
+const isClickable = computed(() => props.clickable ?? props.isLink);
+const arrowIcon = computed(() => `chevron-${props.arrowDirection}`);
+
+function handleClick(event: MouseEvent) {
+  if (!props.disabled) {
+    emit('click', event);
+  }
+}
 </script>
