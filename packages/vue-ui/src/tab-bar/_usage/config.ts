@@ -15,6 +15,6 @@ export default {
       step: 1,
     },
     { name: 'scrollable', label: '强制横向滚动', type: 'boolean', defaultValue: false },
-    { name: 'animated', label: '平滑滚动', type: 'boolean', defaultValue: true },
+    { name: 'animated', label: '切换动画', type: 'boolean', defaultValue: true },
   ],
 } satisfies UsageConfig;

@@ -20,6 +20,38 @@
   box-shadow: var(--ky-shadow-floating);
 }
 
+.ky-popover__content.is-closable {
+  padding-right: 42px;
+}
+
+.ky-popover__close {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  min-width: 21px;
+  height: 20px;
+  padding: 0 0 0 8px;
+  color: var(--ky-popover-close-color);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-left: 1px solid var(--ky-popover-close-border);
+  opacity: 0.8;
+  transform: translateY(-50%);
+}
+
+.ky-popover__close:hover,
+.ky-popover__close:focus-visible {
+  opacity: 1;
+}
+
+.ky-popover__close:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 1px;
+}
+
 .ky-popover__content--top {
   bottom: calc(100% + var(--ky-popover-offset));
   left: 50%;

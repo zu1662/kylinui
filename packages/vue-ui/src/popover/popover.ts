@@ -3,7 +3,9 @@ export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 export interface PopoverProps {
   modelValue?: boolean;
+  content?: string;
   placement?: PopoverPlacement;
   trigger?: 'click' | 'manual';
   closeOnOutside?: boolean;
+  closable?: boolean;
 }

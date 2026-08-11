@@ -7,11 +7,23 @@ export default {
   description: '在触发元素附近补充简短说明或轻量操作。',
   props: [
     {
+      name: 'content',
+      label: '提示文案',
+      type: 'text',
+      defaultValue: '这是与当前操作相关的补充说明。',
+    },
+    {
       name: 'placement',
       label: '方位',
       type: 'select',
       defaultValue: 'top',
       options: ['top', 'bottom', 'left', 'right'],
+    },
+    {
+      name: 'closable',
+      label: '关闭按钮',
+      type: 'boolean',
+      defaultValue: false,
     },
     {
       name: 'closeOnOutside',

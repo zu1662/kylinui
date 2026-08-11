@@ -1,7 +1,6 @@
 <template>
   <KyPopover v-model="visible" v-bind="configProps">
-    <template #reference><KyButton variant="secondary">查看说明</KyButton></template>
-    这是与当前操作相关的补充说明。
+    <KyButton variant="secondary">查看说明</KyButton>
   </KyPopover>
 </template>
 <script setup lang="ts">

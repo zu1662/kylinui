@@ -1,7 +1,6 @@
 <template>
-  <KyPopover v-model="visible" placement="bottom">
-    <template #reference><KyButton variant="text">选项说明</KyButton></template>
-    每个账号最多可添加 2 个选项。
+  <KyPopover v-model="visible" placement="bottom" content="每个账号最多可添加 2 个选项。" closable>
+    <KyButton variant="text">选项说明</KyButton>
   </KyPopover>
 </template>
 <script setup lang="ts">

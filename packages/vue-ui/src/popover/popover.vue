@@ -1,15 +1,24 @@
 <template>
   <span ref="root" class="ky-popover" @click="handleTrigger">
-    <slot name="reference" />
+    <slot />
     <Transition name="ky-popover-fade">
       <span
         v-if="visible"
         class="ky-popover__content"
-        :class="`ky-popover__content--${placement}`"
+        :class="[`ky-popover__content--${placement}`, { 'is-closable': closable }]"
         role="tooltip"
         @click.stop
       >
-        <slot />
+        <slot name="content">{{ content }}</slot>
+        <button
+          v-if="closable"
+          class="ky-popover__close"
+          type="button"
+          aria-label="关闭气泡提示"
+          @click="handleClose"
+        >
+          <KyIcon name="close" :size="12" />
+        </button>
         <i class="ky-popover__arrow" aria-hidden="true" />
       </span>
     </Transition>
@@ -18,6 +27,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import KyIcon from '../icon';
 import { useClickOutside } from '../shared/use-click-outside';
 import type { PopoverProps } from './popover';
 
@@ -26,6 +36,7 @@ const props = withDefaults(defineProps<PopoverProps>(), {
   placement: 'top',
   trigger: 'click',
   closeOnOutside: true,
+  closable: false,
 });
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>();
 const root = ref<HTMLElement | null>(null);
@@ -37,6 +48,9 @@ function setVisible(value: boolean) {
 }
 function handleTrigger() {
   if (props.trigger === 'click') setVisible(!visible.value);
+}
+function handleClose() {
+  setVisible(false);
 }
 useClickOutside(root, () => {
   if (props.closeOnOutside && visible.value) setVisible(false);

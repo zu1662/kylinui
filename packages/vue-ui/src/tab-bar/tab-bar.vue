@@ -29,13 +29,26 @@
       </span>
       <span class="ky-tab-bar__label">{{ item.label ?? item.title }}</span>
       <span v-if="item.badge !== undefined" class="ky-tab-bar__badge">{{ item.badge }}</span>
-      <span v-if="isActive(item, index)" class="ky-tab-bar__indicator" aria-hidden="true" />
     </button>
+    <span
+      class="ky-tab-bar__indicator"
+      :class="{ 'is-animated': animated && indicatorReady }"
+      :style="indicatorStyle"
+      aria-hidden="true"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch, type ComponentPublicInstance } from 'vue';
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+  type ComponentPublicInstance,
+} from 'vue';
 import KyIcon from '../icon';
 import type { TabBarItem, TabBarProps, TabBarValue } from './tab-bar';
 
@@ -55,6 +68,11 @@ const emit = defineEmits<{
 
 const root = ref<HTMLElement | null>(null);
 const itemRefs = ref<Array<HTMLButtonElement | null>>([]);
+const indicatorPosition = ref(0);
+const indicatorVisible = ref(false);
+const indicatorReady = ref(false);
+let indicatorReadyFrame: number | undefined;
+let resizeObserver: ResizeObserver | undefined;
 const activeValue = computed(() => props.modelValue ?? props.current);
 // 数据超出固定展示数量时启用横向滚动，保证移动端标签仍可完整访问。
 const isScrollable = computed(
@@ -64,6 +82,10 @@ const itemStyle = computed(() => {
   if (isScrollable.value || props.fixedCount <= 0) return undefined;
   return { flexBasis: `${100 / Math.max(1, props.fixedCount)}%` };
 });
+const indicatorStyle = computed(() => ({
+  opacity: indicatorVisible.value ? 1 : 0,
+  transform: `translate3d(${indicatorPosition.value}px, 0, 0) translateX(-50%)`,
+}));
 
 function itemValue(item: TabBarItem, index: number) {
   return item.value ?? index;
@@ -74,7 +96,36 @@ function isActive(item: TabBarItem, index: number) {
 }
 
 function setItemRef(element: Element | ComponentPublicInstance | null, index: number) {
-  itemRefs.value[index] = element instanceof HTMLButtonElement ? element : null;
+  const item = element instanceof HTMLButtonElement ? element : null;
+  const previousItem = itemRefs.value[index];
+
+  if (previousItem && previousItem !== item) resizeObserver?.unobserve(previousItem);
+  itemRefs.value[index] = item;
+  if (item) resizeObserver?.observe(item);
+}
+
+function activeIndex(value = activeValue.value) {
+  return props.data.findIndex((item, index) => itemValue(item, index) === value);
+}
+
+// 指示线始终复用同一个元素，通过位移衔接前后激活项，避免切换时重新创建造成跳变。
+function updateIndicator(index = activeIndex()) {
+  const item = itemRefs.value[index];
+  if (!item) {
+    indicatorVisible.value = false;
+    return;
+  }
+
+  indicatorPosition.value = item.offsetLeft + item.offsetWidth / 2;
+  indicatorVisible.value = true;
+
+  if (!indicatorReady.value && typeof window !== 'undefined') {
+    if (indicatorReadyFrame !== undefined) window.cancelAnimationFrame(indicatorReadyFrame);
+    indicatorReadyFrame = window.requestAnimationFrame(() => {
+      indicatorReady.value = true;
+      indicatorReadyFrame = undefined;
+    });
+  }
 }
 
 // 激活项变化后将其滚动到可视区域中央，兼顾点击与键盘切换场景。
@@ -111,12 +162,35 @@ function moveFocus(index: number, direction: -1 | 1) {
 }
 
 watch(
-  activeValue,
-  async (value) => {
+  [
+    activeValue,
+    () => props.data.map((item, index) => itemValue(item, index)),
+    isScrollable,
+    () => props.fixedCount,
+  ],
+  async ([value]) => {
     await nextTick();
-    const index = props.data.findIndex((item, itemIndex) => itemValue(item, itemIndex) === value);
+    const index = activeIndex(value);
+    updateIndicator(index);
     if (index >= 0) reveal(index);
   },
   { immediate: true },
 );
+
+onMounted(() => {
+  if (typeof ResizeObserver === 'undefined') return;
+  resizeObserver = new ResizeObserver(() => updateIndicator());
+  if (root.value) resizeObserver.observe(root.value);
+  itemRefs.value.forEach((item) => {
+    if (item) resizeObserver?.observe(item);
+  });
+  updateIndicator();
+});
+
+onBeforeUnmount(() => {
+  resizeObserver?.disconnect();
+  if (indicatorReadyFrame !== undefined && typeof window !== 'undefined') {
+    window.cancelAnimationFrame(indicatorReadyFrame);
+  }
+});
 </script>

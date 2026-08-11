@@ -3,7 +3,7 @@ import type { UsageConfig } from '../../usage';
 export default {
   name: 'Swiper 轮播',
   component: 'KySwiper',
-  description: '支持自动播放、循环、卡片缩放和真实触摸拖动的移动端轮播组件。',
+  description: '支持自动播放、首尾无缝循环、卡片缩放和真实触摸拖动的移动端轮播组件。',
   props: [
     { name: 'loop', label: '循环播放', type: 'boolean', defaultValue: true },
     { name: 'autoplay', label: '自动播放', type: 'boolean', defaultValue: false },

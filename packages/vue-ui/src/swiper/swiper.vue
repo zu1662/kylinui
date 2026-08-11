@@ -7,19 +7,37 @@
       @pointerdown="startPointerDrag"
       @touchstart.passive="startSyntheticTouchDrag"
     >
-      <div class="ky-swiper__track" :class="{ 'is-dragging': dragging }" :style="trackStyle">
+      <div
+        ref="track"
+        class="ky-swiper__track"
+        :class="{ 'is-dragging': dragging }"
+        :style="trackStyle"
+        @transitionend="handleTrackTransitionEnd"
+      >
         <article
-          v-for="(item, index) in data"
-          :key="index"
+          v-for="slide in renderedSlides"
+          :key="slide.key"
           class="ky-swiper__slide"
           :style="slideStyle"
           role="group"
-          :aria-label="`${index + 1} / ${data.length}`"
-          :aria-hidden="index !== currentIndex"
+          :aria-label="`${slide.index + 1} / ${data.length}`"
+          :aria-hidden="slide.cloned || slide.index !== currentIndex"
+          :inert="slide.cloned ? true : undefined"
         >
-          <slot name="item" :item="item" :index="index" :active="index === currentIndex">
-            <img v-if="imageSource(item)" :src="imageSource(item)" :alt="imageAlt(item, index)" />
-            <div v-else class="ky-swiper__fallback">{{ itemTitle(item, index) }}</div>
+          <slot
+            name="item"
+            :item="slide.item"
+            :index="slide.index"
+            :active="!slide.cloned && slide.index === currentIndex"
+          >
+            <img
+              v-if="imageSource(slide.item)"
+              :src="imageSource(slide.item)"
+              :alt="imageAlt(slide.item, slide.index)"
+            />
+            <div v-else class="ky-swiper__fallback">
+              {{ itemTitle(slide.item, slide.index) }}
+            </div>
           </slot>
         </article>
       </div>
@@ -40,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { SwiperItem, SwiperProps } from './swiper';
 
 defineOptions({ name: 'KySwiper' });
@@ -65,27 +83,62 @@ const emit = defineEmits<{
 }>();
 
 const viewport = ref<HTMLElement | null>(null);
-const internalIndex = ref(props.modelValue ?? props.initialIndex);
+const track = ref<HTMLElement | null>(null);
+const internalIndex = ref(normalizeIndex(props.modelValue ?? props.initialIndex));
+const trackIndex = ref(toTrackIndex(internalIndex.value));
 const dragOffset = ref(0);
 const dragging = ref(false);
+const transitionEnabled = ref(true);
 let timer: ReturnType<typeof setInterval> | undefined;
+let boundaryResetTimer: ReturnType<typeof setTimeout> | undefined;
+let transitionFrame: number | undefined;
 let stopDragListeners: (() => void) | undefined;
 let dragSessionId = 0;
+let disposed = false;
 
 const currentIndex = computed(() => normalizeIndex(internalIndex.value));
+const renderedSlides = computed(() => {
+  const slides = props.data.map((item, index) => ({
+    item,
+    index,
+    cloned: false,
+    key: `slide-${index}`,
+  }));
+  if (!isLooping()) return slides;
+
+  const lastIndex = props.data.length - 1;
+  return [
+    {
+      item: props.data[lastIndex],
+      index: lastIndex,
+      cloned: true,
+      key: 'clone-before',
+    },
+    ...slides,
+    {
+      item: props.data[0],
+      index: 0,
+      cloned: true,
+      key: 'clone-after',
+    },
+  ];
+});
 const slideStyle = computed(() => ({
   width: `${Math.max(0.1, Math.min(1, props.scale)) * 100}%`,
-  marginRight: `${props.gap}px`,
 }));
 const trackStyle = computed(() => {
   const width = viewport.value?.clientWidth || 1;
   const itemWidth = width * Math.max(0.1, Math.min(1, props.scale)) + props.gap;
   return {
     gap: `${props.gap}px`,
-    transform: `translate3d(${-currentIndex.value * itemWidth + dragOffset.value}px, 0, 0)`,
-    transitionDuration: dragging.value ? '0ms' : `${props.duration}ms`,
+    transform: `translate3d(${-trackIndex.value * itemWidth + dragOffset.value}px, 0, 0)`,
+    transitionDuration: dragging.value || !transitionEnabled.value ? '0ms' : `${props.duration}ms`,
   };
 });
+
+function isLooping() {
+  return props.loop && props.data.length > 1;
+}
 
 function normalizeIndex(index: number) {
   const length = props.data.length;
@@ -94,12 +147,82 @@ function normalizeIndex(index: number) {
   return Math.min(length - 1, Math.max(0, index));
 }
 
-function setIndex(index: number) {
-  const next = normalizeIndex(index);
-  if (next === currentIndex.value) return;
-  internalIndex.value = next;
-  emit('update:modelValue', next);
-  emit('change', next);
+function toTrackIndex(index: number) {
+  return isLooping() ? index + 1 : index;
+}
+
+function clearBoundaryReset() {
+  if (boundaryResetTimer) clearTimeout(boundaryResetTimer);
+  boundaryResetTimer = undefined;
+}
+
+/**
+ * 循环切换先移动到首尾克隆项，动画结束后再关闭过渡并跳回对应真实项。
+ * 克隆项与真实项内容一致，因此用户看不到轨道位置复位，也不会出现整条轨道倒退。
+ */
+function correctLoopBoundary() {
+  if (!isLooping()) return;
+  const length = props.data.length;
+  let canonicalIndex: number | undefined;
+  if (trackIndex.value === 0) canonicalIndex = length;
+  if (trackIndex.value === length + 1) canonicalIndex = 1;
+  if (canonicalIndex === undefined) return;
+
+  clearBoundaryReset();
+  transitionEnabled.value = false;
+  trackIndex.value = canonicalIndex;
+  void nextTick(() => {
+    if (disposed) return;
+    // 强制提交无动画复位，再恢复后续切换动画。
+    void track.value?.offsetWidth;
+    if (transitionFrame !== undefined) cancelAnimationFrame(transitionFrame);
+    transitionFrame = requestAnimationFrame(() => {
+      transitionEnabled.value = true;
+      transitionFrame = undefined;
+    });
+  });
+}
+
+function scheduleBoundaryCorrection() {
+  clearBoundaryReset();
+  if (!isLooping()) return;
+  const length = props.data.length;
+  if (trackIndex.value !== 0 && trackIndex.value !== length + 1) return;
+  if (props.duration <= 0) {
+    void nextTick(correctLoopBoundary);
+    return;
+  }
+  // transitionend 是主路径；定时器用于轨道未触发事件时兜底复位。
+  boundaryResetTimer = setTimeout(correctLoopBoundary, props.duration + 80);
+}
+
+function handleTrackTransitionEnd(event: TransitionEvent) {
+  if (event.target !== event.currentTarget || event.propertyName !== 'transform') return;
+  correctLoopBoundary();
+}
+
+function resolveTargetTrackIndex(current: number, next: number) {
+  if (!isLooping()) return next;
+  const lastIndex = props.data.length - 1;
+  if (current === lastIndex && next === 0) return props.data.length + 1;
+  if (current === 0 && next === lastIndex) return 0;
+  return next + 1;
+}
+
+function setIndex(index: number, shouldEmit = true) {
+  const nextIndex = normalizeIndex(index);
+  const previousIndex = currentIndex.value;
+  if (nextIndex === previousIndex) return;
+
+  clearBoundaryReset();
+  transitionEnabled.value = true;
+  trackIndex.value = resolveTargetTrackIndex(previousIndex, nextIndex);
+  internalIndex.value = nextIndex;
+  if (shouldEmit) {
+    emit('update:modelValue', nextIndex);
+    emit('change', nextIndex);
+  }
+  scheduleBoundaryCorrection();
 }
 
 function goTo(index: number) {
@@ -280,14 +403,30 @@ function itemTitle(item: SwiperItem | string, index: number) {
 watch(
   () => props.modelValue,
   (value) => {
-    if (value !== undefined) internalIndex.value = normalizeIndex(value);
+    if (value !== undefined) setIndex(value, false);
   },
 );
-watch(() => [props.autoplay, props.interval, props.data.length], restart);
+watch(
+  () => [props.loop, props.data.length] as const,
+  () => {
+    clearBoundaryReset();
+    internalIndex.value = normalizeIndex(internalIndex.value);
+    transitionEnabled.value = false;
+    trackIndex.value = toTrackIndex(internalIndex.value);
+    void nextTick(() => {
+      transitionEnabled.value = true;
+    });
+    restart();
+  },
+);
+watch(() => [props.autoplay, props.interval], restart);
 onMounted(resume);
 onBeforeUnmount(() => {
+  disposed = true;
   stopActiveDrag();
   pause();
+  clearBoundaryReset();
+  if (transitionFrame !== undefined) cancelAnimationFrame(transitionFrame);
 });
 
 defineExpose({ next, prev, goTo });

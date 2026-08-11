@@ -1,6 +1,7 @@
 @import './token.less';
 
 .ky-tab-bar {
+  position: relative;
   display: flex;
   width: 100%;
   overflow-x: auto;
@@ -63,12 +64,20 @@
 .ky-tab-bar__indicator {
   position: absolute;
   bottom: 0;
-  left: 50%;
+  left: 0;
   width: var(--ky-tab-bar-indicator-width);
   height: 3px;
+  pointer-events: none;
   background: var(--ky-color-brand-strong);
   border-radius: var(--ky-radius-pill);
-  transform: translateX(-50%);
+  opacity: 0;
+  will-change: transform;
+}
+
+.ky-tab-bar__indicator.is-animated {
+  transition:
+    transform var(--ky-duration-base) var(--ky-easing-standard),
+    opacity var(--ky-duration-fast);
 }
 
 .ky-tab-bar.is-scrollable .ky-tab-bar__item {
