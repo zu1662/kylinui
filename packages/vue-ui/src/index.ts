@@ -46,6 +46,8 @@ import { KySidebar, KySidebarItem } from './sidebar';
 import { KyTextEllipsis } from './text-ellipsis';
 import { KyWatermark } from './watermark';
 import { KyList } from './list';
+import { KyHighlight } from './highlight';
+import { KyRollingText } from './rolling-text';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
 const components = [
@@ -97,6 +99,8 @@ const components = [
   KyTextEllipsis,
   KyWatermark,
   KyList,
+  KyHighlight,
+  KyRollingText,
 ];
 
 export default {
@@ -149,5 +153,7 @@ export * from './sidebar';
 export * from './text-ellipsis';
 export * from './watermark';
 export * from './list';
+export * from './highlight';
+export * from './rolling-text';
 
 export * from './theme';

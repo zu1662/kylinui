@@ -1,0 +1,61 @@
+﻿@import './token.less';
+
+.ky-rolling-text {
+  display: inline-flex;
+  gap: var(--ky-rolling-text-gap);
+  align-items: baseline;
+  font-size: var(--ky-rolling-text-font-size);
+  font-weight: var(--ky-rolling-text-font-weight);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--ky-rolling-text-color);
+  white-space: nowrap;
+}
+
+.ky-rolling-text__digit {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.ky-rolling-text__track {
+  display: flex;
+  flex-direction: column;
+  height: 1em;
+  transform: translateY(var(--ky-rolling-text-offset));
+  transition: none;
+  will-change: transform;
+}
+
+.ky-rolling-text__track.is-ready {
+  transform: translateY(0);
+}
+
+.ky-rolling-text__track.is-playing {
+  transform: translateY(var(--ky-rolling-text-offset));
+  transition: transform var(--ky-rolling-text-duration) var(--ky-easing-standard)
+    var(--ky-rolling-text-delay);
+}
+
+.ky-rolling-text__number {
+  display: block;
+  flex: 0 0 1em;
+  width: var(--ky-rolling-text-digit-width);
+  height: 1em;
+  line-height: 1em;
+  text-align: center;
+}
+
+.ky-rolling-text__symbol {
+  display: inline-block;
+  line-height: 1em;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ky-rolling-text__track.is-playing {
+    transition-delay: 0ms !important;
+    transition-duration: 160ms !important;
+  }
+}

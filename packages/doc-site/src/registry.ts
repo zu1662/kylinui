@@ -177,6 +177,14 @@ import listConfig from '@vue-ui/list/_usage/config';
 import ListUsage from '@vue-ui/list/_usage/index.vue';
 import ListDemo from '@vue-ui/list/_demo/basic.vue';
 import listDoc from '@vue-ui/list/_doc/list.md?raw';
+import highlightConfig from '@vue-ui/highlight/_usage/config';
+import HighlightUsage from '@vue-ui/highlight/_usage/index.vue';
+import HighlightDemo from '@vue-ui/highlight/_demo/basic.vue';
+import highlightDoc from '@vue-ui/highlight/_doc/highlight.md?raw';
+import rollingTextConfig from '@vue-ui/rolling-text/_usage/config';
+import RollingTextUsage from '@vue-ui/rolling-text/_usage/index.vue';
+import RollingTextDemo from '@vue-ui/rolling-text/_demo/basic.vue';
+import rollingTextDoc from '@vue-ui/rolling-text/_doc/rolling-text.md?raw';
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
@@ -287,6 +295,24 @@ export const components: ComponentEntry[] = [
     usage: ListUsage,
     demo: ListDemo,
     doc: listDoc,
+  },
+  {
+    slug: 'highlight',
+    group: '展示组件',
+    title: 'Highlight 关键词高亮',
+    config: highlightConfig,
+    usage: HighlightUsage,
+    demo: HighlightDemo,
+    doc: highlightDoc,
+  },
+  {
+    slug: 'rolling-text',
+    group: '展示组件',
+    title: 'RollingText 数字翻牌',
+    config: rollingTextConfig,
+    usage: RollingTextUsage,
+    demo: RollingTextDemo,
+    doc: rollingTextDoc,
   },
   {
     slug: 'badge',
