@@ -41,6 +41,11 @@ import { KySearch } from './search';
 import { KySkeleton } from './skeleton';
 import { KySticky } from './sticky';
 import { KyTabs, KyTab } from './tabs';
+import { KyImage } from './image';
+import { KyPagination } from './pagination';
+import { KySidebar, KySidebarItem } from './sidebar';
+import { KyTextEllipsis } from './text-ellipsis';
+import { KyWatermark } from './watermark';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
 const components = [
@@ -87,6 +92,12 @@ const components = [
   KySticky,
   KyTabs,
   KyTab,
+  KyImage,
+  KyPagination,
+  KySidebar,
+  KySidebarItem,
+  KyTextEllipsis,
+  KyWatermark,
 ];
 
 export default {
@@ -134,5 +145,10 @@ export * from './search';
 export * from './skeleton';
 export * from './sticky';
 export * from './tabs';
+export * from './image';
+export * from './pagination';
+export * from './sidebar';
+export * from './text-ellipsis';
+export * from './watermark';
 
 export * from './theme';

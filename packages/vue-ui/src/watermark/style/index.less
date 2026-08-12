@@ -1,0 +1,21 @@
+@import './token.less';
+
+.ky-watermark {
+  position: relative;
+  color: var(--ky-watermark-color);
+}
+
+.ky-watermark__content {
+  position: relative;
+}
+
+.ky-watermark__layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: repeat;
+}
+
+.ky-watermark__layer.is-full-page {
+  position: fixed;
+}

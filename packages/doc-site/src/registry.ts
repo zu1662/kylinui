@@ -157,6 +157,26 @@ import tabsConfig from '@vue-ui/tabs/_usage/config';
 import TabsUsage from '@vue-ui/tabs/_usage/index.vue';
 import TabsDemo from '@vue-ui/tabs/_demo/basic.vue';
 import tabsDoc from '@vue-ui/tabs/_doc/tabs.md?raw';
+import imageConfig from '@vue-ui/image/_usage/config';
+import ImageUsage from '@vue-ui/image/_usage/index.vue';
+import ImageDemo from '@vue-ui/image/_demo/basic.vue';
+import imageDoc from '@vue-ui/image/_doc/image.md?raw';
+import paginationConfig from '@vue-ui/pagination/_usage/config';
+import PaginationUsage from '@vue-ui/pagination/_usage/index.vue';
+import PaginationDemo from '@vue-ui/pagination/_demo/basic.vue';
+import paginationDoc from '@vue-ui/pagination/_doc/pagination.md?raw';
+import sidebarConfig from '@vue-ui/sidebar/_usage/config';
+import SidebarUsage from '@vue-ui/sidebar/_usage/index.vue';
+import SidebarDemo from '@vue-ui/sidebar/_demo/basic.vue';
+import sidebarDoc from '@vue-ui/sidebar/_doc/sidebar.md?raw';
+import textEllipsisConfig from '@vue-ui/text-ellipsis/_usage/config';
+import TextEllipsisUsage from '@vue-ui/text-ellipsis/_usage/index.vue';
+import TextEllipsisDemo from '@vue-ui/text-ellipsis/_demo/basic.vue';
+import textEllipsisDoc from '@vue-ui/text-ellipsis/_doc/text-ellipsis.md?raw';
+import watermarkConfig from '@vue-ui/watermark/_usage/config';
+import WatermarkUsage from '@vue-ui/watermark/_usage/index.vue';
+import WatermarkDemo from '@vue-ui/watermark/_demo/basic.vue';
+import watermarkDoc from '@vue-ui/watermark/_doc/watermark.md?raw';
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
@@ -222,6 +242,51 @@ export const components: ComponentEntry[] = [
     usage: TabsUsage,
     demo: TabsDemo,
     doc: tabsDoc,
+  },
+  {
+    slug: 'image',
+    group: '展示组件',
+    title: 'Image 图片',
+    config: imageConfig,
+    usage: ImageUsage,
+    demo: ImageDemo,
+    doc: imageDoc,
+  },
+  {
+    slug: 'pagination',
+    group: '导航组件',
+    title: 'Pagination 分页',
+    config: paginationConfig,
+    usage: PaginationUsage,
+    demo: PaginationDemo,
+    doc: paginationDoc,
+  },
+  {
+    slug: 'sidebar',
+    group: '导航组件',
+    title: 'Sidebar 侧边导航',
+    config: sidebarConfig,
+    usage: SidebarUsage,
+    demo: SidebarDemo,
+    doc: sidebarDoc,
+  },
+  {
+    slug: 'text-ellipsis',
+    group: '展示组件',
+    title: 'TextEllipsis 文本省略',
+    config: textEllipsisConfig,
+    usage: TextEllipsisUsage,
+    demo: TextEllipsisDemo,
+    doc: textEllipsisDoc,
+  },
+  {
+    slug: 'watermark',
+    group: '展示组件',
+    title: 'Watermark 水印',
+    config: watermarkConfig,
+    usage: WatermarkUsage,
+    demo: WatermarkDemo,
+    doc: watermarkDoc,
   },
   {
     slug: 'badge',

@@ -1,0 +1,44 @@
+@import './token.less';
+
+.ky-text-ellipsis {
+  position: relative;
+  font-size: var(--ky-font-size-body);
+  line-height: var(--ky-text-ellipsis-line-height);
+  color: var(--ky-text-ellipsis-color);
+}
+
+.ky-text-ellipsis__content,
+.ky-text-ellipsis__measure {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.ky-text-ellipsis__content.is-collapsed {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.ky-text-ellipsis__action {
+  padding: var(--ky-space-1) 0;
+  font: inherit;
+  color: var(--ky-text-ellipsis-action-color);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+.ky-text-ellipsis__action:focus-visible {
+  outline: 2px solid var(--ky-color-brand);
+  outline-offset: 2px;
+}
+
+.ky-text-ellipsis__measure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  visibility: hidden;
+  width: 100%;
+  pointer-events: none;
+}
