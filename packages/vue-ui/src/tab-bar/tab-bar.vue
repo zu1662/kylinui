@@ -11,13 +11,14 @@
       :key="item.value ?? index"
       :ref="(element) => setItemRef(element, index)"
       class="ky-tab-bar__item"
-      :class="{ 'is-active': isActive(item, index) }"
+      :class="{ 'is-active': isActive(item, index), 'is-disabled': item.disabled }"
       :style="itemStyle"
       type="button"
       role="tab"
       :disabled="item.disabled"
+      :aria-disabled="item.disabled || undefined"
       :aria-selected="isActive(item, index)"
-      :tabindex="isActive(item, index) ? 0 : -1"
+      :tabindex="index === focusableIndex ? 0 : -1"
       @click="select(item, index)"
       @keydown.left.prevent="moveFocus(index, -1)"
       @keydown.right.prevent="moveFocus(index, 1)"
@@ -74,6 +75,10 @@ const indicatorReady = ref(false);
 let indicatorReadyFrame: number | undefined;
 let resizeObserver: ResizeObserver | undefined;
 const activeValue = computed(() => props.modelValue ?? props.current);
+const focusableIndex = computed(() => {
+  const currentIndex = activeIndex();
+  return currentIndex >= 0 ? currentIndex : props.data.findIndex((item) => !item.disabled);
+});
 // 数据超出固定展示数量时启用横向滚动，保证移动端标签仍可完整访问。
 const isScrollable = computed(
   () => props.scrollable ?? (props.fixedCount > 0 && props.data.length > props.fixedCount),
@@ -92,7 +97,7 @@ function itemValue(item: TabBarItem, index: number) {
 }
 
 function isActive(item: TabBarItem, index: number) {
-  return activeValue.value === itemValue(item, index);
+  return !item.disabled && activeValue.value === itemValue(item, index);
 }
 
 function setItemRef(element: Element | ComponentPublicInstance | null, index: number) {
@@ -105,7 +110,7 @@ function setItemRef(element: Element | ComponentPublicInstance | null, index: nu
 }
 
 function activeIndex(value = activeValue.value) {
-  return props.data.findIndex((item, index) => itemValue(item, index) === value);
+  return props.data.findIndex((item, index) => !item.disabled && itemValue(item, index) === value);
 }
 
 // 指示线始终复用同一个元素，通过位移衔接前后激活项，避免切换时重新创建造成跳变。
@@ -170,7 +175,7 @@ function moveFocus(index: number, direction: -1 | 1) {
 watch(
   [
     activeValue,
-    () => props.data.map((item, index) => itemValue(item, index)),
+    () => props.data.map((item, index) => [itemValue(item, index), item.disabled]),
     isScrollable,
     () => props.fixedCount,
   ],

@@ -153,10 +153,6 @@ import stickyConfig from '@vue-ui/sticky/_usage/config';
 import StickyUsage from '@vue-ui/sticky/_usage/index.vue';
 import StickyDemo from '@vue-ui/sticky/_demo/basic.vue';
 import stickyDoc from '@vue-ui/sticky/_doc/sticky.md?raw';
-import tabsConfig from '@vue-ui/tabs/_usage/config';
-import TabsUsage from '@vue-ui/tabs/_usage/index.vue';
-import TabsDemo from '@vue-ui/tabs/_demo/basic.vue';
-import tabsDoc from '@vue-ui/tabs/_doc/tabs.md?raw';
 import imageConfig from '@vue-ui/image/_usage/config';
 import ImageUsage from '@vue-ui/image/_usage/index.vue';
 import ImageDemo from '@vue-ui/image/_demo/basic.vue';
@@ -177,6 +173,10 @@ import watermarkConfig from '@vue-ui/watermark/_usage/config';
 import WatermarkUsage from '@vue-ui/watermark/_usage/index.vue';
 import WatermarkDemo from '@vue-ui/watermark/_demo/basic.vue';
 import watermarkDoc from '@vue-ui/watermark/_doc/watermark.md?raw';
+import listConfig from '@vue-ui/list/_usage/config';
+import ListUsage from '@vue-ui/list/_usage/index.vue';
+import ListDemo from '@vue-ui/list/_demo/basic.vue';
+import listDoc from '@vue-ui/list/_doc/list.md?raw';
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
@@ -235,15 +235,6 @@ export const components: ComponentEntry[] = [
     doc: stickyDoc,
   },
   {
-    slug: 'tabs',
-    group: '导航组件',
-    title: 'Tabs 标签页',
-    config: tabsConfig,
-    usage: TabsUsage,
-    demo: TabsDemo,
-    doc: tabsDoc,
-  },
-  {
     slug: 'image',
     group: '展示组件',
     title: 'Image 图片',
@@ -287,6 +278,15 @@ export const components: ComponentEntry[] = [
     usage: WatermarkUsage,
     demo: WatermarkDemo,
     doc: watermarkDoc,
+  },
+  {
+    slug: 'list',
+    group: '反馈组件',
+    title: 'List 列表加载',
+    config: listConfig,
+    usage: ListUsage,
+    demo: ListDemo,
+    doc: listDoc,
   },
   {
     slug: 'badge',

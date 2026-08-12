@@ -14,7 +14,7 @@ const current = ref('home');
 const tabs = [
   { label: '首页', value: 'home', icon: 'home-line' },
   { label: '消息', value: 'message', icon: 'notice-line', badge: 2 },
-  { label: '日历', value: 'calendar', icon: 'calendar-line' },
+  { label: '日历', value: 'calendar', icon: 'calendar-line', disabled: true },
   { label: '订单', value: 'order', icon: 'order-line' },
   { label: '我的', value: 'profile', icon: 'mine-line' },
 ];

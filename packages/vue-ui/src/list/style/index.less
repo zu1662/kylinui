@@ -1,0 +1,47 @@
+@import './token.less';
+
+.ky-list {
+  position: relative;
+}
+
+.ky-list__sentinel {
+  width: 100%;
+  height: 1px;
+  pointer-events: none;
+}
+
+.ky-list__status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--ky-list-status-min-height);
+  padding: var(--ky-list-status-padding);
+  font-size: var(--ky-list-status-font-size);
+  color: var(--ky-list-status-color);
+  text-align: center;
+}
+
+.ky-list__loading .ky-loading {
+  gap: var(--ky-list-spinner-gap);
+}
+
+.ky-list__retry {
+  min-height: 44px;
+  padding: 0 var(--ky-space-3);
+  font: inherit;
+  color: var(--ky-list-error-color);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: var(--ky-radius-sm);
+}
+
+.ky-list__retry:focus-visible {
+  outline: 2px solid var(--ky-color-brand);
+  outline-offset: 2px;
+}
+
+.ky-list.is-disabled .ky-list__retry {
+  color: var(--ky-color-text-disabled);
+  cursor: not-allowed;
+}

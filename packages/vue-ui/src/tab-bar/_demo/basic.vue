@@ -1,6 +1,6 @@
 ﻿<template>
   <div class="tab-bar-demo">
-    <KyTabBar v-model="current" :data="tabs" :fixed-count="3" />
+    <KyTabBar v-model="current" :data="tabs" :fixed-count="4" />
     <p>{{ descriptions[current] }}</p>
   </div>
 </template>
@@ -13,9 +13,10 @@ const current = ref(0);
 const tabs = [
   { title: '首页', icon: 'home-line' },
   { title: '消息', icon: 'notice-line' },
+  { title: '日历', icon: 'calendar-line', disabled: true },
   { title: '订单帮助', icon: 'order-line' },
 ];
-const descriptions = ['查看最新内容', '查看消息通知', '处理订单相关问题'];
+const descriptions = ['查看最新内容', '查看消息通知', '当前频道暂不可用', '处理订单相关问题'];
 </script>
 
 <style scoped lang="less">
