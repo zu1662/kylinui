@@ -1,0 +1,41 @@
+@import './token.less';
+
+.ky-back-top {
+  position: fixed;
+  display: inline-grid;
+  place-items: center;
+  width: var(--ky-back-top-size);
+  height: var(--ky-back-top-size);
+  padding: 0;
+  color: var(--ky-back-top-color);
+  cursor: pointer;
+  background: var(--ky-back-top-background);
+  border: 0;
+  border-radius: var(--ky-radius-pill);
+  box-shadow: var(--ky-back-top-shadow);
+}
+
+.ky-back-top:focus-visible {
+  outline: 3px solid var(--ky-color-brand-100);
+  outline-offset: 2px;
+}
+
+.ky-back-top-fade-enter-active,
+.ky-back-top-fade-leave-active {
+  transition:
+    opacity var(--ky-duration-fast),
+    transform var(--ky-duration-fast) var(--ky-easing-standard);
+}
+
+.ky-back-top-fade-enter-from,
+.ky-back-top-fade-leave-to {
+  opacity: 0;
+  transform: translateY(8px) scale(0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ky-back-top-fade-enter-active,
+  .ky-back-top-fade-leave-active {
+    transition-duration: 1ms;
+  }
+}

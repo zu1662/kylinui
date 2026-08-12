@@ -129,9 +129,100 @@ import countDownConfig from '@vue-ui/count-down/_usage/config';
 import CountDownUsage from '@vue-ui/count-down/_usage/index.vue';
 import CountDownDemo from '@vue-ui/count-down/_demo/basic.vue';
 import countDownDoc from '@vue-ui/count-down/_doc/count-down.md?raw';
+import backTopConfig from '@vue-ui/back-top/_usage/config';
+import BackTopUsage from '@vue-ui/back-top/_usage/index.vue';
+import BackTopDemo from '@vue-ui/back-top/_demo/basic.vue';
+import backTopDoc from '@vue-ui/back-top/_doc/back-top.md?raw';
+import circleConfig from '@vue-ui/circle/_usage/config';
+import CircleUsage from '@vue-ui/circle/_usage/index.vue';
+import CircleDemo from '@vue-ui/circle/_demo/basic.vue';
+import circleDoc from '@vue-ui/circle/_doc/circle.md?raw';
+import collapseConfig from '@vue-ui/collapse/_usage/config';
+import CollapseUsage from '@vue-ui/collapse/_usage/index.vue';
+import CollapseDemo from '@vue-ui/collapse/_demo/basic.vue';
+import collapseDoc from '@vue-ui/collapse/_doc/collapse.md?raw';
+import searchConfig from '@vue-ui/search/_usage/config';
+import SearchUsage from '@vue-ui/search/_usage/index.vue';
+import SearchDemo from '@vue-ui/search/_demo/basic.vue';
+import searchDoc from '@vue-ui/search/_doc/search.md?raw';
+import skeletonConfig from '@vue-ui/skeleton/_usage/config';
+import SkeletonUsage from '@vue-ui/skeleton/_usage/index.vue';
+import SkeletonDemo from '@vue-ui/skeleton/_demo/basic.vue';
+import skeletonDoc from '@vue-ui/skeleton/_doc/skeleton.md?raw';
+import stickyConfig from '@vue-ui/sticky/_usage/config';
+import StickyUsage from '@vue-ui/sticky/_usage/index.vue';
+import StickyDemo from '@vue-ui/sticky/_demo/basic.vue';
+import stickyDoc from '@vue-ui/sticky/_doc/sticky.md?raw';
+import tabsConfig from '@vue-ui/tabs/_usage/config';
+import TabsUsage from '@vue-ui/tabs/_usage/index.vue';
+import TabsDemo from '@vue-ui/tabs/_demo/basic.vue';
+import tabsDoc from '@vue-ui/tabs/_doc/tabs.md?raw';
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
+  {
+    slug: 'back-top',
+    group: '导航组件',
+    title: 'BackTop 返回顶部',
+    config: backTopConfig,
+    usage: BackTopUsage,
+    demo: BackTopDemo,
+    doc: backTopDoc,
+  },
+  {
+    slug: 'circle',
+    group: '反馈组件',
+    title: 'Circle 环形进度',
+    config: circleConfig,
+    usage: CircleUsage,
+    demo: CircleDemo,
+    doc: circleDoc,
+  },
+  {
+    slug: 'collapse',
+    group: '展示组件',
+    title: 'Collapse 折叠面板',
+    config: collapseConfig,
+    usage: CollapseUsage,
+    demo: CollapseDemo,
+    doc: collapseDoc,
+  },
+  {
+    slug: 'search',
+    group: '表单组件',
+    title: 'Search 搜索',
+    config: searchConfig,
+    usage: SearchUsage,
+    demo: SearchDemo,
+    doc: searchDoc,
+  },
+  {
+    slug: 'skeleton',
+    group: '反馈组件',
+    title: 'Skeleton 骨架屏',
+    config: skeletonConfig,
+    usage: SkeletonUsage,
+    demo: SkeletonDemo,
+    doc: skeletonDoc,
+  },
+  {
+    slug: 'sticky',
+    group: '导航组件',
+    title: 'Sticky 粘性布局',
+    config: stickyConfig,
+    usage: StickyUsage,
+    demo: StickyDemo,
+    doc: stickyDoc,
+  },
+  {
+    slug: 'tabs',
+    group: '导航组件',
+    title: 'Tabs 标签页',
+    config: tabsConfig,
+    usage: TabsUsage,
+    demo: TabsDemo,
+    doc: tabsDoc,
+  },
   {
     slug: 'badge',
     group: '基础组件',

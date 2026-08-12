@@ -1,0 +1,101 @@
+@import './token.less';
+
+.ky-collapse.is-bordered {
+  border-block: 1px solid var(--ky-collapse-border-color);
+}
+
+.ky-collapse-item {
+  background: var(--ky-collapse-header-background);
+}
+
+.ky-collapse-item.is-bordered + .ky-collapse-item,
+.ky-collapse-item.is-bordered .ky-collapse-item__wrapper {
+  border-top: 1px solid var(--ky-collapse-border-color);
+}
+
+.ky-collapse-item__header {
+  display: flex;
+  gap: var(--ky-space-2);
+  align-items: center;
+  width: 100%;
+  min-height: var(--ky-collapse-header-height);
+  padding: var(--ky-space-3) var(--ky-space-4);
+  color: var(--ky-color-text-primary);
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+.ky-collapse-item__header:focus-visible {
+  outline: 3px solid var(--ky-color-brand-100);
+  outline-offset: -3px;
+}
+
+.ky-collapse-item__title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--ky-font-size-body);
+  font-weight: var(--ky-font-medium);
+}
+
+.ky-collapse-item__icon,
+.ky-collapse-item__arrow {
+  flex: none;
+  color: var(--ky-color-text-secondary);
+}
+
+.ky-collapse-item__value {
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-color-text-secondary);
+  white-space: nowrap;
+}
+
+.ky-collapse-item__arrow {
+  transition: transform var(--ky-duration-base) var(--ky-easing-standard);
+}
+
+.ky-collapse-item.is-expanded .ky-collapse-item__arrow {
+  transform: rotate(180deg);
+}
+
+.ky-collapse-item__wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  background: var(--ky-collapse-content-background);
+  transition: grid-template-rows var(--ky-duration-base) var(--ky-easing-standard);
+}
+
+.ky-collapse-item.is-expanded .ky-collapse-item__wrapper {
+  grid-template-rows: 1fr;
+}
+
+.ky-collapse-item__body {
+  min-height: 0;
+}
+
+.ky-collapse-item__content {
+  padding: var(--ky-space-3) var(--ky-space-4) var(--ky-space-4);
+  font-size: var(--ky-font-size-body);
+  line-height: 1.7;
+  color: var(--ky-color-text-secondary);
+}
+
+.ky-collapse-item.is-disabled {
+  opacity: 0.55;
+}
+
+.ky-collapse-item.is-disabled .ky-collapse-item__header {
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ky-collapse-item__arrow,
+  .ky-collapse-item__wrapper {
+    transition-duration: 1ms;
+  }
+}

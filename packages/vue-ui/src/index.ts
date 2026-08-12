@@ -34,6 +34,13 @@ import { KyEmpty } from './empty';
 import { KyNavBar } from './nav-bar';
 import { KyNoticeBar } from './notice-bar';
 import { KyCountDown } from './count-down';
+import { KyBackTop } from './back-top';
+import { KyCircle } from './circle';
+import { KyCollapse, KyCollapseItem } from './collapse';
+import { KySearch } from './search';
+import { KySkeleton } from './skeleton';
+import { KySticky } from './sticky';
+import { KyTabs, KyTab } from './tabs';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
 const components = [
@@ -71,6 +78,15 @@ const components = [
   KyNavBar,
   KyNoticeBar,
   KyCountDown,
+  KyBackTop,
+  KyCircle,
+  KyCollapse,
+  KyCollapseItem,
+  KySearch,
+  KySkeleton,
+  KySticky,
+  KyTabs,
+  KyTab,
 ];
 
 export default {
@@ -111,5 +127,12 @@ export * from './empty';
 export * from './nav-bar';
 export * from './notice-bar';
 export * from './count-down';
+export * from './back-top';
+export * from './circle';
+export * from './collapse';
+export * from './search';
+export * from './skeleton';
+export * from './sticky';
+export * from './tabs';
 
 export * from './theme';

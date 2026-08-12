@@ -1,0 +1,45 @@
+@import './token.less';
+
+.ky-circle {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+}
+
+.ky-circle__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.ky-circle__track,
+.ky-circle__portion {
+  fill: none;
+}
+
+.ky-circle__track {
+  stroke: var(--ky-circle-track-color);
+}
+
+.ky-circle__portion {
+  stroke: var(--ky-circle-color);
+  stroke-linecap: round;
+  transform-origin: center;
+  transition: stroke-dashoffset var(--ky-duration-base) var(--ky-easing-standard);
+}
+
+.ky-circle__text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: var(--ky-font-size-body);
+  font-weight: var(--ky-font-semibold);
+  color: var(--ky-circle-text-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ky-circle__portion {
+    transition-duration: 1ms;
+  }
+}

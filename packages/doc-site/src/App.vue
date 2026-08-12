@@ -33,7 +33,7 @@
         </button>
         <div class="topbar__meta">
           <span>v0.1.0</span>
-          <a href="/design.md" target="_blank" rel="noreferrer">设计规范</a>
+          <a :href="designDocumentUrl" target="_blank" rel="noreferrer">设计规范</a>
         </div>
       </div>
     </header>
@@ -86,6 +86,7 @@ import ComponentPage from './components/ComponentPage.vue';
 import { components } from './registry';
 
 const THEME_STORAGE_KEY = 'kylin-design-theme';
+const designDocumentUrl = `${import.meta.env.BASE_URL}design.md`;
 const menuOpen = ref(false);
 const theme = ref<KylinTheme>(getKylinTheme());
 const currentThemeIndex = computed(() =>
