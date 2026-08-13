@@ -94,9 +94,7 @@
       :first-day-of-week="settings.firstDayOfWeek"
       :switch-mode="settings.switchMode"
       @confirm="handleConfirm"
-      @over-range="rangeMessage = `最多选择 ${$event.maxRange} 天`"
     />
-    <p v-if="rangeMessage" class="calendar-demo__message">{{ rangeMessage }}</p>
   </div>
 </template>
 
@@ -145,7 +143,6 @@ const defaultMinDate = new Date(today.getFullYear(), today.getMonth(), 1);
 const defaultMaxDate = new Date(today.getFullYear(), today.getMonth() + 3, 0);
 const showCalendar = ref(false);
 const activeKey = ref<DemoKey>('single');
-const rangeMessage = ref('');
 const values = reactive<Record<DemoKey, CalendarValue>>({
   single: null,
   multiple: [],
@@ -181,7 +178,6 @@ function open(key: DemoKey) {
   settings.maxRange = undefined;
   settings.formatter = undefined;
   activeKey.value = key;
-  rangeMessage.value = '';
   if (key === 'multiple') settings.type = 'multiple';
   if (['range', 'quickRange', 'customConfirm', 'customDayText', 'maxRange'].includes(key))
     settings.type = 'range';
@@ -220,7 +216,6 @@ function formatDay(day: CalendarDayItem) {
 
 function handleConfirm(value: Exclude<CalendarValue, null>) {
   values[activeKey.value] = value;
-  rangeMessage.value = '';
 }
 
 function formatDate(date: Date) {
@@ -256,18 +251,5 @@ function formatRange(value: CalendarValue) {
   color: var(--ky-color-text-secondary);
   font-size: var(--ky-font-size-assist);
   font-weight: var(--ky-font-medium);
-}
-
-.calendar-demo__message {
-  position: fixed;
-  right: var(--ky-space-4);
-  bottom: var(--ky-space-4);
-  z-index: 1000;
-  margin: 0;
-  padding: var(--ky-space-3) var(--ky-space-4);
-  color: var(--ky-color-on-brand);
-  background: var(--ky-color-brand-strong);
-  border-radius: var(--ky-radius-pill);
-  box-shadow: var(--ky-shadow-floating);
 }
 </style>

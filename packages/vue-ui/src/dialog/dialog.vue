@@ -4,7 +4,7 @@
     position="center"
     :close-on-overlay="false"
     :safe-area="false"
-    :z-index="zIndex"
+    :z-index="resolvedZIndex"
     :animation="animation"
     :duration="duration"
     panel-class="ky-popup__panel--transparent"
@@ -43,6 +43,7 @@
 import { computed, nextTick, ref, useId, watch } from 'vue';
 import KyButton from '../button';
 import KyPopup from '../popup';
+import { getGlobalZIndex } from '../shared/global-z-index';
 import type { DialogProps } from './dialog';
 
 defineOptions({ name: 'KyDialog' });
@@ -53,9 +54,10 @@ const props = withDefaults(defineProps<DialogProps>(), {
   enableFooter: true,
   closeOnOverlay: false,
   closeOnEsc: true,
-  zIndex: 900,
+  zIndex: undefined,
   boxStyle: () => ({}),
 });
+const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(900));
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
   confirm: [];

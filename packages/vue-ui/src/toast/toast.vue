@@ -5,7 +5,7 @@
         v-if="show"
         class="ky-toast-layer"
         :class="{ 'is-blocking': forbidClick || overlay, 'has-overlay': overlay }"
-        :style="{ zIndex: String(zIndex) }"
+        :style="{ zIndex: String(resolvedZIndex) }"
       >
         <div
           class="ky-toast"
@@ -51,6 +51,7 @@
 import { computed, onBeforeUnmount, watch } from 'vue';
 import KyIcon from '../icon';
 import KyLoading from '../loading';
+import { getGlobalZIndex } from '../shared/global-z-index';
 import type { ToastProps } from './toast';
 
 defineOptions({ name: 'KyToast' });
@@ -65,13 +66,14 @@ const props = withDefaults(defineProps<ToastProps>(), {
   duration: 2000,
   position: 'center',
   wordBreak: 'break-all',
-  zIndex: 1000,
+  zIndex: undefined,
   forbidClick: false,
   overlay: false,
   closeOnClick: false,
   teleport: 'body',
   className: '',
 });
+const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(1000));
 const emit = defineEmits<{
   'update:show': [value: boolean];
   opened: [];

@@ -5,7 +5,7 @@
     :close-on-overlay="false"
     :safe-area="false"
     :teleport="teleport"
-    :z-index="zIndex"
+    :z-index="resolvedZIndex"
     animation="fade"
     panel-class="ky-image-preview-popup"
     aria-label="图片预览"
@@ -120,6 +120,7 @@ import type { CSSProperties } from 'vue';
 import type { SwiperItem } from '../swiper';
 import KyIcon from '../icon';
 import KyPopup from '../popup';
+import { getGlobalZIndex } from '../shared/global-z-index';
 import KySwiper from '../swiper';
 import {
   normalizeImagePreviewIndex,
@@ -145,9 +146,10 @@ const props = withDefaults(defineProps<ImagePreviewProps>(), {
   maxZoom: 3,
   doubleTapZoom: 2,
   teleport: 'body',
-  zIndex: 1100,
+  zIndex: undefined,
 });
 
+const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(1100));
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
   change: [index: number, item?: ImagePreviewItem];

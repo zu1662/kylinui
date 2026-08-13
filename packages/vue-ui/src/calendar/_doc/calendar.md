@@ -50,7 +50,7 @@ function handleConfirm(date: Date) {
 | defaultDate         | `Date \| Date[] \| null`                    | `null`           | 初始选中日期                                       |
 | minDate             | `Date`                                      | 当天             | 最小可选日期                                       |
 | maxDate             | `Date`                                      | 当天起六个月     | 最大可选日期                                       |
-| maxRange            | `number`                                    | -                | 范围选择允许的最大天数，包含起止日                 |
+| maxRange            | `number`                                    | -                | 范围选择允许的最大天数，超出时居中 Toast 提示      |
 | allowSameDay        | `boolean`                                   | `false`          | 范围选择是否允许起止日期为同一天                   |
 | showConfirm         | `boolean`                                   | `true`           | 是否显示底部确认按钮；关闭后将在选择完成时直接确认 |
 | confirmText         | `string`                                    | `'确定'`         | 确认按钮文字                                       |
@@ -86,7 +86,7 @@ function handleConfirm(date: Date) {
 | confirm           | 点击确认按钮，或关闭确认按钮后完成选择时 | `Date \| Date[]`                               |
 | select            | 每次选择状态变化时                       | `Date \| Date[]`                               |
 | unselect          | 多选模式取消某个日期时                   | `Date`                                         |
-| overRange         | 范围长度超过 `maxRange` 时               | `{ start: Date; end: Date; maxRange: number }` |
+| overRange         | 范围长度超过 `maxRange` 时并居中提示     | `{ start: Date; end: Date; maxRange: number }` |
 | clickDisabledDate | 点击不可选日期时                         | `Date`                                         |
 | monthChange       | 通过切换按钮改变月份时                   | 当前月份首日 `Date`                            |
 | close             | 主动关闭或 Popup 开始关闭时              | -                                              |

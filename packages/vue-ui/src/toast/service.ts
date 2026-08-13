@@ -1,4 +1,5 @@
 import { createVNode, reactive, render } from 'vue';
+import { getGlobalZIndex } from '../shared/global-z-index';
 import ToastHost from './host.vue';
 import {
   toastState,
@@ -54,6 +55,7 @@ const defaultOptions: ToastQueueItem['options'] = {
 };
 
 let currentOptions = { ...defaultOptions };
+let hasCustomDefaultZIndex = false;
 const defaultOptionsMap = new Map<ToastType, Partial<ToastOptions>>([['loading', { duration: 0 }]]);
 let allowMultiple = false;
 let seed = 0;
@@ -113,6 +115,7 @@ export function showToast(options: string | number | ToastOptions = ''): ToastIn
   const type = normalizeType(parsed.type ?? currentOptions.type);
   const merged = {
     ...currentOptions,
+    zIndex: hasCustomDefaultZIndex ? currentOptions.zIndex : getGlobalZIndex(1000),
     ...defaultOptionsMap.get(type),
     ...parsed,
     type,
@@ -219,6 +222,7 @@ export function setToastDefaultOptions(type: ToastType | ToastOptions, options?:
     defaultOptionsMap.set(normalizeType(type), { ...options });
     return;
   }
+  if (Object.hasOwn(type, 'zIndex')) hasCustomDefaultZIndex = type.zIndex !== undefined;
   currentOptions = { ...currentOptions, ...type };
 }
 
@@ -229,6 +233,7 @@ export function resetToastDefaultOptions(type?: ToastType) {
     return;
   }
   currentOptions = { ...defaultOptions };
+  hasCustomDefaultZIndex = false;
   defaultOptionsMap.clear();
   defaultOptionsMap.set('loading', { duration: 0 });
 }

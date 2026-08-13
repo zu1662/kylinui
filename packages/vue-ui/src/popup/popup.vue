@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue';
+import { getGlobalZIndex } from '../shared/global-z-index';
 import { useLockScroll } from '../shared/use-lock-scroll';
 import type { PopupAnimation, PopupDuration, PopupProps } from './popup';
 
@@ -56,7 +57,7 @@ const props = withDefaults(defineProps<PopupProps>(), {
   safeArea: true,
   destroyOnClose: true,
   teleport: 'body',
-  zIndex: 900,
+  zIndex: undefined,
   duration: () => ({ enter: 300, leave: 275 }),
   panelClass: undefined,
   role: 'dialog',
@@ -114,8 +115,9 @@ const transitionName = computed(() => {
   const animation = resolvedAnimation.value;
   return BUILT_IN_ANIMATIONS.has(animation as PopupAnimation) ? `ky-popup-${animation}` : animation;
 });
+const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(900));
 const popupStyle = computed(() => ({
-  zIndex: String(props.zIndex),
+  zIndex: String(resolvedZIndex.value),
   '--ky-popup-enter-duration': `${transitionDuration.value.enter}ms`,
   '--ky-popup-leave-duration': `${transitionDuration.value.leave}ms`,
 }));

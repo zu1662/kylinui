@@ -7,7 +7,7 @@
     :lock-scroll="false"
     :safe-area="safeArea"
     :teleport="teleport"
-    :z-index="zIndex"
+    :z-index="resolvedZIndex"
     animation="slide-up"
     panel-class="ky-number-keyboard__popup"
     :aria-label="ariaLabel"
@@ -95,6 +95,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import KyPopup from '../popup';
+import { getGlobalZIndex } from '../shared/global-z-index';
 import type { NumberKeyboardKey, NumberKeyboardProps } from './number-keyboard';
 
 defineOptions({ name: 'KyNumberKeyboard' });
@@ -112,10 +113,11 @@ const props = withDefaults(defineProps<NumberKeyboardProps>(), {
   hideOnClickOutside: true,
   safeArea: true,
   teleport: 'body',
-  zIndex: 900,
+  zIndex: undefined,
   disabled: false,
   ariaLabel: '数字键盘',
 });
+const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(900));
 const emit = defineEmits<{
   'update:modelValue': [value: string];
   'update:visible': [value: boolean];

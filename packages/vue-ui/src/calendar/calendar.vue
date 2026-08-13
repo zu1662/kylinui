@@ -134,6 +134,7 @@ import { computed, ref, watch } from 'vue';
 import KyButton from '../button';
 import KyIcon from '../icon';
 import KyPopup from '../popup';
+import { showToast } from '../toast';
 import type { CalendarDayItem, CalendarProps, CalendarValue } from './calendar';
 import {
   addCalendarMonths,
@@ -373,6 +374,10 @@ function selectRangeDate(date: Date) {
   const start = dates[0];
   if (!props.allowSameDay && isSameDay(start, date)) return;
   if (props.maxRange && getCalendarRangeLength(start, date) > props.maxRange) {
+    showToast({
+      message: `最多选择 ${props.maxRange} 天`,
+      position: 'center',
+    });
     emit('overRange', { start, end: date, maxRange: props.maxRange });
     return;
   }

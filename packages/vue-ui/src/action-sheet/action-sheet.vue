@@ -6,7 +6,7 @@
     :overlay="resolvedOverlay"
     :close-on-overlay="resolvedCloseOnOverlay"
     :safe-area="safeArea"
-    :z-index="zIndex"
+    :z-index="resolvedZIndex"
     :animation="animation"
     :duration="duration"
     :panel-class="popupPanelClass"
@@ -88,6 +88,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { getGlobalZIndex } from '../shared/global-z-index';
 import KyButton from '../button';
 import KyIcon from '../icon';
 import KyPopup from '../popup';
@@ -100,7 +101,7 @@ const props = withDefaults(defineProps<ActionSheetProps>(), {
   closeOnOverlay: true,
   closeOnSwipe: true,
   overlay: true,
-  zIndex: 1000,
+  zIndex: undefined,
   maxHeight: '86vh',
   heightFixedValue: 86,
   contentStyle: () => ({}),
@@ -108,6 +109,7 @@ const props = withDefaults(defineProps<ActionSheetProps>(), {
   activeTab: 0,
   safeArea: true,
 });
+const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(1000));
 const emit = defineEmits<{
   'update:modelValue': [value: boolean];
   'update:activeTab': [value: number];

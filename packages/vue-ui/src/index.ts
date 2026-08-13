@@ -2,6 +2,7 @@ import type { App } from 'vue';
 import './style/index.less';
 import './style/components.less';
 
+import { KyConfigProvider } from './config-provider';
 import { KyButton } from './button';
 import { KyIcon } from './icon';
 import { KyTransition } from './transition';
@@ -52,6 +53,7 @@ import { KyNumberKeyboard } from './number-keyboard';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
 const components = [
+  KyConfigProvider,
   KyButton,
   KyIcon,
   KyTransition,
@@ -111,6 +113,7 @@ export default {
   },
 };
 
+export * from './config-provider';
 export * from './button';
 export * from './icon';
 export * from './transition';

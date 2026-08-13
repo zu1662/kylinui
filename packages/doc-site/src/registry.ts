@@ -1,5 +1,9 @@
 import type { ComponentEntry } from './types';
 
+import configProviderConfig from '@vue-ui/config-provider/_usage/config';
+import ConfigProviderUsage from '@vue-ui/config-provider/_usage/index.vue';
+import ConfigProviderDemo from '@vue-ui/config-provider/_demo/basic.vue';
+import configProviderDoc from '@vue-ui/config-provider/_doc/config-provider.md?raw';
 import iconConfig from '@vue-ui/icon/_usage/config';
 import IconUsage from '@vue-ui/icon/_usage/index.vue';
 import IconDemo from '@vue-ui/icon/_demo/basic.vue';
@@ -192,6 +196,15 @@ import numberKeyboardDoc from '@vue-ui/number-keyboard/_doc/number-keyboard.md?r
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
+  {
+    slug: 'config-provider',
+    group: '基础组件',
+    title: 'ConfigProvider 全局配置',
+    config: configProviderConfig,
+    usage: ConfigProviderUsage,
+    demo: ConfigProviderDemo,
+    doc: configProviderDoc,
+  },
   {
     slug: 'back-top',
     group: '导航组件',
