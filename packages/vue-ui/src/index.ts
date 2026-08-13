@@ -41,6 +41,7 @@ import { KySearch } from './search';
 import { KySkeleton } from './skeleton';
 import { KySticky } from './sticky';
 import { KyImage } from './image';
+import { KyImagePreview } from './image-preview';
 import { KyPagination } from './pagination';
 import { KySidebar, KySidebarItem } from './sidebar';
 import { KyTextEllipsis } from './text-ellipsis';
@@ -93,6 +94,7 @@ const components = [
   KySkeleton,
   KySticky,
   KyImage,
+  KyImagePreview,
   KyPagination,
   KySidebar,
   KySidebarItem,
@@ -148,6 +150,7 @@ export * from './search';
 export * from './skeleton';
 export * from './sticky';
 export * from './image';
+export * from './image-preview';
 export * from './pagination';
 export * from './sidebar';
 export * from './text-ellipsis';

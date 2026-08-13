@@ -157,6 +157,10 @@ import imageConfig from '@vue-ui/image/_usage/config';
 import ImageUsage from '@vue-ui/image/_usage/index.vue';
 import ImageDemo from '@vue-ui/image/_demo/basic.vue';
 import imageDoc from '@vue-ui/image/_doc/image.md?raw';
+import imagePreviewConfig from '@vue-ui/image-preview/_usage/config';
+import ImagePreviewUsage from '@vue-ui/image-preview/_usage/index.vue';
+import ImagePreviewDemo from '@vue-ui/image-preview/_demo/basic.vue';
+import imagePreviewDoc from '@vue-ui/image-preview/_doc/image-preview.md?raw';
 import paginationConfig from '@vue-ui/pagination/_usage/config';
 import PaginationUsage from '@vue-ui/pagination/_usage/index.vue';
 import PaginationDemo from '@vue-ui/pagination/_demo/basic.vue';
@@ -250,6 +254,15 @@ export const components: ComponentEntry[] = [
     usage: ImageUsage,
     demo: ImageDemo,
     doc: imageDoc,
+  },
+  {
+    slug: 'image-preview',
+    group: '展示组件',
+    title: 'ImagePreview 图片预览',
+    config: imagePreviewConfig,
+    usage: ImagePreviewUsage,
+    demo: ImagePreviewDemo,
+    doc: imagePreviewDoc,
   },
   {
     slug: 'pagination',

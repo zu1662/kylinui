@@ -37,7 +37,13 @@ import MobileSimulator from './MobileSimulator.vue';
 
 const props = defineProps<{ entry: ComponentEntry; index: number; theme: KylinTheme }>();
 const md = new MarkdownIt({ html: false, linkify: true, typographer: true });
+
+function normalizeMarkdown(source: string) {
+  // Vite 的 ?raw 会保留 UTF-8 BOM；移除它以避免首个 Markdown 标题被当作普通文本。
+  return source.replace(/^\uFEFF/, '');
+}
+
 // Markdown 文档与配置实验台分离，后续可以替换成独立的文档路由页面。
-const html = computed(() => md.render(props.entry.doc));
+const html = computed(() => md.render(normalizeMarkdown(props.entry.doc)));
 const demoPreviewUrl = computed(() => createPreviewUrl(props.entry.slug, 'demo', props.theme));
 </script>
