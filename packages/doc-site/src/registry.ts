@@ -32,10 +32,6 @@ import inputConfig from '@vue-ui/input/_usage/config';
 import InputUsage from '@vue-ui/input/_usage/index.vue';
 import InputDemo from '@vue-ui/input/_demo/basic.vue';
 import inputDoc from '@vue-ui/input/_doc/input.md?raw';
-import sliderConfig from '@vue-ui/slider/_usage/config';
-import SliderUsage from '@vue-ui/slider/_usage/index.vue';
-import SliderDemo from '@vue-ui/slider/_demo/basic.vue';
-import sliderDoc from '@vue-ui/slider/_doc/slider.md?raw';
 import ratingConfig from '@vue-ui/rating/_usage/config';
 import RatingUsage from '@vue-ui/rating/_usage/index.vue';
 import RatingDemo from '@vue-ui/rating/_demo/basic.vue';
@@ -555,15 +551,6 @@ export const components: ComponentEntry[] = [
     usage: InputUsage,
     demo: InputDemo,
     doc: inputDoc,
-  },
-  {
-    slug: 'slider',
-    group: '表单组件',
-    title: 'Slider 滑动选择器',
-    config: sliderConfig,
-    usage: SliderUsage,
-    demo: SliderDemo,
-    doc: sliderDoc,
   },
   {
     slug: 'rating',

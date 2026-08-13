@@ -10,7 +10,6 @@ import { KyPopover } from './popover';
 import { KyToast } from './toast';
 import { KyDialog } from './dialog';
 import { KyInput } from './input';
-import { KySlider } from './slider';
 import { KyRating } from './rating';
 import { KyStepper } from './stepper';
 import { KySwitch } from './switch';
@@ -61,7 +60,6 @@ const components = [
   KyToast,
   KyDialog,
   KyInput,
-  KySlider,
   KyRating,
   KyStepper,
   KySwitch,
@@ -121,7 +119,6 @@ export * from './popover';
 export * from './toast';
 export * from './dialog';
 export * from './input';
-export * from './slider';
 export * from './rating';
 export * from './stepper';
 export * from './switch';
