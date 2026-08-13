@@ -1,65 +1,149 @@
 <template>
   <div class="number-keyboard-demo">
     <section>
-      <span>当前金额</span>
-      <strong>{{ value || '0.00' }}</strong>
+      <h3>基础用法</h3>
+      <KyCellGroup>
+        <KyCell title="弹出默认键盘" is-link @click="openKeyboard('default')" />
+        <KyCell title="弹出带右侧栏的键盘" is-link @click="openKeyboard('custom')" />
+        <KyCell title="弹出身份证号键盘" is-link @click="openKeyboard('id-number')" />
+        <KyCell title="弹出带标题的键盘" is-link @click="openKeyboard('title')" />
+      </KyCellGroup>
     </section>
-    <div class="number-keyboard-demo__actions">
-      <KyButton block @click="open('default')">默认键盘</KyButton>
-      <KyButton block variant="secondary" plain @click="open('custom')">带侧栏键盘</KyButton>
-    </div>
+
+    <section>
+      <h3>按键配置</h3>
+      <KyCellGroup>
+        <KyCell title="弹出配置多个按键的键盘" is-link @click="openKeyboard('multiple')" />
+        <KyCell title="弹出随机数字键盘" is-link @click="openKeyboard('random')" />
+      </KyCellGroup>
+    </section>
+
+    <section>
+      <h3>双向绑定</h3>
+      <KyCellGroup>
+        <KyCell
+          title="输入值"
+          :value="value || '点此输入'"
+          is-link
+          @click="openKeyboard('bind-value')"
+        />
+      </KyCellGroup>
+      <p class="number-keyboard-demo__hint">最多输入 6 位数字</p>
+    </section>
+
     <KyNumberKeyboard
-      v-model="value"
+      v-model="keyboardValue"
       v-model:visible="visible"
-      :theme="theme"
-      :extra-key="theme === 'custom' ? ['00', '.'] : '.'"
-      title="请输入支付金额"
-      :maxlength="10"
+      :theme="keyboardOptions.theme"
+      :title="keyboardOptions.title"
+      :extra-key="keyboardOptions.extraKey"
+      :close-text="keyboardOptions.closeText"
+      :maxlength="keyboardOptions.maxlength"
+      :random-key-order="keyboardOptions.randomKeyOrder"
+      @input="handleInput"
+      @delete="handleDelete"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import KyButton from '../../button';
+import { computed, ref } from 'vue';
+import { KyCell, KyCellGroup } from '../../cell';
+import { showToast } from '../../toast';
 import KyNumberKeyboard from '../index';
-import type { NumberKeyboardTheme } from '../number-keyboard';
+import type { NumberKeyboardExtraKey, NumberKeyboardTheme } from '../number-keyboard';
+
+type KeyboardScenario =
+  'default' | 'custom' | 'id-number' | 'title' | 'multiple' | 'random' | 'bind-value';
+
+interface KeyboardOptions {
+  theme: NumberKeyboardTheme;
+  title: string;
+  extraKey: NumberKeyboardExtraKey;
+  closeText: string;
+  maxlength: number;
+  randomKeyOrder: boolean;
+}
 
 const value = ref('');
+const demoValue = ref('');
 const visible = ref(false);
-const theme = ref<NumberKeyboardTheme>('default');
+const scenario = ref<KeyboardScenario>('default');
 
-function open(nextTheme: NumberKeyboardTheme) {
-  theme.value = nextTheme;
+const keyboardValue = computed({
+  get: () => (scenario.value === 'bind-value' ? value.value : demoValue.value),
+  set: (nextValue: string) => {
+    if (scenario.value === 'bind-value') value.value = nextValue;
+    else demoValue.value = nextValue;
+  },
+});
+
+const keyboardOptions = computed<KeyboardOptions>(() => {
+  const options: KeyboardOptions = {
+    theme: 'default',
+    title: '',
+    extraKey: '',
+    closeText: '',
+    maxlength: Number.POSITIVE_INFINITY,
+    randomKeyOrder: false,
+  };
+
+  switch (scenario.value) {
+    case 'custom':
+      return { ...options, theme: 'custom', extraKey: '.', closeText: '完成' };
+    case 'id-number':
+      return { ...options, extraKey: 'X', closeText: '完成' };
+    case 'title':
+      return { ...options, title: '键盘标题', extraKey: '.', closeText: '完成' };
+    case 'multiple':
+      return {
+        ...options,
+        theme: 'custom',
+        extraKey: ['00', '.'],
+        closeText: '完成',
+      };
+    case 'random':
+      return { ...options, randomKeyOrder: true };
+    case 'bind-value':
+      return { ...options, maxlength: 6 };
+    default:
+      return options;
+  }
+});
+
+function openKeyboard(nextScenario: KeyboardScenario) {
+  scenario.value = nextScenario;
+  demoValue.value = '';
   visible.value = true;
+}
+
+function handleInput(key: string) {
+  if (scenario.value !== 'bind-value') showToast(`输入：${key}`);
+}
+
+function handleDelete() {
+  if (scenario.value !== 'bind-value') showToast('删除');
 }
 </script>
 
 <style scoped lang="less">
 .number-keyboard-demo {
   display: grid;
-  gap: var(--ky-space-4);
+  gap: var(--ky-space-5);
+  padding-block: var(--ky-space-2) 320px;
 }
 
-.number-keyboard-demo section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--ky-space-4);
-  background: var(--ky-color-surface);
-  border-radius: var(--ky-radius-md);
-}
-
-.number-keyboard-demo section span {
+.number-keyboard-demo h3 {
+  margin: 0;
+  padding: 0 var(--ky-space-4) var(--ky-space-2);
   color: var(--ky-color-text-secondary);
+  font-size: var(--ky-font-size-assist);
+  font-weight: var(--ky-font-medium);
 }
 
-.number-keyboard-demo section strong {
-  font-size: var(--ky-font-size-display);
-}
-
-.number-keyboard-demo__actions {
-  display: grid;
-  gap: var(--ky-space-3);
+.number-keyboard-demo__hint {
+  margin: var(--ky-space-2) var(--ky-space-4) 0;
+  color: var(--ky-color-text-tertiary);
+  font-size: var(--ky-font-size-assist);
 }
 </style>

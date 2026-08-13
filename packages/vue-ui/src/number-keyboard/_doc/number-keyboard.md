@@ -27,9 +27,31 @@ const visible = ref(false);
 </script>
 ```
 
+## 额外按键
+
+使用 `extra-key` 配置默认布局左下角的按键内容，可用于身份证号等需要输入字母的场景。
+
+```vue
+<KyNumberKeyboard v-model="value" v-model:visible="visible" extra-key="X" close-text="完成" />
+```
+
 ## 侧栏布局
 
 `theme="custom"` 会把删除与完成操作放入右侧操作栏。该布局最多接受两个额外按键。
+
+```vue
+<KyNumberKeyboard
+  v-model="value"
+  v-model:visible="visible"
+  theme="custom"
+  :extra-key="['00', '.']"
+  close-text="完成"
+/>
+```
+
+## 配置多个按键
+
+侧栏布局支持最多两个额外按键，按数组顺序排列在数字 `0` 两侧。
 
 ```vue
 <KyNumberKeyboard
@@ -47,6 +69,15 @@ const visible = ref(false);
 
 ```vue
 <KyNumberKeyboard v-model="value" v-model:visible="visible" random-key-order :maxlength="6" />
+```
+
+## 双向绑定与最大长度
+
+将 `v-model` 绑定到只读输入区域，并通过 `maxlength` 限制可输入字符数。
+
+```vue
+<KyCell title="输入值" :value="value || '点此输入'" is-link @click="visible = true" />
+<KyNumberKeyboard v-model="value" v-model:visible="visible" :maxlength="6" />
 ```
 
 ## API
