@@ -4,6 +4,9 @@
 :root {
   --site-sidebar: 272px;
   --site-topbar: 72px;
+  --site-code-bg: #1e1e1e;
+  --site-code-border: #333;
+  --site-code-text: #d4d4d4;
 }
 
 body {
@@ -578,11 +581,91 @@ main {
   border-bottom: 1px solid var(--ky-color-divider);
 }
 
-.markdown-body code {
+.markdown-body :not(pre) > code {
   padding: 2px 5px;
   color: var(--ky-color-brand-strong);
   background: var(--ky-color-brand-50);
   border-radius: 5px;
+}
+
+.markdown-body pre {
+  max-width: 100%;
+  margin: 16px 0 20px;
+  overflow-x: auto;
+  color: var(--site-code-text);
+  background: var(--site-code-bg);
+  border: 1px solid var(--site-code-border);
+  border-radius: var(--ky-radius-md);
+  box-shadow: 0 12px 30px color-mix(in srgb, #000 18%, transparent);
+}
+
+.markdown-body pre code {
+  display: block;
+  min-width: max-content;
+  padding: 18px 20px;
+  font-family: Consolas, 'Cascadia Code', 'SFMono-Regular', 'Liberation Mono', Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.65;
+  color: inherit;
+  tab-size: 2;
+  white-space: pre;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* 代码色板参考 VS Code Dark+，并局限在 Markdown 代码块内。 */
+.markdown-body .hljs-comment,
+.markdown-body .hljs-quote {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.markdown-body .hljs-keyword,
+.markdown-body .hljs-selector-tag,
+.markdown-body .hljs-literal,
+.markdown-body .hljs-symbol {
+  color: #c586c0;
+}
+
+.markdown-body .hljs-name,
+.markdown-body .hljs-tag,
+.markdown-body .hljs-meta {
+  color: #569cd6;
+}
+
+.markdown-body .hljs-attr,
+.markdown-body .hljs-attribute,
+.markdown-body .hljs-variable,
+.markdown-body .hljs-template-variable {
+  color: #9cdcfe;
+}
+
+.markdown-body .hljs-string,
+.markdown-body .hljs-regexp,
+.markdown-body .hljs-template-tag {
+  color: #ce9178;
+}
+
+.markdown-body .hljs-number {
+  color: #b5cea8;
+}
+
+.markdown-body .hljs-built_in,
+.markdown-body .hljs-type,
+.markdown-body .hljs-class {
+  color: #4ec9b0;
+}
+
+.markdown-body .hljs-title,
+.markdown-body .hljs-section,
+.markdown-body .hljs-function {
+  color: #dcdcaa;
+}
+
+.markdown-body .hljs-subst,
+.markdown-body .hljs-params,
+.markdown-body .hljs-punctuation {
+  color: var(--site-code-text);
 }
 
 .demo-card {
