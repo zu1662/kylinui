@@ -23,6 +23,7 @@ import { KyActionSheet } from './action-sheet';
 import { KyTabBar } from './tab-bar';
 import { KySwiper } from './swiper';
 import { KyPicker } from './picker';
+import { KyCalendar } from './calendar';
 import { KyBadge } from './badge';
 import { KyDivider } from './divider';
 import { KySpace } from './space';
@@ -42,7 +43,6 @@ import { KySkeleton } from './skeleton';
 import { KySticky } from './sticky';
 import { KyImage } from './image';
 import { KyImagePreview } from './image-preview';
-import { KyPagination } from './pagination';
 import { KySidebar, KySidebarItem } from './sidebar';
 import { KyTextEllipsis } from './text-ellipsis';
 import { KyWatermark } from './watermark';
@@ -74,6 +74,7 @@ const components = [
   KyTabBar,
   KySwiper,
   KyPicker,
+  KyCalendar,
   KyBadge,
   KyDivider,
   KySpace,
@@ -96,7 +97,6 @@ const components = [
   KySticky,
   KyImage,
   KyImagePreview,
-  KyPagination,
   KySidebar,
   KySidebarItem,
   KyTextEllipsis,
@@ -134,6 +134,7 @@ export * from './action-sheet';
 export * from './tab-bar';
 export * from './swiper';
 export * from './picker';
+export * from './calendar';
 export * from './badge';
 export * from './divider';
 export * from './space';
@@ -153,7 +154,6 @@ export * from './skeleton';
 export * from './sticky';
 export * from './image';
 export * from './image-preview';
-export * from './pagination';
 export * from './sidebar';
 export * from './text-ellipsis';
 export * from './watermark';

@@ -1,66 +1,54 @@
-import { reactive } from 'vue';
+import { reactive, type TeleportProps } from 'vue';
+import type { LoadingType } from '../loading';
+import type { IconSize } from '../icon';
 
-export type ToastType = 'text' | 'success' | 'error' | 'loading';
-export type ToastPosition = 'top' | 'center' | 'bottom';
+export type ToastType = 'text' | 'success' | 'error' | 'fail' | 'loading';
+export type ToastPosition = 'top' | 'center' | 'middle' | 'bottom';
+export type ToastWordBreak = 'break-all' | 'break-word' | 'normal';
 
-export interface ToastOptions {
-  message: string | number;
+export interface ToastProps {
+  show?: boolean;
+  message?: string | number;
   type?: ToastType;
+  icon?: string;
+  iconSize?: IconSize;
+  loadingType?: LoadingType;
   duration?: number;
   position?: ToastPosition;
+  wordBreak?: ToastWordBreak;
   zIndex?: number | string;
   forbidClick?: boolean;
+  overlay?: boolean;
+  closeOnClick?: boolean;
+  teleport?: TeleportProps['to'];
+  className?: string;
+}
+
+export interface ToastOptions extends Omit<ToastProps, 'show'> {
+  onOpened?: () => void;
   onClose?: () => void;
 }
 
-export const toastState = reactive({
+export interface ToastInstance {
+  close: () => void;
+  message: string | number;
+}
+
+export interface ToastState {
+  visible: boolean;
+  message: string;
+  type: ToastType;
+  position: ToastPosition;
+  zIndex: number | string;
+  forbidClick: boolean;
+}
+
+/** 兼容旧版读取方式；多实例模式下始终反映最后打开的 Toast。 */
+export const toastState = reactive<ToastState>({
   visible: false,
   message: '',
-  type: 'text' as ToastType,
-  position: 'bottom' as ToastPosition,
-  zIndex: 1000 as number | string,
+  type: 'text',
+  position: 'bottom',
+  zIndex: 1000,
   forbidClick: false,
 });
-let timer: ReturnType<typeof setTimeout> | undefined;
-let closeCallback: (() => void) | undefined;
-
-// 新消息会覆盖当前 Toast，并重置定时器与关闭回调。
-export function showToast(options: string | number | ToastOptions) {
-  const normalized: ToastOptions =
-    typeof options === 'object' ? options : { message: options };
-  if (timer) clearTimeout(timer);
-
-  toastState.message = String(normalized.message);
-  toastState.type = normalized.type ?? 'text';
-  toastState.position = normalized.position ?? 'bottom';
-  toastState.zIndex = normalized.zIndex ?? 1000;
-  toastState.forbidClick = normalized.forbidClick ?? false;
-  closeCallback = normalized.onClose;
-  toastState.visible = true;
-
-  const duration =
-    normalized.duration ??
-    (toastState.type === 'loading' ? 0 : toastState.type === 'error' ? 3200 : 2000);
-  if (duration > 0) timer = setTimeout(hideToast, duration);
-  return { close: hideToast };
-}
-
-export function showLoading(options: string | number | Omit<ToastOptions, 'type'> = '加载中') {
-  const normalized = typeof options === 'object' ? options : { message: options };
-  return showToast({ ...normalized, type: 'loading', duration: normalized.duration ?? 0 });
-}
-
-export function hideToast() {
-  const callback = closeCallback;
-  toastState.visible = false;
-  toastState.forbidClick = false;
-  closeCallback = undefined;
-  if (timer) clearTimeout(timer);
-  timer = undefined;
-  callback?.();
-}
-
-/** 提供适合 setup 中使用的轻量 Hook 接口。 */
-export function useToast() {
-  return { show: showToast, loading: showLoading, hide: hideToast };
-}

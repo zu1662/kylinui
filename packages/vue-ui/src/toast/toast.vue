@@ -1,38 +1,46 @@
 <template>
-  <Teleport to="body">
-    <Transition name="ky-toast-fade">
+  <Teleport :to="teleport">
+    <Transition name="ky-toast-fade" @after-enter="emit('opened')" @after-leave="emit('closed')">
       <div
-        v-if="toastState.visible"
+        v-if="show"
         class="ky-toast-layer"
-        :class="{ 'is-blocking': toastState.forbidClick }"
-        :style="{ zIndex: String(toastState.zIndex) }"
+        :class="{ 'is-blocking': forbidClick || overlay, 'has-overlay': overlay }"
+        :style="{ zIndex: String(zIndex) }"
       >
         <div
           class="ky-toast"
-          :class="[`ky-toast--${toastState.type}`, `ky-toast--${toastState.position}`]"
-          role="status"
-          aria-live="polite"
+          :class="toastClass"
+          :style="{ wordBreak: normalizedWordBreak }"
+          :role="normalizedType === 'error' ? 'alert' : 'status'"
+          :aria-live="normalizedType === 'error' ? 'assertive' : 'polite'"
+          @click="handleToastClick"
         >
-          <KyIcon source="iconfont"
-            v-if="toastState.type === 'loading'"
-            class="ky-toast__spinner"
-            name="loading"
-            :size="18"
-            spin
-          />
-          <KyIcon source="iconfont"
-            v-else-if="toastState.type === 'success'"
-            class="ky-toast__icon"
-            name="checked"
-            :size="20"
-          />
-          <KyIcon source="iconfont"
-            v-else-if="toastState.type === 'error'"
-            class="ky-toast__icon"
-            name="clear"
-            :size="20"
-          />
-          <span>{{ toastState.message }}</span>
+          <slot name="icon">
+            <KyLoading
+              v-if="normalizedType === 'loading' && !icon"
+              class="ky-toast__loading"
+              :type="loadingType"
+              :size="iconSize"
+              color="currentColor"
+            />
+            <img
+              v-else-if="isImageIcon"
+              class="ky-toast__image"
+              :src="icon"
+              :style="iconStyle"
+              alt=""
+            />
+            <KyIcon
+              v-else-if="resolvedIcon"
+              class="ky-toast__icon"
+              :name="resolvedIcon"
+              :size="iconSize"
+              source="iconfont"
+            />
+          </slot>
+          <div v-if="$slots.message || hasMessage" class="ky-toast__text">
+            <slot name="message">{{ message }}</slot>
+          </div>
         </div>
       </div>
     </Transition>
@@ -40,9 +48,94 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onBeforeUnmount, watch } from 'vue';
 import KyIcon from '../icon';
-import { toastState } from './toast';
+import KyLoading from '../loading';
+import type { ToastProps } from './toast';
 
 defineOptions({ name: 'KyToast' });
-// aria-live 使用 polite，避免普通提示打断读屏软件正在播报的内容。
+
+const props = withDefaults(defineProps<ToastProps>(), {
+  show: false,
+  message: '',
+  type: 'text',
+  icon: '',
+  iconSize: 'var(--ky-toast-icon-size)',
+  loadingType: 'circular',
+  duration: 2000,
+  position: 'center',
+  wordBreak: 'break-all',
+  zIndex: 1000,
+  forbidClick: false,
+  overlay: false,
+  closeOnClick: false,
+  teleport: 'body',
+  className: '',
+});
+const emit = defineEmits<{
+  'update:show': [value: boolean];
+  opened: [];
+  closed: [];
+  click: [event: MouseEvent];
+}>();
+
+let timer: ReturnType<typeof setTimeout> | undefined;
+const normalizedType = computed(() => (props.type === 'fail' ? 'error' : props.type));
+const normalizedPosition = computed(() =>
+  props.position === 'middle' ? 'center' : props.position,
+);
+const normalizedWordBreak = computed(() =>
+  props.wordBreak === 'break-word' ? 'break-word' : props.wordBreak,
+);
+const hasMessage = computed(() => props.message !== '');
+const iconStyle = computed(() => {
+  const size = typeof props.iconSize === 'number' ? `${props.iconSize}px` : props.iconSize;
+  return { width: size, height: size };
+});
+const isImageIcon = computed(
+  () => /^(https?:)?\/\//.test(props.icon) || props.icon.startsWith('data:'),
+);
+const resolvedIcon = computed(() => {
+  if (props.icon && !isImageIcon.value) return props.icon;
+  if (normalizedType.value === 'success') return 'checked';
+  if (normalizedType.value === 'error') return 'clear';
+  return '';
+});
+const toastClass = computed(() => [
+  `ky-toast--${normalizedType.value}`,
+  `ky-toast--${normalizedPosition.value}`,
+  `ky-toast--break-${props.wordBreak}`,
+  {
+    'ky-toast--icon': Boolean(
+      resolvedIcon.value || isImageIcon.value || normalizedType.value === 'loading',
+    ),
+  },
+  props.className,
+]);
+
+function clearTimer() {
+  if (timer) clearTimeout(timer);
+  timer = undefined;
+}
+
+function close() {
+  clearTimer();
+  emit('update:show', false);
+}
+
+function handleToastClick(event: MouseEvent) {
+  emit('click', event);
+  if (props.closeOnClick) close();
+}
+
+watch(
+  () => [props.show, props.message, props.duration],
+  () => {
+    clearTimer();
+    if (props.show && props.duration > 0) timer = setTimeout(close, props.duration);
+  },
+  { immediate: true },
+);
+
+onBeforeUnmount(clearTimer);
 </script>

@@ -1,18 +1,19 @@
 import type { UsageConfig } from '../../usage';
 
-// 配置项由文档站读取，用于生成实时预览控件与 Vue Template。
 export default {
   name: 'Toast 轻提示',
   component: 'KyToast',
-  description: '提供低打断的全局结果反馈，同一时间仅显示一条。',
+  description: '通过服务函数展示文字、结果或加载反馈，并支持位置、遮罩和关闭时机配置。',
   codeTitle: 'Composition API',
-  // Toast 通过全局方法触发，代码示例必须与真实调用方式一致。
+  // 服务式组件不能生成普通模板，调用代码需与真实导出保持一致。
   generateCode(values) {
-    // 服务调用同样使用稳定的两空格缩进，保证展示和复制结果一致。
     return [
       'showToast({',
       `  type: ${JSON.stringify(String(values.type))},`,
       `  message: ${JSON.stringify(String(values.message))},`,
+      `  position: ${JSON.stringify(String(values.position))},`,
+      `  duration: ${Number(values.duration)},`,
+      `  forbidClick: ${Boolean(values.forbidClick)},`,
       '});',
     ].join('\n');
   },
@@ -21,14 +22,36 @@ export default {
       name: 'type',
       label: '类型',
       type: 'select',
-      defaultValue: 'success',
+      defaultValue: 'text',
       options: ['text', 'success', 'error', 'loading'],
     },
     {
       name: 'message',
       label: '文案',
       type: 'text',
-      defaultValue: '操作成功',
+      defaultValue: '提示内容',
+    },
+    {
+      name: 'position',
+      label: '位置',
+      type: 'select',
+      defaultValue: 'center',
+      options: ['top', 'center', 'bottom'],
+    },
+    {
+      name: 'duration',
+      label: '持续时间',
+      type: 'number',
+      defaultValue: 2000,
+      min: 0,
+      max: 10000,
+      step: 500,
+    },
+    {
+      name: 'forbidClick',
+      label: '禁止背景点击',
+      type: 'boolean',
+      defaultValue: false,
     },
   ],
 } satisfies UsageConfig;

@@ -84,6 +84,10 @@ import pickerConfig from '@vue-ui/picker/_usage/config';
 import PickerUsage from '@vue-ui/picker/_usage/index.vue';
 import PickerDemo from '@vue-ui/picker/_demo/basic.vue';
 import pickerDoc from '@vue-ui/picker/_doc/picker.md?raw';
+import calendarConfig from '@vue-ui/calendar/_usage/config';
+import CalendarUsage from '@vue-ui/calendar/_usage/index.vue';
+import CalendarDemo from '@vue-ui/calendar/_demo/basic.vue';
+import calendarDoc from '@vue-ui/calendar/_doc/calendar.md?raw';
 
 import badgeConfig from '@vue-ui/badge/_usage/config';
 import BadgeUsage from '@vue-ui/badge/_usage/index.vue';
@@ -161,10 +165,6 @@ import imagePreviewConfig from '@vue-ui/image-preview/_usage/config';
 import ImagePreviewUsage from '@vue-ui/image-preview/_usage/index.vue';
 import ImagePreviewDemo from '@vue-ui/image-preview/_demo/basic.vue';
 import imagePreviewDoc from '@vue-ui/image-preview/_doc/image-preview.md?raw';
-import paginationConfig from '@vue-ui/pagination/_usage/config';
-import PaginationUsage from '@vue-ui/pagination/_usage/index.vue';
-import PaginationDemo from '@vue-ui/pagination/_demo/basic.vue';
-import paginationDoc from '@vue-ui/pagination/_doc/pagination.md?raw';
 import sidebarConfig from '@vue-ui/sidebar/_usage/config';
 import SidebarUsage from '@vue-ui/sidebar/_usage/index.vue';
 import SidebarDemo from '@vue-ui/sidebar/_demo/basic.vue';
@@ -267,15 +267,6 @@ export const components: ComponentEntry[] = [
     usage: ImagePreviewUsage,
     demo: ImagePreviewDemo,
     doc: imagePreviewDoc,
-  },
-  {
-    slug: 'pagination',
-    group: '导航组件',
-    title: 'Pagination 分页',
-    config: paginationConfig,
-    usage: PaginationUsage,
-    demo: PaginationDemo,
-    doc: paginationDoc,
   },
   {
     slug: 'sidebar',
@@ -483,6 +474,15 @@ export const components: ComponentEntry[] = [
     usage: PickerUsage,
     demo: PickerDemo,
     doc: pickerDoc,
+  },
+  {
+    slug: 'calendar',
+    group: '表单组件',
+    title: 'Calendar 日历',
+    config: calendarConfig,
+    usage: CalendarUsage,
+    demo: CalendarDemo,
+    doc: calendarDoc,
   },
   {
     slug: 'tab-bar',
