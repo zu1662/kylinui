@@ -1,33 +1,20 @@
 <template>
-  <KyGrid v-bind="configProps"
-    ><KyGridItem v-for="item in 4" :key="item" icon="star" :text="`入口 ${item}`"
-  /></KyGrid>
+  <KyGrid v-bind="configProps">
+    <KyGridItem v-for="item in items" :key="item.text" :icon="item.icon" :text="item.text" />
+  </KyGrid>
 </template>
+
 <script setup lang="ts">
 import { KyGrid, KyGridItem } from '../index';
+
 defineProps<{ configProps: Record<string, unknown> }>();
+
+const items = [
+  { icon: 'home-line', text: '首页' },
+  { icon: 'calendar-line', text: '日程' },
+  { icon: 'smallbell-line', text: '消息' },
+  { icon: 'mine-line', text: '我的' },
+  { icon: 'enshrine-line', text: '收藏' },
+  { icon: 'general-line', text: '设置' },
+];
 </script>
-<style scoped>
-.demo-target {
-  display: inline-grid;
-  min-width: 64px;
-  height: 40px;
-  padding: 0 12px;
-  place-items: center;
-  background: var(--ky-color-brand-soft);
-  border-radius: var(--ky-radius-sm);
-}
-.ky-demo-stack {
-  display: grid;
-  gap: 20px;
-}
-.demo-count b {
-  display: inline-grid;
-  min-width: 30px;
-  height: 30px;
-  place-items: center;
-  color: var(--ky-color-on-brand);
-  background: var(--ky-color-brand-strong);
-  border-radius: 6px;
-}
-</style>

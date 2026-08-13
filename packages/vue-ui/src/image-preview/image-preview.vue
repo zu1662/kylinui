@@ -36,7 +36,7 @@
         class="ky-image-preview__swiper"
         :data="normalizedImages"
         :loop="loop"
-        :duration="normalizedSwipeDuration"
+        :duration="currentSwipeDuration"
         :show-dots="false"
         :touchable="scale <= normalizedMinZoom"
         aria-label="图片列表"
@@ -182,6 +182,10 @@ const normalizedDoubleTapZoom = computed(() =>
   ),
 );
 const normalizedSwipeDuration = computed(() => Math.max(0, Number(props.swipeDuration) || 0));
+const suppressSwipeTransition = ref(false);
+const currentSwipeDuration = computed(() =>
+  suppressSwipeTransition.value ? 0 : normalizedSwipeDuration.value,
+);
 const currentIndex = ref(
   normalizeImagePreviewIndex(props.startPosition, normalizedImages.value.length, props.loop),
 );
@@ -390,6 +394,7 @@ function handleKeydown(event: KeyboardEvent) {
 
 async function handleOpened() {
   await nextTick();
+  suppressSwipeTransition.value = false;
   root.value?.focus();
 }
 
@@ -403,8 +408,14 @@ function handleClosed() {
 watch(
   () => props.modelValue,
   (visible) => {
-    if (!visible) return;
+    if (!visible) {
+      suppressSwipeTransition.value = false;
+      return;
+    }
+
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    // 打开阶段用零时长同步起始索引，弹层完成进入后再恢复正常切换动画。
+    suppressSwipeTransition.value = true;
     currentIndex.value = normalizeImagePreviewIndex(
       props.startPosition,
       normalizedImages.value.length,
