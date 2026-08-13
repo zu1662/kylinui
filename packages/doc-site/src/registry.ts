@@ -189,6 +189,10 @@ import rollingTextConfig from '@vue-ui/rolling-text/_usage/config';
 import RollingTextUsage from '@vue-ui/rolling-text/_usage/index.vue';
 import RollingTextDemo from '@vue-ui/rolling-text/_demo/basic.vue';
 import rollingTextDoc from '@vue-ui/rolling-text/_doc/rolling-text.md?raw';
+import numberKeyboardConfig from '@vue-ui/number-keyboard/_usage/config';
+import NumberKeyboardUsage from '@vue-ui/number-keyboard/_usage/index.vue';
+import NumberKeyboardDemo from '@vue-ui/number-keyboard/_demo/basic.vue';
+import numberKeyboardDoc from '@vue-ui/number-keyboard/_doc/number-keyboard.md?raw';
 
 // 注册表同时驱动导航、实时配置、基础示例与 Markdown 文档。
 export const components: ComponentEntry[] = [
@@ -326,6 +330,15 @@ export const components: ComponentEntry[] = [
     usage: RollingTextUsage,
     demo: RollingTextDemo,
     doc: rollingTextDoc,
+  },
+  {
+    slug: 'number-keyboard',
+    group: '表单组件',
+    title: 'NumberKeyboard 数字键盘',
+    config: numberKeyboardConfig,
+    usage: NumberKeyboardUsage,
+    demo: NumberKeyboardDemo,
+    doc: numberKeyboardDoc,
   },
   {
     slug: 'badge',

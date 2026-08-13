@@ -1,0 +1,146 @@
+@import './token.less';
+
+.ky-number-keyboard__popup {
+  overflow: visible;
+}
+
+.ky-number-keyboard {
+  width: 100%;
+  padding: var(--ky-space-2);
+  user-select: none;
+  background: var(--ky-number-keyboard-bg);
+}
+
+.ky-number-keyboard__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 var(--ky-space-8) var(--ky-space-2);
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-number-keyboard-title-color);
+  text-align: center;
+}
+
+.ky-number-keyboard__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ky-number-keyboard__header-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 28px;
+  padding: 0 var(--ky-space-2);
+  font-size: var(--ky-font-size-body);
+  color: var(--ky-color-brand-strong);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+.ky-number-keyboard__header-close:disabled {
+  color: var(--ky-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ky-number-keyboard__body {
+  display: flex;
+  gap: var(--ky-number-keyboard-gap);
+}
+
+.ky-number-keyboard__keys {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--ky-number-keyboard-gap);
+  min-width: 0;
+}
+
+.ky-number-keyboard__key,
+.ky-number-keyboard__side-key {
+  min-width: 0;
+  height: var(--ky-number-keyboard-key-height);
+  padding: 0;
+  font-size: var(--ky-font-size-display);
+  font-weight: var(--ky-font-medium);
+  color: var(--ky-number-keyboard-key-color);
+  cursor: pointer;
+  background: var(--ky-number-keyboard-key-bg);
+  border: 0;
+  border-radius: var(--ky-radius-sm);
+  box-shadow: 0 1px 1px var(--ky-color-shadow);
+  transition: background-color var(--ky-duration-fast) var(--ky-easing-standard);
+}
+
+.ky-number-keyboard__key:active,
+.ky-number-keyboard__side-key--delete:active {
+  background: var(--ky-number-keyboard-key-active-bg);
+}
+
+.ky-number-keyboard__key:focus-visible,
+.ky-number-keyboard__side-key:focus-visible {
+  outline: 2px solid var(--ky-color-brand-200);
+  outline-offset: 1px;
+}
+
+.ky-number-keyboard__key:disabled,
+.ky-number-keyboard__side-key:disabled {
+  color: var(--ky-color-text-disabled);
+  cursor: not-allowed;
+}
+
+.ky-number-keyboard__key--extra {
+  font-size: var(--ky-font-size-body-strong);
+  color: var(--ky-number-keyboard-extra-color);
+}
+
+.ky-number-keyboard__key.is-wide {
+  grid-column: span 2;
+}
+
+.ky-number-keyboard__key.is-full {
+  grid-column: span 3;
+}
+
+.ky-number-keyboard__delete-icon {
+  display: inline-flex;
+  font-size: 27px;
+  font-weight: var(--ky-font-regular);
+  line-height: 1;
+}
+
+.ky-number-keyboard__sidebar {
+  display: flex;
+  flex: 0 0 calc((100% - var(--ky-number-keyboard-gap) * 2) / 4);
+  flex-direction: column;
+  gap: var(--ky-number-keyboard-gap);
+}
+
+.ky-number-keyboard__side-key {
+  flex: 1;
+  height: auto;
+  min-height: var(--ky-number-keyboard-key-height);
+  font-size: var(--ky-font-size-body-strong);
+}
+
+.ky-number-keyboard__side-key--close {
+  color: var(--ky-number-keyboard-close-color);
+  background: var(--ky-number-keyboard-close-bg);
+}
+
+.ky-number-keyboard__side-key--close:active {
+  background: var(--ky-number-keyboard-close-active-bg);
+}
+
+.ky-number-keyboard__side-key--close.is-full {
+  min-height: calc(var(--ky-number-keyboard-key-height) * 4 + var(--ky-number-keyboard-gap) * 3);
+}
+
+.ky-number-keyboard.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}

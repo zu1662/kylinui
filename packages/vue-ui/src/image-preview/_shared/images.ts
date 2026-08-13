@@ -41,4 +41,9 @@ export const imagePreviewItems: ImagePreviewItem[] = [
     alt: '橙色暖境主题插画',
     caption: '双击或滚轮可缩放，放大后支持拖动查看细节。',
   },
+  {
+    src: "https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg",
+    alt: '苹果图片',
+    caption: '真实图片，支持双击缩放和拖动查看细节。',
+  },
 ];

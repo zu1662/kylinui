@@ -49,6 +49,7 @@ import { KyWatermark } from './watermark';
 import { KyList } from './list';
 import { KyHighlight } from './highlight';
 import { KyRollingText } from './rolling-text';
+import { KyNumberKeyboard } from './number-keyboard';
 
 // 全量安装入口与按需导出共用同一份组件集合，避免注册遗漏。
 const components = [
@@ -103,6 +104,7 @@ const components = [
   KyList,
   KyHighlight,
   KyRollingText,
+  KyNumberKeyboard,
 ];
 
 export default {
@@ -158,5 +160,6 @@ export * from './watermark';
 export * from './list';
 export * from './highlight';
 export * from './rolling-text';
+export * from './number-keyboard';
 
 export * from './theme';
