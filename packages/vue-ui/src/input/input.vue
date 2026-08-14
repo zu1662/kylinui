@@ -39,9 +39,9 @@ import KyIcon from '../icon';
 import type { InputProps } from './input';
 
 defineOptions({ name: 'KyInput' });
-withDefaults(defineProps<InputProps>(), { type: 'text', modelValue: '' });
+const props = withDefaults(defineProps<InputProps>(), { type: 'text', modelValue: '' });
 const emit = defineEmits<{
-  'update:modelValue': [string];
+  'update:modelValue': [string | number];
   focus: [FocusEvent];
   blur: [FocusEvent];
   clear: [];
@@ -50,7 +50,9 @@ const messageId = `ky-input-message-${useId()}`;
 
 // 原生 input 保留输入法、自动填充和键盘能力，组件仅归一化事件协议。
 function update(event: Event) {
-  emit('update:modelValue', (event.target as HTMLInputElement).value);
+  const raw = (event.target as HTMLInputElement).value;
+  // 仅数字模型回写 Number；字符串模型与空值保持字符串，兼容字符串数字输入。
+  emit('update:modelValue', typeof props.modelValue === 'number' && raw !== '' ? Number(raw) : raw);
 }
 function clear() {
   emit('update:modelValue', '');

@@ -83,6 +83,8 @@ onMounted(() => {
   if (typeof ResizeObserver !== 'undefined' && wrap.value) {
     resizeObserver = new ResizeObserver(() => void measure());
     resizeObserver.observe(wrap.value);
+    // 默认插槽内容变化时文本宽度改变，需要同时观察内容元素以重新启用或停止滚动。
+    if (content.value) resizeObserver.observe(content.value);
   }
   void measure();
 });

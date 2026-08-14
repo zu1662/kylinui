@@ -15,6 +15,9 @@ const emit = defineEmits<{
   change: [CollapseName | CollapseName[] | null];
 }>();
 const ids = ref<symbol[]>([]);
+// 未命名项在注册时分配稳定递增的隐式名称，避免前置项删除或插入导致展开状态漂移。
+let implicitSeed = 0;
+const implicitNames = new Map<symbol, CollapseName>();
 const activeNames = computed<CollapseName[]>(() =>
   Array.isArray(props.modelValue)
     ? props.modelValue
@@ -23,13 +26,18 @@ const activeNames = computed<CollapseName[]>(() =>
       : [props.modelValue],
 );
 function register(id: symbol) {
-  if (!ids.value.includes(id)) ids.value.push(id);
+  if (!ids.value.includes(id)) {
+    ids.value.push(id);
+    implicitNames.set(id, implicitSeed);
+    implicitSeed += 1;
+  }
 }
 function unregister(id: symbol) {
   ids.value = ids.value.filter((item) => item !== id);
+  implicitNames.delete(id);
 }
 function resolveName(id: symbol, explicit?: CollapseName) {
-  return explicit ?? ids.value.indexOf(id);
+  return explicit ?? implicitNames.get(id) ?? ids.value.indexOf(id);
 }
 function toggle(name: CollapseName, expanded: boolean) {
   const next: CollapseName | CollapseName[] | null = props.accordion

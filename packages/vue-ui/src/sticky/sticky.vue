@@ -17,7 +17,8 @@ const emit = defineEmits<{ change: [stuck: boolean] }>();
 const root = ref<HTMLElement | null>(null);
 const stuck = ref(false);
 let frame = 0;
-let scrollParent: HTMLElement | Window = window;
+// 滚动容器在挂载后解析；初始为 null 避免 SSR 阶段访问 window。
+let scrollParent: HTMLElement | Window | null = null;
 const unit = (value: number | string) => (typeof value === 'number' ? `${value}px` : value);
 const numericOffset = computed(() =>
   typeof props.offset === 'number' ? props.offset : Number.parseFloat(props.offset) || 0,
@@ -48,7 +49,7 @@ function getBoundary() {
 function measure() {
   cancelAnimationFrame(frame);
   frame = requestAnimationFrame(() => {
-    if (!root.value) return;
+    if (!root.value || !scrollParent) return;
     const rect = root.value.getBoundingClientRect();
     const boundary = getBoundary();
     const next =
@@ -62,8 +63,10 @@ function measure() {
   });
 }
 onMounted(() => {
-  if (root.value) scrollParent = getScrollParent(root.value);
-  window.addEventListener('scroll', measure, true);
+  if (!root.value) return;
+  scrollParent = getScrollParent(root.value);
+  // 只监听实际滚动容器，避免捕获页面中无关滚动事件触发全部实例测量。
+  scrollParent.addEventListener('scroll', measure, { passive: true });
   window.addEventListener('resize', measure);
   measure();
 });
@@ -73,7 +76,7 @@ watch(
 );
 onBeforeUnmount(() => {
   cancelAnimationFrame(frame);
-  window.removeEventListener('scroll', measure, true);
+  scrollParent?.removeEventListener('scroll', measure);
   window.removeEventListener('resize', measure);
 });
 </script>

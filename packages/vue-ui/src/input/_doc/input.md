@@ -6,6 +6,7 @@ Input 提供标签、辅助信息、错误说明和清空能力，同时保留�
 
 - 错误原因应紧邻字段展示，组件会通过 `aria-describedby` 建立关联。
 - 只读内容使用 `readonly`，不可操作字段使用 `disabled`。
+- `modelValue` 运行时类型为 `number` 时，输入内容以 `number` 值回写；字符串模型与清空输入保持字符串，兼容字符串数字输入。
 
 ## API
 
@@ -24,12 +25,12 @@ Input 提供标签、辅助信息、错误说明和清空能力，同时保留�
 
 ## 事件
 
-| 事件名            | 说明                 | 回调参数            |
-| ----------------- | -------------------- | ------------------- |
-| update:modelValue | 输入值变化时触发     | `value: string`     |
-| focus             | 输入框获得焦点时触发 | `event: FocusEvent` |
-| blur              | 输入框失去焦点时触发 | `event: FocusEvent` |
-| clear             | 点击清空按钮时触发   | -                   |
+| 事件名            | 说明                 | 回调参数                  |
+| ----------------- | -------------------- | ------------------------- |
+| update:modelValue | 输入值变化时触发     | `value: string \| number` |
+| focus             | 输入框获得焦点时触发 | `event: FocusEvent`       |
+| blur              | 输入框失去焦点时触发 | `event: FocusEvent`       |
+| clear             | 点击清空按钮时触发   | -                         |
 
 ## 插槽
 

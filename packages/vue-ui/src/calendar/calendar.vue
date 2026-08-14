@@ -130,7 +130,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import KyButton from '../button';
 import KyIcon from '../icon';
 import KyPopup from '../popup';
@@ -189,6 +189,9 @@ const emit = defineEmits<{
 const body = ref<HTMLElement>();
 const selected = ref<CalendarValue>(normalizeValue(props.defaultDate));
 const displayMonth = ref(initialMonth());
+// switchMode=none 时按月分批渲染，避免日期范围较大时一次性创建全部月份 DOM 阻塞首次打开。
+const MONTH_BATCH_SIZE = 3;
+const renderedMonthCount = ref(MONTH_BATCH_SIZE);
 const normalizedMinDate = computed(() => startOfCalendarDay(props.minDate));
 const normalizedMaxDate = computed(() => {
   const max = startOfCalendarDay(props.maxDate);
@@ -238,11 +241,19 @@ const visibleMonths = computed(() => {
     normalizedMaxDate.value.getMonth(),
     1,
   );
-  while (compareCalendarDates(cursor, end) <= 0) {
+  let count = 0;
+  while (compareCalendarDates(cursor, end) <= 0 && count < renderedMonthCount.value) {
     months.push(buildMonth(cursor));
     cursor = addCalendarMonths(cursor, 1);
+    count += 1;
   }
   return months;
+});
+const totalMonthCount = computed(() => {
+  if (props.switchMode !== 'none') return 1;
+  const start = normalizedMinDate.value;
+  const end = normalizedMaxDate.value;
+  return (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
 });
 const canGoPrevious = computed(() => canMoveTo(addCalendarMonths(displayMonth.value, -1)));
 const canGoNext = computed(() => canMoveTo(addCalendarMonths(displayMonth.value, 1)));
@@ -254,6 +265,7 @@ watch(
   (value) => {
     selected.value = normalizeValue(value);
     displayMonth.value = initialMonth();
+    renderedMonthCount.value = MONTH_BATCH_SIZE;
   },
   { deep: true },
 );
@@ -262,6 +274,7 @@ watch(
   () => {
     selected.value = normalizeValue(selected.value);
     displayMonth.value = initialMonth();
+    renderedMonthCount.value = MONTH_BATCH_SIZE;
   },
 );
 watch(
@@ -270,8 +283,37 @@ watch(
     if (!show) return;
     selected.value = normalizeValue(props.defaultDate);
     displayMonth.value = initialMonth();
+    renderedMonthCount.value = MONTH_BATCH_SIZE;
   },
 );
+
+// 滚动接近底部时追加下一批月份；追加后内容可能仍未填满容器，需要主动复查一次。
+function handleBodyScroll() {
+  const element = body.value;
+  if (!element || renderedMonthCount.value >= totalMonthCount.value) return;
+  if (element.scrollTop + element.clientHeight >= element.scrollHeight - 200) {
+    renderedMonthCount.value = Math.min(
+      renderedMonthCount.value + MONTH_BATCH_SIZE,
+      totalMonthCount.value,
+    );
+    void nextTick(handleBodyScroll);
+  }
+}
+
+let detachBodyScroll: (() => void) | undefined;
+watch(
+  body,
+  (element) => {
+    detachBodyScroll?.();
+    detachBodyScroll = undefined;
+    if (!element) return;
+    element.addEventListener('scroll', handleBodyScroll, { passive: true });
+    detachBodyScroll = () => element.removeEventListener('scroll', handleBodyScroll);
+    void nextTick(handleBodyScroll);
+  },
+  { flush: 'post' },
+);
+onBeforeUnmount(() => detachBodyScroll?.());
 
 function normalizeValue(value: CalendarValue): CalendarValue {
   const min = startOfCalendarDay(props.minDate);

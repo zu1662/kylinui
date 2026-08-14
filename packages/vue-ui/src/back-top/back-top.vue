@@ -51,6 +51,8 @@ function refresh() {
   visible.value = readTop() >= Math.max(0, props.offset);
 }
 function bindTarget() {
+  // 终止旧容器的滚动动画，避免动画帧把起始位置写入新 target。
+  cancelAnimationFrame(frame);
   scrollTarget?.removeEventListener('scroll', refresh);
   scrollTarget = resolveTarget(props.target);
   scrollTarget.addEventListener('scroll', refresh, { passive: true });

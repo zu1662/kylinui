@@ -243,15 +243,19 @@ function handleDocumentPointerDown(event: PointerEvent) {
   updateVisible(false);
 }
 
+let outsideClickToken = 0;
 watch(
   () => props.visible,
   async (visible) => {
     if (typeof document === 'undefined') return;
+    const token = ++outsideClickToken;
     document.removeEventListener('pointerdown', handleDocumentPointerDown);
     if (!visible) return;
     if (props.randomKeyOrder) shuffleDigits();
     // 等待本次打开手势完成后再监听外部点击，避免触发按钮同时把键盘关闭。
     await nextTick();
+    // 快速开关时旧打开任务的延迟注册必须失效，避免监听器残留。
+    if (token !== outsideClickToken || !props.visible) return;
     document.addEventListener('pointerdown', handleDocumentPointerDown);
   },
   { immediate: true },
@@ -266,6 +270,7 @@ watch(
 
 onBeforeUnmount(() => {
   if (typeof document !== 'undefined') {
+    outsideClickToken += 1;
     document.removeEventListener('pointerdown', handleDocumentPointerDown);
   }
 });

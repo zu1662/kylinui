@@ -37,6 +37,8 @@ function handleConfirm(date: Date) {
 
 `switchMode="none"` 时，组件会按月份纵向连续排列，可在日历主体中上下滚动查看相邻月份。月份网格默认显示当前月份对应的低对比度数字背景，可通过 `showMonthMark` 关闭。`month` 和 `year-month` 模式仅渲染当前月份，并通过头部按钮切换。
 
+平铺模式按月分批渲染：首次仅创建少量月份，滚动接近底部时继续加载后续月份，避免可选范围较大时一次性创建全部日期 DOM 阻塞首次打开。
+
 ## API
 
 ### Calendar Props

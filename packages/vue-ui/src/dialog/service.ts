@@ -6,6 +6,8 @@ export interface DialogServiceState {
   visible: boolean;
   loading: boolean;
   options: DialogServiceOptions;
+  /** 当前显示实例的自增标识，异步确认期间用于识别实例是否已被新的调用替换。 */
+  instanceId: number;
 }
 
 // 显式标注导出类型，避免声明构建泄漏 Vue 内部解包类型与 csstype 路径。
@@ -13,9 +15,11 @@ export const dialogServiceState: DialogServiceState = reactive({
   visible: false,
   loading: false,
   options: {},
+  instanceId: 0,
 });
 
 let hostElement: HTMLDivElement | undefined;
+let instanceSeed = 0;
 
 // 命令式调用按需创建单例宿主，不要求业务额外配置 Provider。
 function ensureDialogHost() {
@@ -30,6 +34,7 @@ export function showDialog(options: DialogServiceOptions) {
   ensureDialogHost();
   dialogServiceState.options = { ...options };
   dialogServiceState.loading = false;
+  dialogServiceState.instanceId = ++instanceSeed;
   dialogServiceState.visible = true;
   return { close: closeDialog };
 }

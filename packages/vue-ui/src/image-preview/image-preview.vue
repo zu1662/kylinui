@@ -115,7 +115,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import type { CSSProperties } from 'vue';
 import type { SwiperItem } from '../swiper';
 import KyIcon from '../icon';
@@ -407,14 +407,19 @@ function handleClosed() {
   emit('closed');
 }
 
+// immediate 保证初始即为打开状态时同步起点并注册键盘监听；SSR 阶段没有 document，直接跳过。
 watch(
   () => props.modelValue,
   (visible) => {
+    if (typeof document === 'undefined') return;
     if (!visible) {
       suppressSwipeTransition.value = false;
+      document.removeEventListener('keydown', handleKeydown);
       return;
     }
 
+    // 只在打开期间注册全局键盘监听，避免每个实例常驻 document 处理器。
+    document.addEventListener('keydown', handleKeydown);
     previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     // 打开阶段用零时长同步起始索引，弹层完成进入后再恢复正常切换动画。
     suppressSwipeTransition.value = true;
@@ -425,6 +430,7 @@ watch(
     );
     resetScale();
   },
+  { immediate: true },
 );
 
 watch(
@@ -437,10 +443,17 @@ watch(
   },
 );
 
+// 同长度替换图片源时索引不变，但失败记录按索引残留会错误屏蔽新图，需要按源标识清理。
+watch(
+  () => normalizedImages.value.map((item) => item.src).join('\u0000'),
+  () => {
+    failedIndexes.value = new Set();
+  },
+);
+
 watch(normalizedMinZoom, resetScale);
-onMounted(() => document.addEventListener('keydown', handleKeydown));
 onBeforeUnmount(() => {
-  document.removeEventListener('keydown', handleKeydown);
+  if (typeof document !== 'undefined') document.removeEventListener('keydown', handleKeydown);
   pointerPoints.clear();
   if (suppressClickTimer) clearTimeout(suppressClickTimer);
 });

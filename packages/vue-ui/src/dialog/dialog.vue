@@ -72,19 +72,26 @@ const resolvedDescription = computed(() => props.description ?? '');
 let previousFocus: HTMLElement | null = null;
 let focusTaskId = 0;
 
-watch(isVisible, async (value) => {
-  const taskId = ++focusTaskId;
-  if (value) {
-    previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    await nextTick();
-    window.requestAnimationFrame(() => {
-      if (taskId === focusTaskId && isVisible.value) panel.value?.focus();
-    });
-  } else {
+// immediate 保证初始即为可见状态时也完成焦点进入；SSR 阶段没有 document，直接跳过焦点管理。
+watch(
+  isVisible,
+  (value) => {
+    if (typeof document === 'undefined') return;
+    const taskId = ++focusTaskId;
+    if (value) {
+      previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      void nextTick(() => {
+        window.requestAnimationFrame(() => {
+          if (taskId === focusTaskId && isVisible.value) panel.value?.focus();
+        });
+      });
+      return;
+    }
     previousFocus?.focus();
     previousFocus = null;
-  }
-});
+  },
+  { immediate: true },
+);
 
 function setVisible(value: boolean) {
   emit('update:modelValue', value);

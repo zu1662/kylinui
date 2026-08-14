@@ -49,4 +49,4 @@ Dialog 用于重要确认、风险告知和需要明确决策的场景。组件�
 
 - `showAlert`、`showConfirm`、`showDialog` 会按需创建单例宿主，并返回 `{ close }`。
 - `useDialog()` 为 Composition API 提供 `alert`、`confirm`、`open` 和 `close`。
-- 命令式确认回调返回 Promise 时，宿主自动进入 loading 状态并等待完成。
+- 命令式确认回调返回 Promise 时，宿主自动进入 loading 状态并等待完成；等待期间新打开的对话框不会被旧回调关闭。

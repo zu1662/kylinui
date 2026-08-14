@@ -3,7 +3,9 @@
     <header v-if="showToolbar" class="ky-picker__toolbar">
       <button type="button" :disabled="disabled" @click="emit('cancel')">{{ cancelText }}</button>
       <strong>{{ title }}</strong>
-      <button type="button" :disabled="disabled" @click="confirm">{{ confirmText }}</button>
+      <button type="button" :disabled="disabled || !canConfirm" @click="confirm">
+        {{ confirmText }}
+      </button>
     </header>
 
     <div class="ky-picker__columns" :style="pickerStyle">
@@ -88,6 +90,12 @@ const normalizedColumns = computed<PickerColumn[]>(() => {
   if (!columns.length) return [];
   return Array.isArray(columns[0]) ? (columns as PickerColumn[]) : [columns as PickerColumn];
 });
+// 无列或存在空列时无法得到完整选中值，禁止确认以避免发出 undefined 载荷。
+const canConfirm = computed(
+  () =>
+    normalizedColumns.value.length > 0 &&
+    normalizedColumns.value.every((column) => column.length > 0),
+);
 const centerOffset = computed(() => Math.floor(props.visibleItemCount / 2) * props.itemHeight);
 const pickerStyle = computed(() => ({
   height: `${props.visibleItemCount * props.itemHeight}px`,
@@ -113,8 +121,12 @@ function optionKey(option: PickerOption, index: number) {
   return typeof value === 'object' ? index : String(value);
 }
 
-function valuesFromIndexes() {
-  return normalizedColumns.value.map((column, index) => column[indexes.value[index] ?? 0]);
+function valuesFromIndexes(): PickerOption[] {
+  // 无列或空列无法得到完整选中值，返回空数组保持载荷与公开类型一致。
+  if (!canConfirm.value) return [];
+  return normalizedColumns.value
+    .map((column, index) => column[indexes.value[index] ?? 0])
+    .filter((option): option is PickerOption => option !== undefined);
 }
 
 function emitChange(columnIndex: number) {
@@ -126,6 +138,8 @@ function emitChange(columnIndex: number) {
 function setColumnIndex(columnIndex: number, nextIndex: number, shouldEmit = true) {
   if (props.disabled) return;
   const column = normalizedColumns.value[columnIndex] ?? [];
+  // 空列没有可选值，跳过索引更新与事件，避免拖拽或滚轮操作发出 undefined 选项。
+  if (!column.length) return;
   indexes.value[columnIndex] = clampPickerIndex(nextIndex, column.length);
   dragOffsets.value[columnIndex] = 0;
   indexes.value = [...indexes.value];
@@ -258,6 +272,7 @@ function handleWheel(event: WheelEvent, columnIndex: number) {
 }
 
 function confirm() {
+  if (!canConfirm.value) return;
   emit('confirm', { values: valuesFromIndexes(), indexes: [...indexes.value] });
 }
 
@@ -278,10 +293,21 @@ function initialize() {
 
 onBeforeUnmount(stopActiveDrag);
 
-watch(() => [props.columns, props.modelValue, props.defaultIndex], initialize, {
-  immediate: true,
-  deep: true,
-});
+// 拆分列数据与选中值的深度监听，避免任意一项变化时同时遍历整棵列数据和选中值。
+watch(
+  () => props.columns,
+  () => initialize(),
+  { deep: true, immediate: true },
+);
+watch(
+  () => props.modelValue,
+  () => initialize(),
+  { deep: true },
+);
+watch(
+  () => props.defaultIndex,
+  () => initialize(),
+);
 
 defineExpose({
   getIndexes: () => [...indexes.value],

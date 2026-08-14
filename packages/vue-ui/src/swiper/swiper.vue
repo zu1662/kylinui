@@ -370,14 +370,19 @@ function startSyntheticTouchDrag(event: TouchEvent) {
   };
 }
 
+// 自动播放间隔下限 500ms：非正数视为禁用自动播放，避免 0 或负数被浏览器当作接近 0ms 的高频空转。
+const MIN_AUTOPLAY_INTERVAL = 500;
 function autoplayDelay() {
-  return typeof props.autoplay === 'number' ? props.autoplay : props.interval;
+  const raw = typeof props.autoplay === 'number' ? props.autoplay : props.interval;
+  return Number.isFinite(raw) && raw > 0 ? Math.max(raw, MIN_AUTOPLAY_INTERVAL) : 0;
 }
 
 function resume() {
   pause();
   if (!props.autoplay || props.data.length < 2) return;
-  timer = setInterval(next, autoplayDelay());
+  const delay = autoplayDelay();
+  if (delay <= 0) return;
+  timer = setInterval(next, delay);
 }
 
 function pause() {

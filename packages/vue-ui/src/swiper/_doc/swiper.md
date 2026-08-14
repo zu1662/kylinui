@@ -10,20 +10,20 @@ Swiper 用于在有限空间内循环展示图片或卡片内容，支持触摸�
 
 ## API
 
-| 属性         | 类型                          | 默认值     | 说明                           |
-| ------------ | ----------------------------- | ---------- | ------------------------------ |
-| modelValue   | `number`                      | -          | 当前索引                       |
-| initialIndex | `number`                      | `0`        | 非受控模式的初始索引           |
-| data         | `Array<SwiperItem \| string>` | `[]`       | 轮播数据                       |
-| loop         | `boolean`                     | `true`     | 是否循环                       |
-| autoplay     | `boolean \| number`           | `false`    | 是否自动播放；数字表示播放间隔 |
-| interval     | `number`                      | `3000`     | 自动播放间隔，单位毫秒         |
-| duration     | `number`                      | `300`      | 切换动画时长，单位毫秒         |
-| showDots     | `boolean`                     | `true`     | 是否显示指示点                 |
-| touchable    | `boolean`                     | `true`     | 是否允许拖动                   |
-| scale        | `number`                      | `1`        | 单个卡片占视口的比例           |
-| gap          | `number`                      | `0`        | 卡片间距，单位为 `px`          |
-| ariaLabel    | `string`                      | `'轮播图'` | 轮播区域的可访问名称           |
+| 属性         | 类型                          | 默认值     | 说明                                                                           |
+| ------------ | ----------------------------- | ---------- | ------------------------------------------------------------------------------ |
+| modelValue   | `number`                      | -          | 当前索引                                                                       |
+| initialIndex | `number`                      | `0`        | 非受控模式的初始索引                                                           |
+| data         | `Array<SwiperItem \| string>` | `[]`       | 轮播数据                                                                       |
+| loop         | `boolean`                     | `true`     | 是否循环                                                                       |
+| autoplay     | `boolean \| number`           | `false`    | 是否自动播放；数字表示播放间隔（毫秒），非正数关闭自动播放，生效间隔最小 500ms |
+| interval     | `number`                      | `3000`     | 自动播放间隔，单位毫秒                                                         |
+| duration     | `number`                      | `300`      | 切换动画时长，单位毫秒                                                         |
+| showDots     | `boolean`                     | `true`     | 是否显示指示点                                                                 |
+| touchable    | `boolean`                     | `true`     | 是否允许拖动                                                                   |
+| scale        | `number`                      | `1`        | 单个卡片占视口的比例                                                           |
+| gap          | `number`                      | `0`        | 卡片间距，单位为 `px`                                                          |
+| ariaLabel    | `string`                      | `'轮播图'` | 轮播区域的可访问名称                                                           |
 
 ## 事件
 

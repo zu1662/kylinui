@@ -14,15 +14,18 @@ import { closeDialog, dialogServiceState } from './service';
 
 async function confirm() {
   if (dialogServiceState.loading) return;
+  const instanceId = dialogServiceState.instanceId;
   try {
     const result = dialogServiceState.options.onConfirm?.();
     if (result instanceof Promise) {
       dialogServiceState.loading = true;
       await result;
     }
+    // 等待期间可能通过 showDialog 打开了新的实例，只关闭本次实例，避免串台关闭新弹窗。
+    if (dialogServiceState.instanceId !== instanceId) return;
     closeDialog();
   } finally {
-    dialogServiceState.loading = false;
+    if (dialogServiceState.instanceId === instanceId) dialogServiceState.loading = false;
   }
 }
 
