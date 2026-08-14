@@ -1,0 +1,241 @@
+@import '@vue-ui/style/index.less';
+@import '@vue-ui/style/components.less';
+
+:root {
+  --mobile-header-height: calc(var(--ky-space-8) + var(--ky-space-6));
+}
+
+html.is-mobile-site {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--ky-color-page-bg);
+}
+
+.is-mobile-site body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ky-color-text-primary);
+  background: var(--ky-color-page-bg);
+}
+
+.is-mobile-site *,
+.is-mobile-site *::before,
+.is-mobile-site *::after {
+  box-sizing: border-box;
+}
+
+.is-mobile-site button,
+.is-mobile-site input,
+.is-mobile-site textarea,
+.is-mobile-site select {
+  font: inherit;
+}
+
+.mobile-site {
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.mobile-hero {
+  padding: calc(var(--ky-space-8) + env(safe-area-inset-top)) var(--ky-space-5) var(--ky-space-6);
+  background: var(--ky-gradient-brand-soft);
+  border-bottom: 1px solid var(--ky-color-divider);
+}
+
+.mobile-brand {
+  display: flex;
+  gap: var(--ky-space-3);
+  align-items: center;
+  margin-bottom: var(--ky-space-8);
+}
+
+.mobile-brand__mark {
+  display: grid;
+  place-items: center;
+  width: calc(var(--ky-space-6) * 2);
+  height: calc(var(--ky-space-6) * 2);
+  font-size: var(--ky-font-size-display);
+  font-weight: var(--ky-font-semibold);
+  color: var(--ky-color-on-gradient);
+  background: var(--ky-gradient-brand);
+  border-radius: var(--ky-radius-lg);
+  box-shadow: var(--ky-shadow-brand);
+}
+
+.mobile-brand__copy {
+  display: grid;
+  gap: var(--ky-space-1);
+}
+
+.mobile-brand__copy strong {
+  font-size: var(--ky-font-size-body-strong);
+}
+
+.mobile-brand__copy small,
+.mobile-hero p {
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-color-text-secondary);
+}
+
+.mobile-hero h1 {
+  margin: 0;
+  font-size: var(--ky-font-size-display);
+}
+
+.mobile-hero p {
+  margin: var(--ky-space-2) 0 0;
+}
+
+.mobile-home {
+  padding: var(--ky-space-6) var(--ky-space-4) var(--ky-space-8);
+}
+
+.mobile-group + .mobile-group {
+  margin-top: var(--ky-space-6);
+}
+
+.mobile-group h2 {
+  padding: 0 var(--ky-space-1);
+  margin: 0 0 var(--ky-space-3);
+  font-size: var(--ky-font-size-body);
+  font-weight: var(--ky-font-medium);
+  color: var(--ky-color-text-secondary);
+}
+
+.mobile-component-list {
+  overflow: hidden;
+  background: var(--ky-color-surface);
+  border: 1px solid var(--ky-color-divider);
+  border-radius: var(--ky-radius-lg);
+  box-shadow: var(--ky-shadow-card);
+}
+
+.mobile-component-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: calc(var(--ky-space-8) * 2);
+  padding: var(--ky-space-3) var(--ky-space-4);
+  color: var(--ky-color-text-primary);
+  text-decoration: none;
+  background: var(--ky-color-surface);
+  transition: background var(--ky-duration-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-component-link + .mobile-component-link {
+  border-top: 1px solid var(--ky-color-divider);
+}
+
+.mobile-component-link:active {
+  background: var(--ky-color-selected-bg);
+}
+
+.mobile-component-link:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 3px solid var(--ky-color-brand-200);
+  outline-offset: -3px;
+}
+
+.mobile-component-link > span:first-child {
+  display: grid;
+  gap: var(--ky-space-1);
+}
+
+.mobile-component-link strong {
+  font-size: var(--ky-font-size-body);
+  font-weight: var(--ky-font-medium);
+}
+
+.mobile-component-link small {
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-color-text-tertiary);
+}
+
+.mobile-component-link__arrow {
+  margin-left: var(--ky-space-4);
+  font-size: var(--ky-font-size-display);
+  color: var(--ky-color-text-tertiary);
+}
+
+.mobile-detail-header {
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  display: grid;
+  grid-template-columns: var(--mobile-header-height) 1fr var(--mobile-header-height);
+  align-items: center;
+  min-height: calc(var(--mobile-header-height) + env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
+  background: color-mix(in srgb, var(--ky-color-surface) 90%, transparent);
+  border-bottom: 1px solid var(--ky-color-divider);
+  backdrop-filter: blur(18px);
+}
+
+.mobile-detail-header h1 {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--ky-font-size-body-strong);
+  font-weight: var(--ky-font-semibold);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.mobile-back {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  padding: 0;
+  color: var(--ky-color-text-primary);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-back span {
+  font-size: calc(var(--ky-font-size-display) + var(--ky-space-2));
+  line-height: 1;
+}
+
+.mobile-back:focus-visible {
+  outline: 3px solid var(--ky-color-brand-200);
+  outline-offset: -3px;
+}
+
+.mobile-detail {
+  min-height: calc(100vh - var(--mobile-header-height));
+  padding: var(--ky-space-4);
+}
+
+.mobile-demo {
+  min-height: calc(100vh - var(--mobile-header-height) - var(--ky-space-8));
+  padding: var(--ky-space-4);
+  background: var(--ky-color-surface);
+  border: 1px solid var(--ky-color-divider);
+  border-radius: var(--ky-radius-lg);
+  box-shadow: var(--ky-shadow-card);
+}
+
+/* 以下类供组件库的 _demo/basic.vue 统一复用。 */
+.ky-demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ky-space-3);
+  align-items: center;
+}
+
+.ky-demo-stack {
+  display: grid;
+  gap: var(--ky-space-4);
+}
+
+.ky-demo-inline {
+  display: flex;
+  gap: var(--ky-space-4);
+  align-items: center;
+  justify-content: space-between;
+}
