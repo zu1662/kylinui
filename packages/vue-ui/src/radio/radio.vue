@@ -1,11 +1,11 @@
 <template>
-  <label class="ky-radio" :class="{ 'is-checked': checked, 'is-disabled': disabled }">
+  <label class="ky-radio" :class="{ 'is-checked': checked, 'is-disabled': effectiveDisabled }">
     <input
       type="radio"
-      :name="name"
+      :name="group?.name() || name"
       :value="String(value)"
       :checked="checked"
-      :disabled="disabled"
+      :disabled="effectiveDisabled"
       :aria-label="label"
       @change="select"
     />
@@ -17,22 +17,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { RadioProps } from './radio';
+import { computed, inject } from 'vue';
+import { RADIO_GROUP_KEY, type RadioProps } from './radio';
 
 defineOptions({ name: 'KyRadio' });
 const props = defineProps<RadioProps>();
 const emit = defineEmits<{
-  'update:modelValue': [string | number | boolean];
-  change: [string | number | boolean];
+  'update:modelValue': [value: string | number | boolean];
+  change: [value: string | number | boolean];
 }>();
-const checked = computed(() => props.modelValue === props.value);
+const group = inject(RADIO_GROUP_KEY, undefined);
+const checked = computed(() =>
+  group ? group.isChecked(props.value) : Object.is(props.modelValue, props.value),
+);
+const effectiveDisabled = computed(() => props.disabled || group?.disabled() || false);
 
-// 组件保留原始 value 类型，避免 number 或 boolean 在事件中被字符串化。
 function select() {
-  if (!props.disabled) {
-    emit('update:modelValue', props.value);
-    emit('change', props.value);
-  }
+  if (effectiveDisabled.value) return;
+  if (group) group.select(props.value);
+  else emit('update:modelValue', props.value);
+  emit('change', props.value);
 }
 </script>

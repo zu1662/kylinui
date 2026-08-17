@@ -14,8 +14,8 @@ import { KyInput } from './input';
 import { KyRating } from './rating';
 import { KyStepper } from './stepper';
 import { KySwitch } from './switch';
-import { KyCheckbox } from './checkbox';
-import { KyRadio } from './radio';
+import { KyCheckbox, KyCheckboxGroup } from './checkbox';
+import { KyRadio, KyRadioGroup } from './radio';
 import { KyFormCard } from './form-card';
 import { KySteps } from './steps';
 import { KyPopup } from './popup';
@@ -66,7 +66,9 @@ const components = [
   KyStepper,
   KySwitch,
   KyCheckbox,
+  KyCheckboxGroup,
   KyRadio,
+  KyRadioGroup,
   KyFormCard,
   KySteps,
   KyPopup,

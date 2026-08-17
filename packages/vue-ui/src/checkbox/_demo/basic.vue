@@ -1,15 +1,28 @@
 <template>
   <div class="ky-demo-stack">
-    <KyCheckbox v-model="insurance" label="启用自动同步" /><KyCheckbox
-      v-model="notice"
-      label="接收优惠通知"
-    />
+    <KyCheckboxGroup ref="groupRef" v-model="selected" :max="2" aria-label="通知方式">
+      <KyCheckbox value="sync" label="启用自动同步" />
+      <KyCheckbox value="discount" label="接收优惠通知" />
+      <KyCheckbox value="system" label="接收系统通知" disabled />
+    </KyCheckboxGroup>
+    <div class="ky-demo-row">
+      <KyButton size="small" variant="secondary" @click="groupRef?.toggleAll({ checked: true })">
+        全选可用项
+      </KyButton>
+      <span>已选：{{ selected.join('、') || '无' }}</span>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-import KyCheckbox from '../index';
-const insurance = ref(false);
-const notice = ref(true);
-// 多个复选项可以相互独立，不使用互斥的 name 约束。
+import KyButton from '../../button';
+import {
+  KyCheckbox,
+  KyCheckboxGroup,
+  type CheckboxGroupExpose,
+  type CheckboxValue,
+} from '../index';
+const selected = ref<CheckboxValue[]>(['sync']);
+const groupRef = ref<CheckboxGroupExpose>();
+// 全选会跳过禁用项，并继续受 max 约束。
 </script>

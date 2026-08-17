@@ -78,3 +78,34 @@
 .ky-switch.is-disabled .ky-switch__track {
   background: var(--ky-color-text-disabled);
 }
+
+.ky-switch.is-loading.is-checked .ky-switch__track {
+  background: var(--ky-color-brand-strong);
+}
+
+.ky-switch.is-loading .ky-switch__thumb::after {
+  position: absolute;
+  inset: 5px;
+  content: '';
+  border: 2px solid var(--ky-color-divider);
+  border-top-color: var(--ky-color-brand-strong);
+  border-radius: 50%;
+  animation: ky-switch-loading 0.8s linear infinite;
+}
+
+@keyframes ky-switch-loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ky-switch__track,
+  .ky-switch__thumb {
+    transition: none;
+  }
+
+  .ky-switch.is-loading .ky-switch__thumb::after {
+    animation-duration: 1.6s;
+  }
+}

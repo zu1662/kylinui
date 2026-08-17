@@ -44,6 +44,21 @@ export default {
       defaultValue: true,
     },
     {
+      name: 'maxLength',
+      label: '最大长度',
+      type: 'number',
+      defaultValue: 11,
+      min: 1,
+      max: 100,
+      step: 1,
+    },
+    {
+      name: 'showWordLimit',
+      label: '显示字数',
+      type: 'boolean',
+      defaultValue: true,
+    },
+    {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',

@@ -71,10 +71,28 @@
   border-radius: 50%;
 }
 
-.ky-input__message {
+.ky-input__footer {
+  display: flex;
+  gap: var(--ky-space-3);
+  justify-content: space-between;
+  min-height: 18px;
+}
+
+.ky-input__message,
+.ky-input__count {
   font-size: var(--ky-font-size-assist);
   line-height: 1.5;
   color: var(--ky-color-text-secondary);
+}
+
+.ky-input__message {
+  flex: 1;
+}
+
+.ky-input__count {
+  flex: 0 0 auto;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
 }
 
 .ky-input.is-error {

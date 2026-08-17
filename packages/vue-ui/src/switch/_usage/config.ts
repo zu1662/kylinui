@@ -20,6 +20,12 @@ export default {
       options: ['small', 'medium'],
     },
     {
+      name: 'loading',
+      label: '加载中',
+      type: 'boolean',
+      defaultValue: false,
+    },
+    {
       name: 'disabled',
       label: '禁用',
       type: 'boolean',

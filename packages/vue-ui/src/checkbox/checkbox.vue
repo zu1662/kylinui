@@ -2,17 +2,19 @@
   <label
     class="ky-checkbox"
     :class="{
-      'is-checked': modelValue,
-      'is-disabled': disabled,
+      'is-checked': checked,
+      'is-disabled': effectiveDisabled,
       'is-indeterminate': indeterminate,
     }"
   >
     <input
       type="checkbox"
-      :checked="modelValue"
-      :disabled="disabled"
+      :name="group?.name() || name"
+      :value="value === undefined ? undefined : String(value)"
+      :checked="checked"
+      :disabled="effectiveDisabled"
       :aria-label="label"
-      :aria-checked="indeterminate ? 'mixed' : modelValue"
+      :aria-checked="indeterminate ? 'mixed' : checked"
       @change="update"
     />
     <span class="ky-checkbox__mark" aria-hidden="true">
@@ -25,17 +27,37 @@
 </template>
 
 <script setup lang="ts">
+import { computed, inject, onBeforeUnmount, onMounted } from 'vue';
 import KyIcon from '../icon';
-import type { CheckboxProps } from './checkbox';
+import { CHECKBOX_GROUP_KEY, type CheckboxProps } from './checkbox';
 
 defineOptions({ name: 'KyCheckbox' });
-withDefaults(defineProps<CheckboxProps>(), { modelValue: false });
+const props = withDefaults(defineProps<CheckboxProps>(), { modelValue: false });
 const emit = defineEmits<{ 'update:modelValue': [boolean]; change: [boolean] }>();
+const group = inject(CHECKBOX_GROUP_KEY, undefined);
+const checked = computed(() =>
+  group && props.value !== undefined ? group.isChecked(props.value) : props.modelValue,
+);
+const effectiveDisabled = computed(() => props.disabled || group?.disabled() || false);
 
-// 原生表单语义与可见 label 同步，混合状态额外暴露 aria-checked="mixed"。
+onMounted(() => {
+  if (group && props.value !== undefined)
+    group.register(props.value, () => effectiveDisabled.value);
+});
+
+onBeforeUnmount(() => {
+  if (group && props.value !== undefined) group.unregister(props.value);
+});
+
 function update(event: Event) {
   const value = (event.target as HTMLInputElement).checked;
-  emit('update:modelValue', value);
+  if (group && props.value !== undefined) {
+    const accepted = group.toggle(props.value, value);
+    if (!accepted) {
+      (event.target as HTMLInputElement).checked = checked.value;
+      return;
+    }
+  } else emit('update:modelValue', value);
   emit('change', value);
 }
 </script>

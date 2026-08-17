@@ -1,16 +1,13 @@
 <template>
-  <div class="ky-demo-row">
-    <KyRadio v-model="value" value="direct" label="直达" name="route" /><KyRadio
-      v-model="value"
-      value="transfer"
-      label="中转"
-      name="route"
-    />
-  </div>
+  <KyRadioGroup v-model="value" direction="horizontal" aria-label="行程类型">
+    <KyRadio value="direct" label="直达" />
+    <KyRadio value="transfer" label="中转" />
+    <KyRadio value="charter" label="包机" disabled />
+  </KyRadioGroup>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
-import KyRadio from '../index';
-const value = ref<string | number | boolean>('direct');
-// 单选项同时使用形状和选中状态表达结果。
+import { KyRadio, KyRadioGroup, type RadioValue } from '../index';
+const value = ref<RadioValue>('direct');
+// 分组会生成稳定的原生 name，键盘与辅助技术可识别互斥关系。
 </script>
