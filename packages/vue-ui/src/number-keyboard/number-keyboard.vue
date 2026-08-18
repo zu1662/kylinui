@@ -112,7 +112,7 @@ const props = withDefaults(defineProps<NumberKeyboardProps>(), {
   showDeleteKey: true,
   hideOnClickOutside: true,
   safeArea: true,
-  teleport: 'body',
+  teleport: undefined,
   zIndex: undefined,
   disabled: false,
   ariaLabel: '数字键盘',

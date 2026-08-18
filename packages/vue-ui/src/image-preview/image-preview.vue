@@ -145,7 +145,7 @@ const props = withDefaults(defineProps<ImagePreviewProps>(), {
   minZoom: 1,
   maxZoom: 3,
   doubleTapZoom: 2,
-  teleport: 'body',
+  teleport: undefined,
   zIndex: undefined,
 });
 

@@ -1,5 +1,5 @@
 <template>
-  <Teleport :to="teleport">
+  <Teleport :to="teleportTarget" :disabled="resolvedTeleport === false">
     <Transition name="ky-toast-fade" @after-enter="emit('opened')" @after-leave="emit('closed')">
       <div
         v-if="show"
@@ -48,9 +48,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, watch } from 'vue';
+import { computed, inject, onBeforeUnmount, watch } from 'vue';
+import { CONFIG_PROVIDER_KEY } from '../config-provider';
 import KyIcon from '../icon';
 import KyLoading from '../loading';
+import { getGlobalTeleport } from '../shared/global-config-provider';
 import { getGlobalZIndex } from '../shared/global-z-index';
 import type { ToastProps } from './toast';
 
@@ -70,9 +72,16 @@ const props = withDefaults(defineProps<ToastProps>(), {
   forbidClick: false,
   overlay: false,
   closeOnClick: false,
-  teleport: 'body',
+  teleport: undefined,
   className: '',
 });
+const configProvider = inject(CONFIG_PROVIDER_KEY, undefined);
+const resolvedTeleport = computed(
+  () => props.teleport ?? configProvider?.teleport.value ?? getGlobalTeleport('body'),
+);
+const teleportTarget = computed(() =>
+  resolvedTeleport.value === false ? 'body' : resolvedTeleport.value,
+);
 const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(1000));
 const emit = defineEmits<{
   'update:show': [value: boolean];

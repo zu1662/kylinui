@@ -3,11 +3,11 @@ import type { UsageConfig } from '../../usage';
 export default {
   name: 'NavBar 导航栏',
   component: 'KyNavBar',
-  description: '页面顶部标题、返回操作、主题和安全区能力。',
+  description: '体验返回拦截、标准点击事件、顶部安全区和多种主题。',
   props: [
-    { name: 'title', label: '标题', type: 'text', defaultValue: '页面详情' },
+    { name: 'title', label: '标题', type: 'text', defaultValue: '订单详情' },
     { name: 'leftText', label: '左侧文字', type: 'text', defaultValue: '返回' },
-    { name: 'rightText', label: '右侧文字', type: 'text', defaultValue: '更多' },
+    { name: 'rightText', label: '右侧文字', type: 'text', defaultValue: '帮助' },
     { name: 'leftArrow', label: '返回箭头', type: 'boolean', defaultValue: true },
     {
       name: 'theme',
@@ -16,12 +16,7 @@ export default {
       defaultValue: 'light',
       options: ['light', 'dark', 'gradient'],
     },
-    {
-      name: 'safeAreaInsetTop',
-      label: '顶部安全区',
-      type: 'boolean',
-      defaultValue: false,
-    },
+    { name: 'safeAreaInsetTop', label: '顶部安全区', type: 'boolean', defaultValue: false },
     { name: 'sticky', label: '吸顶', type: 'boolean', defaultValue: false },
   ],
 } satisfies UsageConfig;

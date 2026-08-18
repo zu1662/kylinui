@@ -1,10 +1,20 @@
 <template>
-  <div class="ky-sidebar" role="tablist" aria-orientation="vertical" @keydown="onKeydown">
+  <div
+    class="ky-sidebar"
+    :class="{
+      'has-safe-top': safeAreaInsetTop,
+      'has-safe-bottom': safeAreaInsetBottom,
+    }"
+    role="tablist"
+    aria-orientation="vertical"
+    :aria-label="ariaLabel"
+    @keydown="onKeydown"
+  >
     <slot />
   </div>
 </template>
 <script setup lang="ts">
-import { computed, provide, ref, shallowRef, watch } from 'vue';
+import { computed, nextTick, provide, ref, shallowRef, watch } from 'vue';
 import {
   SIDEBAR_KEY,
   type SidebarItemRecord,
@@ -12,7 +22,13 @@ import {
   type SidebarProps,
 } from './sidebar';
 defineOptions({ name: 'KySidebar' });
-const props = withDefaults(defineProps<SidebarProps>(), { modelValue: undefined });
+const props = withDefaults(defineProps<SidebarProps>(), {
+  modelValue: undefined,
+  safeAreaInsetTop: false,
+  safeAreaInsetBottom: false,
+  scrollToActive: true,
+  ariaLabel: '侧边导航',
+});
 const emit = defineEmits<{
   'update:modelValue': [name: SidebarName];
   change: [name: SidebarName, index: number];
@@ -77,4 +93,16 @@ function onKeydown(event: KeyboardEvent) {
 }
 provide(SIDEBAR_KEY, { activeName, register, unregister, resolveName, select });
 watch(() => items.value.map((item) => item.disabled.value), ensureActive);
+watch(
+  activeName,
+  async (name) => {
+    if (!props.scrollToActive || name === undefined) return;
+    await nextTick();
+    const record = items.value.find(
+      (item) => !item.disabled.value && resolveName(item.id, item.name.value) === name,
+    );
+    record?.element.value?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  },
+  { immediate: true },
+);
 </script>

@@ -7,6 +7,11 @@ export interface TabBarItem {
   badge?: string | number;
   disabled?: boolean;
   icon?: string;
+  activeIcon?: string;
+  inactiveIcon?: string;
+  href?: string;
+  target?: string;
+  rel?: string;
 }
 
 export interface TabBarProps {
@@ -16,5 +21,6 @@ export interface TabBarProps {
   fixedCount?: number;
   scrollable?: boolean;
   animated?: boolean;
+  safeAreaInsetBottom?: boolean;
   ariaLabel?: string;
 }

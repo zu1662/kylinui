@@ -1,99 +1,91 @@
 <template>
-  <div class="ky-config-provider-demo">
-    <section>
-      <h3>主题切换</h3>
-      <KySpace wrap>
-        <KyButton
-          v-for="option in KYLIN_THEME_OPTIONS"
-          :key="option.value"
-          :variant="theme === option.value ? 'primary' : 'secondary'"
-          @click="theme = option.value"
-        >
-          {{ option.label }}
-        </KyButton>
-      </KySpace>
-      <KyConfigProvider :theme="theme" :theme-vars="themeVars">
-        <article class="ky-config-provider-demo__preview">
-          <KyTag variant="solid">{{ theme }}</KyTag>
-          <h4>订单提交成功</h4>
-          <p>ConfigProvider 可在同一页面中创建独立的主题作用域。</p>
-          <KyButton block>查看详情</KyButton>
-        </article>
-      </KyConfigProvider>
-    </section>
-
-    <section>
-      <h3>全局 CSS 变量与浮层层级</h3>
-      <KyConfigProvider
-        theme="ocean"
-        theme-vars-scope="global"
-        :z-index="1600"
-        :theme-vars="{ radiusMd: '999px' }"
-      >
-        <KyButton @click="show = true">打开全局配置弹层</KyButton>
-        <KyPopup v-model="show" position="bottom" round>
-          <div class="ky-config-provider-demo__popup">
-            <strong>Popup 使用全局层级 1600</strong>
-            <KyButton block @click="show = false">关闭</KyButton>
-          </div>
-        </KyPopup>
-      </KyConfigProvider>
-    </section>
+  <div class="config-provider-demo">
+    <div ref="portal" class="config-provider-demo__portal" />
+    <KyConfigProvider
+      theme="ocean"
+      :locale="locale"
+      :service-defaults="serviceDefaults"
+      :teleport="portal || 'body'"
+    >
+      <section class="config-provider-demo__preview">
+        <h3>Locale 与服务默认值</h3>
+        <KySearch v-model="keyword" show-action />
+        <KySpace fill>
+          <KyButton block @click="showToast('顶部 Toast 使用 Provider 默认时长')">Toast</KyButton>
+          <KyButton block variant="secondary" @click="openDialog">Dialog</KyButton>
+          <KyButton block variant="secondary" @click="show = true">Popup</KyButton>
+        </KySpace>
+      </section>
+      <KyPopup v-model="show" position="bottom" round>
+        <div class="config-provider-demo__popup">
+          <strong>默认 Teleport 容器生效</strong>
+          <KyButton block @click="show = false">关闭</KyButton>
+        </div>
+      </KyPopup>
+    </KyConfigProvider>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import KyButton from '../../button';
+import { showConfirm } from '../../dialog';
 import KyPopup from '../../popup';
+import KySearch from '../../search';
 import KySpace from '../../space';
-import KyTag from '../../tag';
-import { KYLIN_THEME_OPTIONS, type KylinTheme } from '../../theme';
+import { showToast } from '../../toast';
 import KyConfigProvider from '../index';
+import type { ConfigProviderLocale, ConfigProviderServiceDefaults } from '../config-provider';
 
-const theme = ref<KylinTheme>('jade');
+const portal = ref<HTMLElement | null>(null);
+const keyword = ref('');
 const show = ref(false);
-const themeVars = {
-  colorBrandStrong: '#1757a6',
-  colorBrand900: '#123f7a',
-  radiusMd: '999px',
+const locale: Partial<ConfigProviderLocale> = {
+  searchPlaceholder: '搜索海盐蓝主题',
+  searchActionText: '收起',
 };
+const serviceDefaults: ConfigProviderServiceDefaults = {
+  toast: { position: 'top', duration: 1400 },
+  dialog: { confirmText: '知道了', cancelText: '稍后' },
+};
+function openDialog() {
+  showConfirm({
+    title: '服务默认值',
+    description: '按钮文案和 Teleport 容器来自 ConfigProvider。',
+  });
+}
 </script>
 
-<style scoped lang="less">
-.ky-config-provider-demo {
-  display: grid;
-  gap: var(--ky-space-6);
+<style scoped>
+.config-provider-demo {
+  position: relative;
+  min-height: 360px;
+  padding: var(--ky-space-4);
 }
 
-.ky-config-provider-demo h3 {
-  margin: 0 0 var(--ky-space-3);
-  color: var(--ky-color-text-secondary);
-  font-size: var(--ky-font-size-assist);
+.config-provider-demo__portal {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-.ky-config-provider-demo__preview {
+.config-provider-demo__portal :deep(*) {
+  pointer-events: auto;
+}
+
+.config-provider-demo__preview {
   display: grid;
-  gap: var(--ky-space-3);
-  margin-top: var(--ky-space-4);
+  gap: var(--ky-space-4);
   padding: var(--ky-space-5);
-  color: var(--ky-color-text-primary);
-  background: var(--ky-color-surface);
-  border: 1px solid var(--ky-color-divider);
+  background: var(--ky-color-page-bg);
   border-radius: var(--ky-radius-lg);
 }
 
-.ky-config-provider-demo__preview h4,
-.ky-config-provider-demo__preview p {
+.config-provider-demo__preview h3 {
   margin: 0;
 }
 
-.ky-config-provider-demo__preview p {
-  color: var(--ky-color-text-secondary);
-  line-height: 1.7;
-}
-
-.ky-config-provider-demo__popup {
+.config-provider-demo__popup {
   display: grid;
   gap: var(--ky-space-4);
   padding: var(--ky-space-5);

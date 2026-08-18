@@ -81,3 +81,17 @@
 .ky-nav-bar__right {
   justify-self: end;
 }
+
+.ky-nav-bar__side:active:not(.is-pending) {
+  opacity: 0.68;
+}
+
+.ky-nav-bar__side.is-pending {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.ky-nav-bar__side:focus-visible {
+  outline: 3px solid var(--ky-color-brand-100);
+  outline-offset: 1px;
+}

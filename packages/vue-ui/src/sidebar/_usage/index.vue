@@ -1,36 +1,48 @@
 <template>
   <div class="sidebar-usage">
-    <KySidebar v-model="active"
-      ><KySidebarItem name="overview" title="概览" /><KySidebarItem
-        name="messages"
-        title="消息"
-        :disabled="disableSecond"
-        :badge="badge" /><KySidebarItem name="settings" title="设置" :dot="showDot"
-    /></KySidebar>
-    <div class="sidebar-usage__content">当前栏目：{{ labels[active] }}</div>
+    <KySidebar v-model="active" v-bind="configProps">
+      <KySidebarItem v-for="item in items" :key="item.name" v-bind="item" />
+    </KySidebar>
+    <div class="sidebar-usage__content">当前分类：{{ active }}</div>
   </div>
 </template>
+
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
+import type { SidebarItemProps } from '../index';
 import { KySidebar, KySidebarItem } from '../index';
-const props = defineProps<{ configProps: Record<string, unknown> }>();
-const active = ref('overview');
-const labels: Record<string, string> = { overview: '概览', messages: '消息', settings: '设置' };
-const showBadge = computed(() => props.configProps.showBadge !== false);
-const disableSecond = computed(() => props.configProps.disableSecond === true);
-const showDot = computed(() => props.configProps.showDot !== false);
-const badge = computed(() => (showBadge.value ? 8 : undefined));
+
+defineProps<{ configProps: Record<string, unknown> }>();
+const active = ref('recommend');
+const items: SidebarItemProps[] = [
+  { name: 'recommend', title: '推荐', activeIcon: 'star-fill', inactiveIcon: 'star' },
+  { name: 'clothes', title: '服饰', icon: 'user', badge: 5 },
+  { name: 'food', title: '食品', icon: 'shop' },
+  { name: 'digital', title: '数码', icon: 'phone' },
+  { name: 'home', title: '家居', icon: 'home-line' },
+  { name: 'travel', title: '旅行', icon: 'location' },
+  { name: 'member', title: '会员', icon: 'user', disabled: true },
+  { name: 'more', title: '更多', icon: 'more' },
+];
 </script>
+
 <style scoped>
 .sidebar-usage {
   display: flex;
-  min-height: 260px;
-  padding: var(--ky-space-4);
+  height: 320px;
+  overflow: hidden;
+  background: var(--ky-color-page-bg);
 }
+
+.sidebar-usage :deep(.ky-sidebar) {
+  flex: 0 0 112px;
+  overflow-y: auto;
+}
+
 .sidebar-usage__content {
-  display: grid;
   flex: 1;
+  padding: var(--ky-space-6) var(--ky-space-4);
   color: var(--ky-color-text-secondary);
-  place-items: center;
+  background: var(--ky-color-surface);
 }
 </style>

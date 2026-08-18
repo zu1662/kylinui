@@ -20,7 +20,7 @@ export interface ToastProps {
   forbidClick?: boolean;
   overlay?: boolean;
   closeOnClick?: boolean;
-  teleport?: TeleportProps['to'];
+  teleport?: TeleportProps['to'] | false;
   className?: string;
 }
 

@@ -170,7 +170,7 @@ const props = withDefaults(defineProps<CalendarProps>(), {
   position: 'bottom',
   round: true,
   closeOnOverlay: true,
-  teleport: 'body',
+  teleport: undefined,
   safeArea: true,
   ariaLabel: '日期选择日历',
 });

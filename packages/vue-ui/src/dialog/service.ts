@@ -1,4 +1,5 @@
 import { createVNode, reactive, render } from 'vue';
+import { getGlobalServiceDefaults } from '../shared/global-config-provider';
 import DialogServiceHost from './dialog-service-host.vue';
 import type { DialogServiceOptions } from './dialog';
 
@@ -32,7 +33,10 @@ function ensureDialogHost() {
 
 export function showDialog(options: DialogServiceOptions) {
   ensureDialogHost();
-  dialogServiceState.options = { ...options };
+  dialogServiceState.options = {
+    ...getGlobalServiceDefaults('dialog'),
+    ...options,
+  };
   dialogServiceState.loading = false;
   dialogServiceState.instanceId = ++instanceSeed;
   dialogServiceState.visible = true;

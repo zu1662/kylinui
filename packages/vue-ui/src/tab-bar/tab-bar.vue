@@ -2,35 +2,58 @@
   <div
     ref="root"
     class="ky-tab-bar"
-    :class="{ 'is-scrollable': isScrollable }"
+    :class="{ 'is-scrollable': isScrollable, 'has-safe-bottom': safeAreaInsetBottom }"
     role="tablist"
     :aria-label="ariaLabel"
   >
-    <button
+    <component
+      :is="item.href ? 'a' : 'button'"
       v-for="(item, index) in data"
       :key="item.value ?? index"
-      :ref="(element) => setItemRef(element, index)"
+      :ref="(element: Element | ComponentPublicInstance | null) => setItemRef(element, index)"
       class="ky-tab-bar__item"
       :class="{ 'is-active': isActive(item, index), 'is-disabled': item.disabled }"
       :style="itemStyle"
-      type="button"
+      :type="item.href ? undefined : 'button'"
+      :href="item.disabled ? undefined : item.href"
+      :target="item.disabled ? undefined : item.target"
+      :rel="item.disabled ? undefined : item.rel"
       role="tab"
-      :disabled="item.disabled"
+      :disabled="item.href ? undefined : item.disabled"
       :aria-disabled="item.disabled || undefined"
       :aria-selected="isActive(item, index)"
-      :tabindex="index === focusableIndex ? 0 : -1"
-      @click="select(item, index)"
+      :aria-current="isActive(item, index) && item.href ? 'page' : undefined"
+      :tabindex="item.disabled ? -1 : index === focusableIndex ? 0 : -1"
+      @click="select($event, item, index)"
       @keydown.left.prevent="moveFocus(index, -1)"
       @keydown.right.prevent="moveFocus(index, 1)"
     >
-      <span v-if="item.icon || $slots.icon" class="ky-tab-bar__icon" aria-hidden="true">
-        <slot name="icon" :item="item" :index="index">
-          <KyIcon source="iconfont" v-if="item.icon" :name="item.icon" :size="18" />
+      <span
+        v-if="resolveItemIcon(item, index) || $slots.icon"
+        class="ky-tab-bar__icon"
+        aria-hidden="true"
+      >
+        <slot name="icon" :item="item" :index="index" :active="isActive(item, index)">
+          <KyIcon
+            v-if="resolveItemIcon(item, index)"
+            source="iconfont"
+            :name="resolveItemIcon(item, index) || ''"
+            :size="18"
+          />
         </slot>
       </span>
       <span class="ky-tab-bar__label">{{ item.label ?? item.title }}</span>
-      <span v-if="item.badge !== undefined" class="ky-tab-bar__badge">{{ item.badge }}</span>
-    </button>
+      <slot
+        v-if="item.badge !== undefined || $slots.badge"
+        name="badge"
+        :item="item"
+        :index="index"
+        :active="isActive(item, index)"
+        :badge="item.badge"
+      >
+        <span class="ky-tab-bar__badge">{{ item.badge }}</span>
+      </slot>
+    </component>
     <span
       class="ky-tab-bar__indicator"
       :class="{ 'is-animated': animated && indicatorReady }"
@@ -58,17 +81,18 @@ const props = withDefaults(defineProps<TabBarProps>(), {
   current: 0,
   fixedCount: 4,
   animated: true,
+  safeAreaInsetBottom: false,
   ariaLabel: '标签导航',
 });
 const emit = defineEmits<{
   'update:modelValue': [value: TabBarValue];
   'update:current': [value: TabBarValue];
   change: [value: TabBarValue, index: number, item: TabBarItem];
-  click: [item: TabBarItem, index: number];
+  click: [item: TabBarItem, index: number, event: MouseEvent];
 }>();
 
 const root = ref<HTMLElement | null>(null);
-const itemRefs = ref<Array<HTMLButtonElement | null>>([]);
+const itemRefs = ref<Array<HTMLElement | null>>([]);
 const indicatorPosition = ref(0);
 const indicatorVisible = ref(false);
 const indicatorReady = ref(false);
@@ -85,11 +109,11 @@ const isScrollable = computed(
 );
 const itemStyle = computed(() => {
   if (isScrollable.value || props.fixedCount <= 0) return undefined;
-  return { flexBasis: `${100 / Math.max(1, props.fixedCount)}%` };
+  return { flexBasis: 100 / Math.max(1, props.fixedCount) + '%' };
 });
 const indicatorStyle = computed(() => ({
   opacity: indicatorVisible.value ? 1 : 0,
-  transform: `translate3d(${indicatorPosition.value}px, 0, 0) translateX(-50%)`,
+  transform: 'translate3d(' + indicatorPosition.value + 'px, 0, 0) translateX(-50%)',
 }));
 
 function itemValue(item: TabBarItem, index: number) {
@@ -100,10 +124,13 @@ function isActive(item: TabBarItem, index: number) {
   return !item.disabled && activeValue.value === itemValue(item, index);
 }
 
-function setItemRef(element: Element | ComponentPublicInstance | null, index: number) {
-  const item = element instanceof HTMLButtonElement ? element : null;
-  const previousItem = itemRefs.value[index];
+function resolveItemIcon(item: TabBarItem, index: number) {
+  return isActive(item, index) ? (item.activeIcon ?? item.icon) : (item.inactiveIcon ?? item.icon);
+}
 
+function setItemRef(element: Element | ComponentPublicInstance | null, index: number) {
+  const item = element instanceof HTMLElement ? element : null;
+  const previousItem = itemRefs.value[index];
   if (previousItem && previousItem !== item) resizeObserver?.unobserve(previousItem);
   itemRefs.value[index] = item;
   if (item) resizeObserver?.observe(item);
@@ -120,10 +147,8 @@ function updateIndicator(index = activeIndex()) {
     indicatorVisible.value = false;
     return;
   }
-
   indicatorPosition.value = item.offsetLeft + item.offsetWidth / 2;
   indicatorVisible.value = true;
-
   if (!indicatorReady.value && typeof window !== 'undefined') {
     if (indicatorReadyFrame !== undefined) window.cancelAnimationFrame(indicatorReadyFrame);
     indicatorReadyFrame = window.requestAnimationFrame(() => {
@@ -138,20 +163,18 @@ function reveal(index: number) {
   const scroller = root.value;
   const item = itemRefs.value[index];
   if (!scroller || !item || scroller.scrollWidth <= scroller.clientWidth + 1) return;
-
   const maximum = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
   const itemCenter = item.offsetLeft + item.offsetWidth / 2;
   const target = Math.min(maximum, Math.max(0, itemCenter - scroller.clientWidth / 2));
-
-  scroller.scrollTo({
-    left: target,
-    behavior: props.animated ? 'smooth' : 'auto',
-  });
+  scroller.scrollTo({ left: target, behavior: props.animated ? 'smooth' : 'auto' });
 }
 
-function select(item: TabBarItem, index: number) {
-  emit('click', item, index);
-  if (item.disabled) return;
+function select(event: MouseEvent, item: TabBarItem, index: number) {
+  if (item.disabled) {
+    event.preventDefault();
+    return;
+  }
+  emit('click', item, index, event);
   const value = itemValue(item, index);
   emit('update:modelValue', value);
   emit('update:current', value);
@@ -166,7 +189,6 @@ function moveFocus(index: number, direction: -1 | 1) {
     next = (next + direction + props.data.length) % props.data.length;
     if (!props.data[next]?.disabled) {
       itemRefs.value[next]?.focus();
-      select(props.data[next], next);
       return;
     }
   }

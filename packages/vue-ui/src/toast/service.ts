@@ -1,4 +1,5 @@
 import { createVNode, reactive, render } from 'vue';
+import { getGlobalServiceDefaults, getGlobalTeleport } from '../shared/global-config-provider';
 import { getGlobalZIndex } from '../shared/global-z-index';
 import ToastHost from './host.vue';
 import {
@@ -28,10 +29,10 @@ interface ToastQueueItem {
       | 'forbidClick'
       | 'overlay'
       | 'closeOnClick'
-      | 'teleport'
       | 'className'
     >
-  >;
+  > &
+    Pick<ToastProps, 'teleport'>;
   onOpened?: () => void;
   onClose?: () => void;
   closed: boolean;
@@ -50,7 +51,7 @@ const defaultOptions: ToastQueueItem['options'] = {
   forbidClick: false,
   overlay: false,
   closeOnClick: false,
-  teleport: 'body',
+  teleport: undefined,
   className: '',
 };
 
@@ -112,14 +113,25 @@ export function mountToastHost() {
 export function showToast(options: string | number | ToastOptions = ''): ToastInstance {
   ensureToastHost();
   const parsed = parseOptions(options);
-  const type = normalizeType(parsed.type ?? currentOptions.type);
+  const providerDefaults = getGlobalServiceDefaults('toast');
+  const type = normalizeType(parsed.type ?? providerDefaults.type ?? currentOptions.type);
   const merged = {
     ...currentOptions,
-    zIndex: hasCustomDefaultZIndex ? currentOptions.zIndex : getGlobalZIndex(1000),
+    ...providerDefaults,
+    zIndex:
+      providerDefaults.zIndex ??
+      (hasCustomDefaultZIndex ? currentOptions.zIndex : getGlobalZIndex(1000)),
     ...defaultOptionsMap.get(type),
     ...parsed,
     type,
-    position: normalizePosition(parsed.position ?? currentOptions.position),
+    position: normalizePosition(
+      parsed.position ?? providerDefaults.position ?? currentOptions.position,
+    ),
+    teleport:
+      parsed.teleport ??
+      providerDefaults.teleport ??
+      currentOptions.teleport ??
+      getGlobalTeleport('body'),
   } as ToastQueueItem['options'];
   if (allowMultiple) {
     const baseZIndex = Number(merged.zIndex);

@@ -3,7 +3,7 @@ import type { UsageConfig } from '../../usage';
 export default {
   name: 'ConfigProvider 全局配置',
   component: 'KyConfigProvider',
-  description: '切换局部主题、CSS 变量作用域与浮层默认层级。',
+  description: '切换主题与层级，并体验 locale、服务默认值和默认 Teleport 容器。',
   codeTitle: 'Vue Template',
   props: [
     {

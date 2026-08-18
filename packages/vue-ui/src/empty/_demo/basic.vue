@@ -1,33 +1,25 @@
 <template>
-  <KyEmpty image="search" description="没有找到匹配结果"
-    ><KyButton size="small" variant="secondary">清除筛选</KyButton></KyEmpty
-  >
+  <div class="empty-demo">
+    <KyEmpty title="还没有收藏" description="收藏的内容会显示在这里">
+      <KyButton size="small">去逛逛</KyButton>
+    </KyEmpty>
+    <KyEmpty image="network" title="网络连接失败" description="请检查网络后重试">
+      <template #action>
+        <KyButton size="small" variant="secondary">重新加载</KyButton>
+      </template>
+    </KyEmpty>
+  </div>
 </template>
+
 <script setup lang="ts">
-import KyEmpty from '../index';
 import KyButton from '../../button';
+import KyEmpty from '../index';
 </script>
+
 <style scoped>
-.demo-target {
-  display: inline-grid;
-  min-width: 64px;
-  height: 40px;
-  padding: 0 12px;
-  place-items: center;
-  background: var(--ky-color-brand-soft);
-  border-radius: var(--ky-radius-sm);
-}
-.ky-demo-stack {
+.empty-demo {
   display: grid;
-  gap: 20px;
-}
-.demo-count b {
-  display: inline-grid;
-  min-width: 30px;
-  height: 30px;
-  place-items: center;
-  color: var(--ky-color-on-brand);
-  background: var(--ky-color-brand-strong);
-  border-radius: 6px;
+  gap: var(--ky-space-6);
+  padding: var(--ky-space-4);
 }
 </style>

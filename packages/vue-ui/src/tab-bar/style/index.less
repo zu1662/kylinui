@@ -12,6 +12,10 @@
   border-bottom: 1px solid var(--ky-color-divider);
 }
 
+.ky-tab-bar.has-safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 .ky-tab-bar::-webkit-scrollbar {
   display: none;
 }
@@ -28,8 +32,13 @@
   padding: 8px 12px;
   color: var(--ky-color-text-secondary);
   white-space: nowrap;
+  text-decoration: none;
   background: transparent;
   border: 0;
+}
+
+.ky-tab-bar__item:active:not(.is-disabled) {
+  background: var(--ky-color-selected-bg);
 }
 
 .ky-tab-bar__item:focus-visible {

@@ -1,36 +1,48 @@
-﻿<template>
+<template>
   <div class="tab-bar-demo">
-    <KyTabBar v-model="current" :data="tabs" :fixed-count="4" />
-    <p>{{ descriptions[current] }}</p>
+    <section>
+      <h3>固定标签与禁用项</h3>
+      <KyTabBar v-model="primary" :data="primaryTabs" safe-area-inset-bottom />
+    </section>
+    <section>
+      <h3>横向滚动与活动图标</h3>
+      <KyTabBar v-model="channel" :data="channels" :fixed-count="4" />
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import type { TabBarItem } from '../index';
 import KyTabBar from '../index';
 
-const current = ref(0);
-const tabs = [
-  { title: '首页', icon: 'home-line' },
-  { title: '消息', icon: 'notice-line' },
-  { title: '日历', icon: 'calendar-line', disabled: true },
-  { title: '订单帮助', icon: 'order-line' },
+const primary = ref('home');
+const channel = ref('recommend');
+const primaryTabs: TabBarItem[] = [
+  { label: '首页', value: 'home', activeIcon: 'home-fill', inactiveIcon: 'home-line' },
+  { label: '消息', value: 'message', icon: 'message', badge: 3 },
+  { label: '发布', value: 'publish', icon: 'plus', disabled: true },
+  { label: '我的', value: 'profile', icon: 'user' },
 ];
-const descriptions = ['查看最新内容', '查看消息通知', '当前频道暂不可用', '处理订单相关问题'];
+const channels: TabBarItem[] = ['推荐', '关注', '本地', '旅行', '美食', '摄影', '亲子'].map(
+  (label, index) => ({
+    label,
+    value: ['recommend', 'follow', 'local', 'travel', 'food', 'photo', 'family'][index],
+  }),
+);
 </script>
 
-<style scoped lang="less">
+<style scoped>
 .tab-bar-demo {
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
+  display: grid;
+  gap: var(--ky-space-6);
+  padding: var(--ky-space-4);
+  background: var(--ky-color-page-bg);
 }
 
-.tab-bar-demo p {
-  margin: 0;
-  padding: 32px 16px;
+.tab-bar-demo h3 {
+  margin: 0 0 var(--ky-space-2);
   color: var(--ky-color-text-secondary);
-  text-align: center;
-  background: var(--ky-color-surface);
+  font-size: var(--ky-font-size-assist);
 }
 </style>

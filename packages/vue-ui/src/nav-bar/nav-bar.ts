@@ -17,5 +17,11 @@ export interface NavBarProps {
   fixed?: boolean;
   placeholder?: boolean;
   zIndex?: number | string;
+  leftHref?: string;
+  leftTarget?: string;
+  leftRel?: string;
+  rightHref?: string;
+  rightTarget?: string;
+  rightRel?: string;
   beforeBack?: NavBarBeforeBack;
 }

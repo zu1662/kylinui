@@ -7,39 +7,50 @@
   <header
     class="ky-nav-bar"
     :class="[
-      `ky-nav-bar--${theme}`,
+      'ky-nav-bar--' + theme,
       { 'is-fixed': fixed, 'is-sticky': sticky && !fixed, 'has-safe-top': hasSafeTop },
     ]"
     :style="{ zIndex }"
   >
-    <button
+    <component
+      :is="leftHref ? 'a' : 'button'"
       v-if="hasLeftContent"
       class="ky-nav-bar__side ky-nav-bar__left"
-      type="button"
-      :aria-label="hasBackArrow ? '返回' : undefined"
+      :class="{ 'is-pending': backPending }"
+      :type="leftHref ? undefined : 'button'"
+      :href="leftHref || undefined"
+      :target="leftTarget"
+      :rel="leftRel"
+      :aria-label="hasBackArrow ? locale.navBarBackLabel : undefined"
+      :aria-busy="backPending || undefined"
       @click="handleLeftClick"
     >
-      <slot name="left"
-        ><KyIcon v-if="hasBackArrow" name="chevron-left" :size="20" />{{ leftText }}</slot
-      >
-    </button>
+      <slot name="left">
+        <KyIcon v-if="hasBackArrow" name="chevron-left" :size="20" />{{ leftText }}
+      </slot>
+    </component>
     <div v-else class="ky-nav-bar__side-placeholder" aria-hidden="true" />
     <div class="ky-nav-bar__title">
       <slot name="title">{{ title }}</slot>
     </div>
-    <button
+    <component
+      :is="rightHref ? 'a' : 'button'"
       v-if="rightText || $slots.right"
       class="ky-nav-bar__side ky-nav-bar__right"
-      type="button"
-      @click="emit('click-right')"
+      :type="rightHref ? undefined : 'button'"
+      :href="rightHref || undefined"
+      :target="rightTarget"
+      :rel="rightRel"
+      @click="emit('click-right', $event)"
     >
       <slot name="right">{{ rightText }}</slot>
-    </button>
+    </component>
     <div v-else class="ky-nav-bar__side-placeholder" aria-hidden="true" />
   </header>
 </template>
 <script setup lang="ts">
 import { computed, ref, useSlots } from 'vue';
+import { useConfigProvider } from '../config-provider';
 import KyIcon from '../icon';
 import type { NavBarProps } from './nav-bar';
 
@@ -57,10 +68,19 @@ const props = withDefaults(defineProps<NavBarProps>(), {
   fixed: false,
   placeholder: false,
   zIndex: 1,
+  leftHref: '',
+  leftTarget: undefined,
+  leftRel: undefined,
+  rightHref: '',
+  rightTarget: undefined,
+  rightRel: undefined,
 });
-const emit = defineEmits<{ 'click-left': []; 'click-right': [] }>();
+const emit = defineEmits<{
+  'click-left': [event: MouseEvent];
+  'click-right': [event: MouseEvent];
+}>();
 const slots = useSlots();
-
+const { locale } = useConfigProvider();
 const hasBackArrow = computed(() => props.leftArrow || props.showBack);
 const hasSafeTop = computed(() => props.safeAreaInsetTop || props.safeTop);
 const hasLeftContent = computed(
@@ -68,18 +88,28 @@ const hasLeftContent = computed(
 );
 const backPending = ref(false);
 
-async function handleLeftClick() {
-  if (backPending.value) return;
+function navigate(href: string, target?: string) {
+  if (typeof window === 'undefined') return;
+  if (target && target !== '_self') window.open(href, target);
+  else window.location.assign(href);
+}
 
-  if (!props.beforeBack) {
-    emit('click-left');
+async function handleLeftClick(event: MouseEvent) {
+  if (backPending.value) {
+    event.preventDefault();
     return;
   }
-
+  if (!props.beforeBack) {
+    emit('click-left', event);
+    return;
+  }
+  event.preventDefault();
   backPending.value = true;
   try {
     const result = await props.beforeBack();
-    if (result !== false) emit('click-left');
+    if (result === false) return;
+    emit('click-left', event);
+    if (props.leftHref) navigate(props.leftHref, props.leftTarget);
   } finally {
     backPending.value = false;
   }

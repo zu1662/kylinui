@@ -1,4 +1,5 @@
 import { createVNode, reactive, render } from 'vue';
+import { getGlobalServiceDefaults, getGlobalTeleport } from '../shared/global-config-provider';
 import ImagePreviewServiceHost from './image-preview-service-host.vue';
 import type { ImagePreviewProps, ImagePreviewSource } from './image-preview';
 
@@ -35,9 +36,13 @@ export function showImagePreview(optionsOrImages: ImagePreviewOptions | ImagePre
   close: () => void;
 } {
   ensureImagePreviewHost();
+  const defaults = {
+    teleport: getGlobalTeleport('body'),
+    ...getGlobalServiceDefaults('imagePreview'),
+  };
   imagePreviewServiceState.options = Array.isArray(optionsOrImages)
-    ? { images: optionsOrImages }
-    : { ...optionsOrImages };
+    ? { ...defaults, images: optionsOrImages }
+    : { ...defaults, ...optionsOrImages };
   imagePreviewServiceState.visible = true;
   return { close: closeImagePreview };
 }

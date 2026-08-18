@@ -1,5 +1,5 @@
 <template>
-  <Teleport :to="teleportTarget" :disabled="teleport === false">
+  <Teleport :to="teleportTarget" :disabled="resolvedTeleport === false">
     <Transition name="ky-popup-fade" :duration="transitionDuration" @after-leave="handleAfterLeave">
       <div
         v-if="rendered || !destroyOnClose"
@@ -42,7 +42,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, inject, nextTick, ref, watch } from 'vue';
+import { CONFIG_PROVIDER_KEY } from '../config-provider';
+import { getGlobalTeleport } from '../shared/global-config-provider';
 import { getGlobalZIndex } from '../shared/global-z-index';
 import { useLockScroll } from '../shared/use-lock-scroll';
 import type { PopupAnimation, PopupDuration, PopupProps } from './popup';
@@ -56,7 +58,7 @@ const props = withDefaults(defineProps<PopupProps>(), {
   round: false,
   safeArea: true,
   destroyOnClose: true,
-  teleport: 'body',
+  teleport: undefined,
   zIndex: undefined,
   duration: () => ({ enter: 300, leave: 275 }),
   panelClass: undefined,
@@ -98,8 +100,14 @@ const POSITION_ANIMATION: Record<NonNullable<PopupProps['position']>, PopupAnima
   right: 'slide-left',
 };
 
+const configProvider = inject(CONFIG_PROVIDER_KEY, undefined);
 const isVisible = computed(() => Boolean(props.modelValue));
-const teleportTarget = computed(() => (props.teleport === false ? 'body' : props.teleport));
+const resolvedTeleport = computed(
+  () => props.teleport ?? configProvider?.teleport.value ?? getGlobalTeleport('body'),
+);
+const teleportTarget = computed(() =>
+  resolvedTeleport.value === false ? 'body' : resolvedTeleport.value,
+);
 const transitionDuration = computed<Required<PopupDuration>>(() => {
   if (typeof props.duration === 'number') {
     return { enter: props.duration, leave: props.duration };

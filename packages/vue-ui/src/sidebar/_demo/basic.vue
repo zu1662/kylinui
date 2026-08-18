@@ -1,28 +1,34 @@
 <template>
   <div class="sidebar-demo">
-    <KySidebar v-model="active"
-      ><KySidebarItem title="推荐" /><KySidebarItem title="近期" badge="6" /><KySidebarItem
-        title="收藏"
-        dot /><KySidebarItem title="不可用" disabled
-    /></KySidebar>
-    <section class="sidebar-demo__panel">当前选中第 {{ Number(active) + 1 }} 项</section>
+    <KySidebar v-model="active">
+      <KySidebarItem name="all" title="全部" active-icon="star-fill" inactive-icon="star" />
+      <KySidebarItem name="message" title="消息" icon="message" :badge="12" />
+      <KySidebarItem name="local" title="本地" icon="location" dot />
+      <KySidebarItem name="disabled" title="暂不可用" disabled />
+      <KySidebarItem name="help" title="帮助" href="#sidebar-help" icon="question" />
+    </KySidebar>
+    <div class="sidebar-demo__panel">{{ active }} 内容区</div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import { KySidebar, KySidebarItem } from '../index';
-const active = ref(0);
+
+const active = ref('all');
 </script>
+
 <style scoped>
 .sidebar-demo {
   display: flex;
-  min-height: 260px;
-  padding: var(--ky-space-4);
+  min-height: 280px;
+  background: var(--ky-color-page-bg);
 }
+
 .sidebar-demo__panel {
-  display: grid;
   flex: 1;
+  padding: var(--ky-space-6) var(--ky-space-4);
   color: var(--ky-color-text-secondary);
-  place-items: center;
+  background: var(--ky-color-surface);
 }
 </style>
