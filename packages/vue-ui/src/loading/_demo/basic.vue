@@ -1,8 +1,7 @@
 <template>
   <KySpace size="large"
-    ><KyLoading>加载中...</KyLoading><KyLoading type="spinner" color="var(--ky-color-brand-strong)" /><KyLoading
-      vertical
-      :size="36"
+    ><KyLoading>加载中...</KyLoading
+    ><KyLoading type="spinner" color="var(--ky-color-brand-strong)" /><KyLoading vertical :size="36"
       >提交中</KyLoading
     ></KySpace
   >

@@ -1,9 +1,9 @@
 <template>
   <div class="ky-demo-stack">
-    <KyProgress :percentage="32" /><KyProgress :percentage="68" color="var(--ky-color-brand-strong)" /><KyProgress
-      :percentage="100"
-      :show-pivot="false"
-    />
+    <KyProgress :percentage="32" /><KyProgress
+      :percentage="68"
+      color="var(--ky-color-brand-strong)"
+    /><KyProgress :percentage="100" :show-pivot="false" />
   </div>
 </template>
 <script setup lang="ts">

@@ -19,7 +19,7 @@ import KyTabBar from '../index';
 const primary = ref('home');
 const channel = ref('recommend');
 const primaryTabs: TabBarItem[] = [
-  { label: '首页', value: 'home', activeIcon: 'home-fill', inactiveIcon: 'home-line' },
+  { label: '首页', value: 'home', activeIcon: 'home', inactiveIcon: 'home-line' },
   { label: '消息', value: 'message', icon: 'message', badge: 3 },
   { label: '发布', value: 'publish', icon: 'plus', disabled: true },
   { label: '我的', value: 'profile', icon: 'user' },
@@ -35,6 +35,7 @@ const channels: TabBarItem[] = ['推荐', '关注', '本地', '旅行', '美食'
 <style scoped>
 .tab-bar-demo {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--ky-space-6);
   padding: var(--ky-space-4);
   background: var(--ky-color-page-bg);

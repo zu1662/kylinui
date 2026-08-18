@@ -18,7 +18,7 @@ const items = [
     label: '首页',
     value: 'home',
     href: '/home',
-    activeIcon: 'home-fill',
+    activeIcon: 'home',
     inactiveIcon: 'home-line',
   },
   { label: '消息', value: 'message', badge: 8 },

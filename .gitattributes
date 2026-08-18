@@ -1,0 +1,2 @@
+# 统一文本文件换行符，避免 Windows 的 core.autocrlf 与 Prettier endOfLine 冲突。
+* text=auto eol=lf

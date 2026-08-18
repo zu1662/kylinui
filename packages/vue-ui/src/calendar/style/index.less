@@ -6,8 +6,8 @@
   width: var(--ky-calendar-width);
   height: var(--ky-calendar-height);
   overflow: hidden;
-  color: var(--ky-color-text-primary);
   font-size: var(--ky-font-size-body);
+  color: var(--ky-color-text-primary);
   background: var(--ky-color-surface);
 }
 
@@ -53,6 +53,7 @@
   top: var(--ky-space-4);
   right: var(--ky-space-4);
   display: grid;
+  place-items: center;
   width: 36px;
   height: 36px;
   padding: 0;
@@ -60,7 +61,6 @@
   background: transparent;
   border: 0;
   border-radius: var(--ky-radius-pill);
-  place-items: center;
 }
 
 .ky-calendar__close:active {
@@ -81,8 +81,8 @@
 
 .ky-calendar__subtitle {
   margin-top: var(--ky-space-1);
-  color: var(--ky-color-text-secondary);
   font-size: var(--ky-font-size-assist);
+  color: var(--ky-color-text-secondary);
 }
 
 .ky-calendar__switcher {
@@ -101,15 +101,15 @@
 
 .ky-calendar__switcher button {
   display: grid;
+  place-items: center;
   min-width: 36px;
   height: 36px;
   padding: 0 var(--ky-space-2);
-  color: var(--ky-color-text-secondary);
   font: inherit;
+  color: var(--ky-color-text-secondary);
   background: transparent;
   border: 0;
   border-radius: var(--ky-radius-pill);
-  place-items: center;
 }
 
 .ky-calendar__switcher button:active:not(:disabled) {
@@ -129,9 +129,9 @@
 
 .ky-calendar__weekdays {
   margin-top: var(--ky-space-3);
-  color: var(--ky-color-text-tertiary);
   font-size: var(--ky-font-size-assist);
   line-height: 28px;
+  color: var(--ky-color-text-tertiary);
 }
 
 .ky-calendar__body {
@@ -166,13 +166,13 @@
   top: 50%;
   left: 50%;
   z-index: 0;
-  color: var(--ky-calendar-month-mark-color);
   font-size: var(--ky-calendar-month-mark-font-size);
   font-weight: var(--ky-font-semibold);
   line-height: 1;
-  transform: translate(-50%, -50%);
+  color: var(--ky-calendar-month-mark-color);
   pointer-events: none;
   user-select: none;
+  transform: translate(-50%, -50%);
 }
 
 .ky-calendar__placeholder,
@@ -190,9 +190,9 @@
   align-items: center;
   justify-content: center;
   padding: 2px;
-  color: var(--ky-color-text-primary);
   font: inherit;
   line-height: 1.1;
+  color: var(--ky-color-text-primary);
   background: transparent;
   border: 0;
 }
@@ -213,9 +213,9 @@
   bottom: 5px;
   width: 4px;
   height: 4px;
+  content: '';
   background: currentcolor;
   border-radius: var(--ky-radius-pill);
-  content: '';
 }
 
 .ky-calendar__day--disabled {
@@ -260,9 +260,9 @@
 .ky-calendar__bottom-info {
   max-width: 100%;
   overflow: hidden;
+  text-overflow: ellipsis;
   font-size: var(--ky-font-size-caption);
   line-height: 1;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 

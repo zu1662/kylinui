@@ -13,7 +13,8 @@
     "lint": "pnpm run lint:script && pnpm run lint:style",
     "lint:script": "eslint .",
     "lint:style": "stylelint \"packages/**/*.less\"",
-    "lint:fix": "eslint . --fix && stylelint \"packages/**/*.less\" --fix"
+    "lint:fix": "eslint . --fix && stylelint \"packages/**/*.less\" --fix",
+    "quality:changed": "node scripts/quality-changed.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

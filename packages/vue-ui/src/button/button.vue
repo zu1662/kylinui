@@ -18,7 +18,14 @@
     :aria-busy="loading"
     @click="handleClick"
   >
-    <KyIcon source="iconfont" v-if="loading" class="ky-button__spinner" name="loading" :size="16" spin />
+    <KyIcon
+      source="iconfont"
+      v-if="loading"
+      class="ky-button__spinner"
+      name="loading"
+      :size="16"
+      spin
+    />
     <span v-else-if="$slots.icon || icon" class="ky-button__icon" aria-hidden="true">
       <slot name="icon"><KyIcon source="iconfont" v-if="icon" :name="icon" :size="16" /></slot>
     </span>

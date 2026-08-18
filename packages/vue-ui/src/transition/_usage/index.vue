@@ -45,7 +45,11 @@ const transitionProps = computed(() => ({
   overflow: hidden;
   place-items: center;
   background:
-    radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--ky-color-brand) 16%, transparent), transparent 38%),
+    radial-gradient(
+      circle at 20% 10%,
+      color-mix(in srgb, var(--ky-color-brand) 16%, transparent),
+      transparent 38%
+    ),
     var(--ky-color-subtle-bg);
   border: 1px solid var(--ky-color-divider);
   border-radius: var(--ky-radius-lg);

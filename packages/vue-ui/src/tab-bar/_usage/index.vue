@@ -17,7 +17,7 @@ import KyTabBar from '../index';
 defineProps<{ configProps: Record<string, unknown> }>();
 const current = ref('home');
 const tabs: TabBarItem[] = [
-  { label: '首页', value: 'home', activeIcon: 'home-fill', inactiveIcon: 'home-line' },
+  { label: '首页', value: 'home', activeIcon: 'home', inactiveIcon: 'home-line' },
   { label: '消息', value: 'message', icon: 'message', badge: 8 },
   { label: '收藏', value: 'favorite', icon: 'star', badge: 'NEW' },
   { label: '订单', value: 'order', icon: 'list' },

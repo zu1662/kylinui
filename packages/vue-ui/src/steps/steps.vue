@@ -6,7 +6,8 @@
       :class="`is-${resolveStepStatus(index, current, item.status)}`"
     >
       <span class="ky-steps__node" aria-hidden="true">
-        <KyIcon source="iconfont"
+        <KyIcon
+          source="iconfont"
           v-if="statusIcon(resolveStepStatus(index, current, item.status))"
           :name="statusIcon(resolveStepStatus(index, current, item.status)) || ''"
           :size="14"

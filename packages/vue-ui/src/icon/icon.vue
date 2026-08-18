@@ -50,7 +50,9 @@ const props = withDefaults(defineProps<IconProps>(), {
 const normalizedName = computed(() => props.name.trim());
 const paths = computed(() => resolveIconPaths(normalizedName.value));
 const useIconfont = computed(
-  () => props.source === 'iconfont' || (props.source === 'auto' && !paths.value.length && isIconfontName(normalizedName.value)),
+  () =>
+    props.source === 'iconfont' ||
+    (props.source === 'auto' && !paths.value.length && isIconfontName(normalizedName.value)),
 );
 const iconStyle = computed(() => ({
   width: resolveIconSize(props.size),

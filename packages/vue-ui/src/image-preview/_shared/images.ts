@@ -42,12 +42,12 @@ export const imagePreviewItems: ImagePreviewItem[] = [
     caption: '双击或滚轮可缩放，放大后支持拖动查看细节。',
   },
   {
-    src: "https://wepie.oss-cn-shanghai.aliyuncs.com/2022-07-04/Default.jpg",
+    src: 'https://wepie.oss-cn-shanghai.aliyuncs.com/2022-07-04/Default.jpg',
     alt: '图片1',
     caption: '真实图片，支持双击缩放和拖动查看细节。',
   },
   {
-    src: "https://wepie-1254951306.cos.ap-shanghai.myqcloud.com/2022-07-30/22222.jpg",
+    src: 'https://wepie-1254951306.cos.ap-shanghai.myqcloud.com/2022-07-30/22222.jpg',
     alt: '图片2',
     caption: '真实图片，支持双击缩放和拖动查看细节。',
   },

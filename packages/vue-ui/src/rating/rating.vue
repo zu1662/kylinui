@@ -11,7 +11,11 @@
       :class="{ 'is-active': index <= modelValue }"
       @click="select(index)"
     >
-      <KyIcon source="iconfont" :name="index <= modelValue ? 'enshrine' : 'enshrine-line'" :size="26" />
+      <KyIcon
+        source="iconfont"
+        :name="index <= modelValue ? 'enshrine' : 'enshrine-line'"
+        :size="26"
+      />
     </button>
     <output>{{ modelValue }} 分</output>
   </div>
