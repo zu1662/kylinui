@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@11.17.0",
   "scripts": {
-    "dev": "pnpm --filter @kylin-design/doc-site dev",
+    "dev": "pnpm --filter @kylinui/doc-site dev",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "format": "prettier --write .",
@@ -15,7 +15,7 @@
     "lint:style": "stylelint \"packages/**/*.less\"",
     "lint:fix": "eslint . --fix && stylelint \"packages/**/*.less\" --fix",
     "quality:changed": "node scripts/quality-changed.mjs",
-    "release:check": "pnpm --filter @kylin-design/vue-ui release:check"
+    "release:check": "pnpm --filter @kylinui/vue release:check"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -43,8 +43,8 @@ await rm(tempRoot, { recursive: true, force: true });
 await mkdir(tempRoot, { recursive: true });
 
 try {
-  const rootCode = await bundleFixture('root-entry', '@kylin-design/vue-ui');
-  const subpathCode = await bundleFixture('button-entry', '@kylin-design/vue-ui/button');
+  const rootCode = await bundleFixture('root-entry', '@kylinui/vue');
+  const subpathCode = await bundleFixture('button-entry', '@kylinui/vue/button');
   const forbiddenMarkers = ['KyCalendar', 'ky-calendar', 'KyImagePreview', 'ky-image-preview'];
 
   for (const [name, code] of [

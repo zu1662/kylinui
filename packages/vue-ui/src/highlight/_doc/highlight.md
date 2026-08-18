@@ -52,6 +52,6 @@
 ## 类型与工具导出
 
 ```ts
-import type { HighlightChunk, HighlightKeywords, HighlightProps } from '@kylin-design/vue-ui';
-import { createHighlightChunks } from '@kylin-design/vue-ui';
+import type { HighlightChunk, HighlightKeywords, HighlightProps } from '@kylinui/vue';
+import { createHighlightChunks } from '@kylinui/vue';
 ```

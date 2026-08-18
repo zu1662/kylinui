@@ -37,7 +37,7 @@ async function bootstrap() {
 
   const [{ createApp }, kylinDesign] = await Promise.all([
     import('vue'),
-    import('@kylin-design/vue-ui'),
+    import('@kylinui/vue'),
     import('./styles/index.less'),
   ]);
   const { default: KylinDesign, resolveKylinTheme, setKylinTheme } = kylinDesign;

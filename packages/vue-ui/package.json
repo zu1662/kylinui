@@ -1,5 +1,5 @@
 {
-  "name": "@kylin-design/vue-ui",
+  "name": "@kylinui/vue",
   "version": "0.1.0",
   "description": "Kylin Design mobile Vue 3 component library",
   "type": "module",
@@ -59,6 +59,7 @@
     "**/*.css"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }

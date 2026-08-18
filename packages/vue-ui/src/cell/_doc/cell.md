@@ -107,5 +107,5 @@ import type {
   CellGroupProps,
   CellProps,
   CellSize,
-} from '@kylin-design/vue-ui';
+} from '@kylinui/vue';
 ```

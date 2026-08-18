@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import type { KylinTheme } from '@kylin-design/vue-ui';
+import type { KylinTheme } from '@kylinui/vue';
 import { computed } from 'vue';
 import { renderMarkdown } from '../markdown';
 import type { ComponentEntry } from '../types';

@@ -1,4 +1,4 @@
-import type { KylinTheme } from '@kylin-design/vue-ui';
+import type { KylinTheme } from '@kylinui/vue';
 
 export type PreviewMode = 'usage' | 'demo';
 

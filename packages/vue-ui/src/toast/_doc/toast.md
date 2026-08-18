@@ -18,7 +18,7 @@ import {
   showLoadingToast,
   showSuccessToast,
   showFailToast,
-} from '@kylin-design/vue-ui';
+} from '@kylinui/vue';
 ```
 
 ## 基础用法

@@ -98,7 +98,7 @@ for (const [file, budget] of Object.entries(bundleSizeBudgets)) {
 }
 
 const report = {
-  package: '@kylin-design/vue-ui',
+  package: '@kylinui/vue',
   budgets: bundleSizeBudgets,
   passed: failures.length === 0,
   artifacts,

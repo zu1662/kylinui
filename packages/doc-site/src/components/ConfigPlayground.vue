@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import type { KylinTheme } from '@kylin-design/vue-ui';
+import type { KylinTheme } from '@kylinui/vue';
 import { computed, reactive, ref, watch } from 'vue';
 import type { ComponentEntry } from '../types';
 import { createPreviewPropsMessage, createPreviewUrl } from '../preview';

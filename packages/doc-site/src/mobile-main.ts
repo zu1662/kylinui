@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import KylinDesign, { resolveKylinTheme, setKylinTheme } from '@kylin-design/vue-ui';
+import KylinDesign, { resolveKylinTheme, setKylinTheme } from '@kylinui/vue';
 import MobileApp from './MobileApp.vue';
 import './styles/mobile.less';
 

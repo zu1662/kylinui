@@ -32,7 +32,7 @@
 
 Vite 和 TypeScript 将：
 
-- `@kylin-design/vue-ui` 指向 `../vue-ui/src/index.ts`
+- `@kylinui/vue` 指向 `../vue-ui/src/index.ts`
 - `@vue-ui/*` 指向 `../vue-ui/src/*`
 
 这样文档站在开发环境中可以直接热更新组件库源码。不要把组件实现复制到文档站，也不要把 `dist` 作为本地开发依赖来源。
@@ -115,8 +115,8 @@ import componentDoc from '@vue-ui/component/_doc/component.md?raw';
 pnpm exec prettier --check "packages/doc-site/**/*.{ts,vue,less,md,json,html}"
 pnpm lint:script
 pnpm lint:style
-pnpm --filter @kylin-design/doc-site typecheck
-pnpm --filter @kylin-design/doc-site build
+pnpm --filter @kylinui/doc-site typecheck
+pnpm --filter @kylinui/doc-site build
 ```
 
 涉及交互或样式时，启动 `pnpm dev`，至少检查受影响组件页面、Usage 预览、Demo 预览和主题切换，并在结果中明确说明验证范围。

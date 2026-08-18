@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { KyButton, KyNumberKeyboard } from '@kylin-design/vue-ui';
+import { KyButton, KyNumberKeyboard } from '@kylinui/vue';
 
 const value = ref('');
 const visible = ref(false);

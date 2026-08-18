@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { KyImagePreview } from '@kylin-design/vue-ui';
+import { KyImagePreview } from '@kylinui/vue';
 
 const visible = ref(false);
 const images = ['/images/one.jpg', '/images/two.jpg'];
@@ -28,7 +28,7 @@ const images = ['/images/one.jpg', '/images/two.jpg'];
 ## 服务式调用
 
 ```ts
-import { showImagePreview } from '@kylin-design/vue-ui';
+import { showImagePreview } from '@kylinui/vue';
 
 const controller = showImagePreview({
   images: [
@@ -111,14 +111,14 @@ import type {
   ImagePreviewOptions,
   ImagePreviewProps,
   ImagePreviewSource,
-} from '@kylin-design/vue-ui';
+} from '@kylinui/vue';
 import {
   closeImagePreview,
   normalizeImagePreviewIndex,
   normalizeImagePreviewItem,
   showImagePreview,
   useImagePreview,
-} from '@kylin-design/vue-ui';
+} from '@kylinui/vue';
 ```
 
 ## 样式变量

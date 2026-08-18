@@ -9,6 +9,6 @@
 完成文档站改动后，至少运行：
 
 ```bash
-pnpm --filter @kylin-design/doc-site typecheck
-pnpm --filter @kylin-design/doc-site build
+pnpm --filter @kylinui/doc-site typecheck
+pnpm --filter @kylinui/doc-site build
 ```

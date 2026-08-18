@@ -112,7 +112,7 @@ packages/doc-site/
 └─ package.json
 ```
 
-Vite 别名将 `@kylin-design/vue-ui` 和 `@vue-ui` 指向 `packages/vue-ui/src`，因此组件修改无需先构建组件库即可热更新。
+Vite 别名将 `@kylinui/vue` 和 `@vue-ui` 指向 `packages/vue-ui/src`，因此组件修改无需先构建组件库即可热更新。
 
 `registry.ts` 使用显式注册：每个组件分别导入配置、Usage、Demo 和原始 Markdown，然后增加一个 `ComponentEntry`。缺少注册项、分组、标题或 slug 时，新组件不算完整接入文档站。
 

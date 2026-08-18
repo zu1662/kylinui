@@ -75,12 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  KYLIN_THEME_OPTIONS,
-  getKylinTheme,
-  setKylinTheme,
-  type KylinTheme,
-} from '@kylin-design/vue-ui';
+import { KYLIN_THEME_OPTIONS, getKylinTheme, setKylinTheme, type KylinTheme } from '@kylinui/vue';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import ComponentPage from './components/ComponentPage.vue';
 import { components } from './registry';

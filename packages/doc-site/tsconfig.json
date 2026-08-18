@@ -4,7 +4,7 @@
     "composite": false,
     "baseUrl": ".",
     "paths": {
-      "@kylin-design/vue-ui": ["../vue-ui/src/index.ts"],
+      "@kylinui/vue": ["../vue-ui/src/index.ts"],
       "@vue-ui/*": ["../vue-ui/src/*"]
     }
   },

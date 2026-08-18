@@ -41,7 +41,7 @@ importers:
 
   packages/doc-site:
     dependencies:
-      '@kylin-design/vue-ui':
+      '@kylinui/vue':
         specifier: workspace:*
         version: link:../vue-ui
       '@vant/touch-emulator':

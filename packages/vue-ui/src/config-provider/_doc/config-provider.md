@@ -14,7 +14,7 @@
 
 ```vue
 <script setup lang="ts">
-import type { ConfigProviderLocale, ConfigProviderServiceDefaults } from '@kylin-design/vue-ui';
+import type { ConfigProviderLocale, ConfigProviderServiceDefaults } from '@kylinui/vue';
 
 const locale: Partial<ConfigProviderLocale> = {
   searchPlaceholder: '搜索当前页面',
@@ -60,7 +60,7 @@ const portal = ref<HTMLElement | null>(null);
 
 ```vue
 <script setup lang="ts">
-import type { ConfigProviderThemeVars } from '@kylin-design/vue-ui';
+import type { ConfigProviderThemeVars } from '@kylinui/vue';
 
 const themeVars: ConfigProviderThemeVars = {
   colorBrandStrong: '#1757a6',
@@ -145,7 +145,7 @@ import {
   ZH_CN_LOCALE,
   mapThemeVarsToStyle,
   useConfigProvider,
-} from '@kylin-design/vue-ui';
+} from '@kylinui/vue';
 
 import type {
   ConfigProviderContext,
@@ -157,7 +157,7 @@ import type {
   ConfigProviderThemeVars,
   ConfigProviderThemeVarValue,
   ConfigProviderThemeVarsScope,
-} from '@kylin-design/vue-ui';
+} from '@kylinui/vue';
 ```
 
 `useConfigProvider()` 返回当前注入上下文以及响应式 `locale`、`serviceDefaults`、`teleport`。未处于 Provider 内时使用内置中文文案、空服务默认值和统一浮层容器。

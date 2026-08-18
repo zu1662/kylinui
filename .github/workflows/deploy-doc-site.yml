@@ -41,7 +41,7 @@ jobs:
       - name: Build doc site
         env:
           VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-        run: pnpm --filter @kylin-design/doc-site build
+        run: pnpm --filter @kylinui/doc-site build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

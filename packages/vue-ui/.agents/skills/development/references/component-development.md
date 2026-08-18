@@ -107,8 +107,8 @@
 pnpm exec prettier --check "packages/vue-ui/**/*.{ts,vue,less,md,json}"
 pnpm lint:script
 pnpm lint:style
-pnpm --filter @kylin-design/vue-ui typecheck
-pnpm --filter @kylin-design/vue-ui build
+pnpm --filter @kylinui/vue typecheck
+pnpm --filter @kylinui/vue build
 ```
 
 只改少量文件时可以先运行针对性检查，但完成公共 API 或构建相关修改前必须执行包级类型检查和构建。

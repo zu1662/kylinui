@@ -59,7 +59,7 @@ CountDown 用于实时展示倒计时数值，支持秒级或毫秒级更新、�
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { CountDownInstance } from '@kylin-design/vue-ui';
+import type { CountDownInstance } from '@kylinui/vue';
 
 const countDown = ref<CountDownInstance | null>(null);
 const onFinish = () => console.log('倒计时结束');
@@ -126,5 +126,5 @@ const onFinish = () => console.log('倒计时结束');
 ## 类型导出
 
 ```ts
-import type { CountDownProps, CountDownInstance, CountDownCurrentTime } from '@kylin-design/vue-ui';
+import type { CountDownProps, CountDownInstance, CountDownCurrentTime } from '@kylinui/vue';
 ```

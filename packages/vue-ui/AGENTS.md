@@ -9,6 +9,6 @@
 完成组件库改动后，至少运行：
 
 ```bash
-pnpm --filter @kylin-design/vue-ui typecheck
-pnpm --filter @kylin-design/vue-ui build
+pnpm --filter @kylinui/vue typecheck
+pnpm --filter @kylinui/vue build
 ```

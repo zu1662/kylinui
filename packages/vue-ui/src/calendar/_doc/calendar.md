@@ -7,7 +7,7 @@ Calendar 用于在移动端完成单个日期、多个日期或日期区间选�
 ## 引入
 
 ```ts
-import { KyCalendar } from '@kylin-design/vue-ui';
+import { KyCalendar } from '@kylinui/vue';
 ```
 
 ## 基础用法
@@ -22,7 +22,7 @@ import { KyCalendar } from '@kylin-design/vue-ui';
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { KyCalendar, KyCell } from '@kylin-design/vue-ui';
+import { KyCalendar, KyCell } from '@kylinui/vue';
 
 const show = ref(false);
 const dateText = ref('请选择');

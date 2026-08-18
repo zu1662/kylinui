@@ -36,7 +36,7 @@ export default {
       `maxZoom: ${Number(values.maxZoom) || 3}`,
     ];
     return [
-      `import { showImagePreview } from '@kylin-design/vue-ui';`,
+      `import { showImagePreview } from '@kylinui/vue';`,
       '',
       'showImagePreview({',
       `  images,`,

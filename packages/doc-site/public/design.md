@@ -1,4 +1,4 @@
-﻿# 项目设计规范（DESIGN.md）— 温润青玉主题
+# 项目设计规范（DESIGN.md）— 温润青玉主题
 
 > 本文档用于小程序、H5 与 App 项目的 UI 设计和前端实现。
 >
@@ -109,7 +109,7 @@
 全局切换时在根节点设置 `data-ky-theme`，也可以将属性放在任意容器上实现局部主题作用域：
 
 ```ts
-import { setKylinTheme } from '@kylin-design/vue-ui';
+import { setKylinTheme } from '@kylinui/vue';
 
 setKylinTheme('ocean');
 ```

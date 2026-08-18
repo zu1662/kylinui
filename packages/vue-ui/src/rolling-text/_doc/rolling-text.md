@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { RollingTextInstance } from '@kylin-design/vue-ui';
+import type { RollingTextInstance } from '@kylinui/vue';
 
 const rollingText = ref<RollingTextInstance | null>(null);
 const onFinish = () => console.log('播放完成');
@@ -81,6 +81,6 @@ import type {
   RollingTextInstance,
   RollingTextProps,
   RollingTextValue,
-} from '@kylin-design/vue-ui';
-import { createRollingCharacters, formatRollingNumber } from '@kylin-design/vue-ui';
+} from '@kylinui/vue';
+import { createRollingCharacters, formatRollingNumber } from '@kylinui/vue';
 ```
