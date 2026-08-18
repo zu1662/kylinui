@@ -52,10 +52,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue';
 import { demoComponents } from './demo-registry';
 
 const activeSlug = ref('');
+let homeScrollTop = 0;
+let pendingScrollId = 0;
+let scrollFrame: number | undefined;
 const groupedComponents = [...new Set(demoComponents.map((item) => item.group))].map((group) => ({
   group,
   components: demoComponents.filter((item) => item.group === group),
@@ -77,23 +80,48 @@ function updateDocumentTitle() {
     : 'Kylin Design 移动端组件';
 }
 
-function scrollToTop() {
-  window.requestAnimationFrame(() => window.scrollTo({ top: 0 }));
+function scheduleScroll(top: number) {
+  const scrollId = ++pendingScrollId;
+
+  if (scrollFrame !== undefined) {
+    window.cancelAnimationFrame(scrollFrame);
+    scrollFrame = undefined;
+  }
+
+  void nextTick().then(() => {
+    if (scrollId !== pendingScrollId) return;
+
+    scrollFrame = window.requestAnimationFrame(() => {
+      scrollFrame = undefined;
+      if (scrollId !== pendingScrollId) return;
+
+      window.scrollTo({ top });
+    });
+  });
 }
 
 function syncRoute() {
+  const wasHome = !activeSlug.value;
   const slug = readHash();
   const matched = demoComponents.some((item) => item.slug === slug);
+  const nextSlug = matched ? slug : '';
+
+  if (wasHome && nextSlug) {
+    homeScrollTop = window.scrollY;
+  }
 
   if (slug && !matched) {
     window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-    activeSlug.value = '';
-  } else {
-    activeSlug.value = slug;
   }
 
+  activeSlug.value = nextSlug;
   updateDocumentTitle();
-  scrollToTop();
+
+  if (nextSlug) {
+    scheduleScroll(0);
+  } else if (!wasHome) {
+    scheduleScroll(homeScrollTop);
+  }
 }
 
 function goHome() {
@@ -105,5 +133,9 @@ onMounted(() => {
   syncRoute();
   window.addEventListener('hashchange', syncRoute);
 });
-onBeforeUnmount(() => window.removeEventListener('hashchange', syncRoute));
+onBeforeUnmount(() => {
+  pendingScrollId += 1;
+  if (scrollFrame !== undefined) window.cancelAnimationFrame(scrollFrame);
+  window.removeEventListener('hashchange', syncRoute);
+});
 </script>
