@@ -46,7 +46,6 @@ import { KySkeleton } from './skeleton';
 import { KySticky } from './sticky';
 import { KyImage } from './image';
 import { KyImagePreview } from './image-preview';
-import { KySidebar, KySidebarItem } from './sidebar';
 import { KyTextEllipsis } from './text-ellipsis';
 import { KyWatermark } from './watermark';
 import { KyList } from './list';
@@ -105,8 +104,6 @@ const components = [
   KySticky,
   KyImage,
   KyImagePreview,
-  KySidebar,
-  KySidebarItem,
   KyTextEllipsis,
   KyWatermark,
   KyList,
@@ -165,7 +162,6 @@ export * from './skeleton';
 export * from './sticky';
 export * from './image';
 export * from './image-preview';
-export * from './sidebar';
 export * from './text-ellipsis';
 export * from './watermark';
 export * from './list';

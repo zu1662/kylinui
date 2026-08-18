@@ -1,5 +1,4 @@
 import type { ImgHTMLAttributes } from 'vue';
-import type { ImagePreviewSource } from '../image-preview';
 
 export type ImageFit = 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
 export interface ImageProps {
@@ -19,9 +18,6 @@ export interface ImageProps {
   lazyRootMargin?: string;
   retry?: number;
   retryDelay?: number;
-  preview?: boolean;
-  previewImages?: readonly ImagePreviewSource[];
-  previewStartPosition?: number;
   showLoading?: boolean;
   showError?: boolean;
   crossorigin?: ImgHTMLAttributes['crossorigin'];

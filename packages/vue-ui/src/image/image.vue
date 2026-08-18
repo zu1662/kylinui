@@ -5,14 +5,8 @@
     :class="{
       'ky-image--round': round,
       'ky-image--block': block,
-      'is-previewable': preview && loaded && !failed,
     }"
     :style="rootStyle"
-    :role="preview && loaded && !failed ? 'button' : undefined"
-    :tabindex="preview && loaded && !failed ? 0 : undefined"
-    @click="openPreview"
-    @keydown.enter.prevent="openPreview"
-    @keydown.space.prevent="openPreview"
   >
     <img
       v-if="shouldRenderImage"
@@ -48,7 +42,6 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import type { CSSProperties } from 'vue';
 import { useConfigProvider } from '../config-provider';
-import { showImagePreview, type ImagePreviewSource } from '../image-preview';
 import type { ImageProps } from './image';
 import { resolveImageSize } from './image';
 defineOptions({ name: 'KyImage' });
@@ -69,9 +62,6 @@ const props = withDefaults(defineProps<ImageProps>(), {
   lazyRootMargin: '0px',
   retry: 0,
   retryDelay: 0,
-  preview: false,
-  previewImages: () => [],
-  previewStartPosition: 0,
   showLoading: true,
   showError: true,
   crossorigin: undefined,
@@ -82,7 +72,6 @@ const emit = defineEmits<{
   load: [event: Event];
   error: [event: Event];
   retry: [attempt: number, maximum: number];
-  preview: [images: ImagePreviewSource[], startPosition: number];
 }>();
 const { locale } = useConfigProvider();
 const root = ref<HTMLElement | null>(null);
@@ -189,17 +178,6 @@ function handleError(event: Event) {
     },
     Math.max(0, props.retryDelay),
   );
-}
-
-function openPreview() {
-  if (!props.preview || !loaded.value || failed.value || !props.src) return;
-  const images = props.previewImages.length ? [...props.previewImages] : [props.src];
-  const startPosition = Math.min(
-    images.length - 1,
-    Math.max(0, Math.floor(props.previewStartPosition)),
-  );
-  emit('preview', images, startPosition);
-  showImagePreview({ images, startPosition });
 }
 
 watch(

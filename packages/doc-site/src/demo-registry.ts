@@ -43,7 +43,6 @@ import SkeletonDemo from '@vue-ui/skeleton/_demo/basic.vue';
 import StickyDemo from '@vue-ui/sticky/_demo/basic.vue';
 import ImageDemo from '@vue-ui/image/_demo/basic.vue';
 import ImagePreviewDemo from '@vue-ui/image-preview/_demo/basic.vue';
-import SidebarDemo from '@vue-ui/sidebar/_demo/basic.vue';
 import TextEllipsisDemo from '@vue-ui/text-ellipsis/_demo/basic.vue';
 import WatermarkDemo from '@vue-ui/watermark/_demo/basic.vue';
 import ListDemo from '@vue-ui/list/_demo/basic.vue';
@@ -105,12 +104,6 @@ export const demoComponents = [
     group: '展示组件',
     title: 'ImagePreview 图片预览',
     demo: ImagePreviewDemo,
-  },
-  {
-    slug: 'sidebar',
-    group: '导航组件',
-    title: 'Sidebar 侧边导航',
-    demo: SidebarDemo,
   },
   {
     slug: 'text-ellipsis',

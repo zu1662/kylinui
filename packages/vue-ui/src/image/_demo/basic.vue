@@ -1,17 +1,16 @@
 <template>
   <div class="image-demo">
     <section>
-      <h3>预览联动</h3>
-      <KyImage
-        :src="source"
-        :preview-images="previewImages"
-        alt="山谷插画"
-        width="100%"
-        height="180"
-        radius="16"
-        fit="cover"
-        preview
-      />
+      <h3>结合 ImagePreview 使用</h3>
+      <button
+        type="button"
+        class="image-demo__preview-trigger"
+        aria-label="打开图片预览"
+        @click="previewVisible = true"
+      >
+        <KyImage :src="source" alt="山谷插画" width="100%" height="180" radius="16" fit="cover" />
+      </button>
+      <KyImagePreview v-model="previewVisible" :images="previewImages" />
     </section>
     <section>
       <h3>有限重试与错误状态</h3>
@@ -45,16 +44,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import KyImagePreview from '../../image-preview';
+import { imagePreviewItems } from '../../image-preview/_shared/images';
 import KyImage from '../index';
 
 const scrollRoot = ref<HTMLElement | null>(null);
+const previewVisible = ref(false);
 const retryMessage = ref('失败后最多重试 2 次');
-const source =
-  'data:image/svg+xml;charset=UTF-8,' +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400"><rect width="600" height="400" fill="#edf7f2"/><path d="M0 330L150 150l120 120L400 80l200 270v50H0z" fill="#78bfa0"/><circle cx="500" cy="80" r="38" fill="#ffd27d"/></svg>',
-  );
-const previewImages = [source, { src: source, caption: '同一图片也可作为预览数据项' }];
+const previewImages = imagePreviewItems.slice(0, 3);
+const source = previewImages[0].src;
 </script>
 
 <style scoped>
@@ -70,6 +68,22 @@ const previewImages = [source, { src: source, caption: '同一图片也可作为
   margin: 0 0 var(--ky-space-2);
   color: var(--ky-color-text-secondary);
   font-size: var(--ky-font-size-assist);
+}
+
+.image-demo__preview-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: transparent;
+  border: 0;
+  border-radius: var(--ky-radius-lg);
+}
+
+.image-demo__preview-trigger:focus-visible {
+  outline: 3px solid var(--ky-color-brand-100);
+  outline-offset: 2px;
 }
 
 .image-demo__lazy-root {

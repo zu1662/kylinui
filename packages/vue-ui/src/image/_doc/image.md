@@ -1,6 +1,6 @@
 # Image 图片
 
-用于展示具备固定尺寸或比例的图片，支持响应式图片、可配置懒加载观察根节点、有限失败重试和 ImagePreview 预览联动。
+用于展示具备固定尺寸或比例的图片，支持响应式图片、可配置懒加载观察根节点和有限失败重试。Image 只负责图片加载与展示，不内置图片预览能力。
 
 ## 基础用法
 
@@ -42,59 +42,65 @@
 
 每次图片源、响应式图片配置或懒加载配置变化都会使旧请求失效；组件卸载后，观察器、重试定时器和晚到的异步回调也不会再更新当前实例。
 
-## 预览联动
+## 结合 ImagePreview 使用
+
+需要预览图片时，由业务层显式组合 Image 与 ImagePreview。使用原生按钮承载点击和键盘语义，Image 本身不负责打开或管理预览状态。
 
 ```vue
-<KyImage
-  src="/gallery/cover.jpg"
-  preview
-  :preview-images="['/gallery/cover.jpg', '/gallery/detail.jpg']"
-  :preview-start-position="0"
-  @preview="handlePreview"
-/>
-```
+<template>
+  <button type="button" aria-label="打开图片预览" @click="previewVisible = true">
+    <KyImage :src="images[0].src" alt="内容封面" width="160" height="112" fit="cover" />
+  </button>
 
-图片加载成功后，点击或使用 Enter、Space 可调用 `showImagePreview` 打开预览。未传 `previewImages` 时只预览当前 `src`。
+  <KyImagePreview v-model="previewVisible" :images="images" />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const previewVisible = ref(false);
+const images = [
+  { src: '/gallery/cover.jpg', alt: '内容封面' },
+  { src: '/gallery/detail.jpg', alt: '内容详情' },
+];
+</script>
+```
 
 ## API
 
 ### Props
 
-| 属性                 | 类型                                                       | 默认值     | 说明                                 |
-| -------------------- | ---------------------------------------------------------- | ---------- | ------------------------------------ |
-| src                  | `string`                                                   | `''`       | 图片地址                             |
-| srcset               | `string`                                                   | `''`       | 原生响应式图片候选资源               |
-| sizes                | `string`                                                   | `''`       | 原生响应式图片尺寸提示               |
-| alt                  | `string`                                                   | `''`       | 图片替代文本                         |
-| fit                  | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'` | `'fill'`   | 图片填充方式                         |
-| position             | `string`                                                   | `'center'` | 图片裁剪位置                         |
-| width                | `number \| string`                                         | -          | 容器宽度，数字单位为 `px`            |
-| height               | `number \| string`                                         | -          | 容器高度，数字单位为 `px`            |
-| radius               | `number \| string`                                         | -          | 圆角，数字单位为 `px`                |
-| round                | `boolean`                                                  | `false`    | 是否显示为圆形                       |
-| block                | `boolean`                                                  | `false`    | 是否使用块级布局                     |
-| lazy                 | `boolean`                                                  | `false`    | 是否进入观察区域后再加载             |
-| lazyRoot             | `string \| Element \| null`                                | `null`     | IntersectionObserver 根节点或选择器  |
-| lazyRootMargin       | `string`                                                   | `'0px'`    | IntersectionObserver 的 `rootMargin` |
-| retry                | `number`                                                   | `0`        | 加载失败后的重试次数，最多 10 次     |
-| retryDelay           | `number`                                                   | `0`        | 每次重试前的等待时间，单位为 `ms`    |
-| preview              | `boolean`                                                  | `false`    | 加载成功后是否允许打开图片预览       |
-| previewImages        | `readonly ImagePreviewSource[]`                            | `[]`       | 传给 ImagePreview 的图片列表         |
-| previewStartPosition | `number`                                                   | `0`        | 预览起始索引，会限制在有效范围内     |
-| showLoading          | `boolean`                                                  | `true`     | 是否展示加载状态                     |
-| showError            | `boolean`                                                  | `true`     | 是否展示最终失败状态                 |
-| crossorigin          | `ImgHTMLAttributes['crossorigin']`                         | -          | 原生图片跨域属性                     |
-| referrerpolicy       | `ImgHTMLAttributes['referrerpolicy']`                      | -          | 原生图片来源策略                     |
-| decoding             | `ImgHTMLAttributes['decoding']`                            | `'async'`  | 原生图片解码策略                     |
+| 属性           | 类型                                                       | 默认值     | 说明                                 |
+| -------------- | ---------------------------------------------------------- | ---------- | ------------------------------------ |
+| src            | `string`                                                   | `''`       | 图片地址                             |
+| srcset         | `string`                                                   | `''`       | 原生响应式图片候选资源               |
+| sizes          | `string`                                                   | `''`       | 原生响应式图片尺寸提示               |
+| alt            | `string`                                                   | `''`       | 图片替代文本                         |
+| fit            | `'contain' \| 'cover' \| 'fill' \| 'none' \| 'scale-down'` | `'fill'`   | 图片填充方式                         |
+| position       | `string`                                                   | `'center'` | 图片裁剪位置                         |
+| width          | `number \| string`                                         | -          | 容器宽度，数字单位为 `px`            |
+| height         | `number \| string`                                         | -          | 容器高度，数字单位为 `px`            |
+| radius         | `number \| string`                                         | -          | 圆角，数字单位为 `px`                |
+| round          | `boolean`                                                  | `false`    | 是否显示为圆形                       |
+| block          | `boolean`                                                  | `false`    | 是否使用块级布局                     |
+| lazy           | `boolean`                                                  | `false`    | 是否进入观察区域后再加载             |
+| lazyRoot       | `string \| Element \| null`                                | `null`     | IntersectionObserver 根节点或选择器  |
+| lazyRootMargin | `string`                                                   | `'0px'`    | IntersectionObserver 的 `rootMargin` |
+| retry          | `number`                                                   | `0`        | 加载失败后的重试次数，最多 10 次     |
+| retryDelay     | `number`                                                   | `0`        | 每次重试前的等待时间，单位为 `ms`    |
+| showLoading    | `boolean`                                                  | `true`     | 是否展示加载状态                     |
+| showError      | `boolean`                                                  | `true`     | 是否展示最终失败状态                 |
+| crossorigin    | `ImgHTMLAttributes['crossorigin']`                         | -          | 原生图片跨域属性                     |
+| referrerpolicy | `ImgHTMLAttributes['referrerpolicy']`                      | -          | 原生图片来源策略                     |
+| decoding       | `ImgHTMLAttributes['decoding']`                            | `'async'`  | 原生图片解码策略                     |
 
 ### 事件
 
-| 事件名  | 参数                                                  | 说明                                   |
-| ------- | ----------------------------------------------------- | -------------------------------------- |
-| load    | `event: Event`                                        | 当前请求加载成功                       |
-| error   | `event: Event`                                        | 每次加载失败时触发，包括仍会重试的失败 |
-| retry   | `attempt: number, maximum: number`                    | 安排一次有限重试时触发                 |
-| preview | `images: ImagePreviewSource[], startPosition: number` | 打开 ImagePreview 前触发               |
+| 事件名 | 参数                               | 说明                                   |
+| ------ | ---------------------------------- | -------------------------------------- |
+| load   | `event: Event`                     | 当前请求加载成功                       |
+| error  | `event: Event`                     | 每次加载失败时触发，包括仍会重试的失败 |
+| retry  | `attempt: number, maximum: number` | 安排一次有限重试时触发                 |
 
 ### 插槽
 

@@ -130,9 +130,6 @@ import imageDoc from '@vue-ui/image/_doc/image.md?raw';
 import imagePreviewConfig from '@vue-ui/image-preview/_usage/config';
 import ImagePreviewUsage from '@vue-ui/image-preview/_usage/index.vue';
 import imagePreviewDoc from '@vue-ui/image-preview/_doc/image-preview.md?raw';
-import sidebarConfig from '@vue-ui/sidebar/_usage/config';
-import SidebarUsage from '@vue-ui/sidebar/_usage/index.vue';
-import sidebarDoc from '@vue-ui/sidebar/_doc/sidebar.md?raw';
 import textEllipsisConfig from '@vue-ui/text-ellipsis/_usage/config';
 import TextEllipsisUsage from '@vue-ui/text-ellipsis/_usage/index.vue';
 import textEllipsisDoc from '@vue-ui/text-ellipsis/_doc/text-ellipsis.md?raw';
@@ -199,11 +196,6 @@ const componentResources = {
     config: imagePreviewConfig,
     usage: ImagePreviewUsage,
     doc: imagePreviewDoc,
-  },
-  sidebar: {
-    config: sidebarConfig,
-    usage: SidebarUsage,
-    doc: sidebarDoc,
   },
   'text-ellipsis': {
     config: textEllipsisConfig,

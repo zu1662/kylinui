@@ -110,6 +110,8 @@ import KySticky from '../index';
 }
 
 .sticky-demo__container {
+  position: relative;
+  z-index: 0;
   height: 180px;
   margin: 0 var(--ky-space-4);
   background: var(--ky-color-surface);
