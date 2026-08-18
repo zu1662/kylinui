@@ -19,7 +19,6 @@ import { KyStepper } from './stepper';
 import { KySwitch } from './switch';
 import { KyCheckbox, KyCheckboxGroup } from './checkbox';
 import { KyRadio, KyRadioGroup } from './radio';
-import { KyFormCard } from './form-card';
 import { KySteps } from './steps';
 import { KyPopup } from './popup';
 import { KyActionSheet } from './action-sheet';
@@ -74,7 +73,6 @@ const components = [
   KyCheckboxGroup,
   KyRadio,
   KyRadioGroup,
-  KyFormCard,
   KySteps,
   KyPopup,
   KyActionSheet,
@@ -135,7 +133,6 @@ export * from './stepper';
 export * from './switch';
 export * from './checkbox';
 export * from './radio';
-export * from './form-card';
 export * from './steps';
 export * from './popup';
 export * from './action-sheet';

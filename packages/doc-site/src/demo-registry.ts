@@ -16,7 +16,6 @@ import StepperDemo from '@vue-ui/stepper/_demo/basic.vue';
 import SwitchDemo from '@vue-ui/switch/_demo/basic.vue';
 import CheckboxDemo from '@vue-ui/checkbox/_demo/basic.vue';
 import RadioDemo from '@vue-ui/radio/_demo/basic.vue';
-import FormCardDemo from '@vue-ui/form-card/_demo/basic.vue';
 import StepsDemo from '@vue-ui/steps/_demo/basic.vue';
 import PopupDemo from '@vue-ui/popup/_demo/basic.vue';
 import ActionSheetDemo from '@vue-ui/action-sheet/_demo/basic.vue';
@@ -332,12 +331,6 @@ export const demoComponents = [
     group: '表单组件',
     title: 'Radio 单选框',
     demo: RadioDemo,
-  },
-  {
-    slug: 'form-card',
-    group: '流程组件',
-    title: 'Form Card 表单卡片',
-    demo: FormCardDemo,
   },
   {
     slug: 'steps',

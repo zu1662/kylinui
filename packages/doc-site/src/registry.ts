@@ -49,9 +49,6 @@ import checkboxDoc from '@vue-ui/checkbox/_doc/checkbox.md?raw';
 import radioConfig from '@vue-ui/radio/_usage/config';
 import RadioUsage from '@vue-ui/radio/_usage/index.vue';
 import radioDoc from '@vue-ui/radio/_doc/radio.md?raw';
-import formCardConfig from '@vue-ui/form-card/_usage/config';
-import FormCardUsage from '@vue-ui/form-card/_usage/index.vue';
-import formCardDoc from '@vue-ui/form-card/_doc/form-card.md?raw';
 import stepsConfig from '@vue-ui/steps/_usage/config';
 import StepsUsage from '@vue-ui/steps/_usage/index.vue';
 import stepsDoc from '@vue-ui/steps/_doc/steps.md?raw';
@@ -386,11 +383,6 @@ const componentResources = {
     config: radioConfig,
     usage: RadioUsage,
     doc: radioDoc,
-  },
-  'form-card': {
-    config: formCardConfig,
-    usage: FormCardUsage,
-    doc: formCardDoc,
   },
   steps: {
     config: stepsConfig,
