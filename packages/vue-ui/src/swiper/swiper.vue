@@ -4,8 +4,9 @@
       ref="viewport"
       class="ky-swiper__viewport"
       data-no-touch-scroll
-      @pointerdown="startPointerDrag"
-      @touchstart.passive="startSyntheticTouchDrag"
+      @click.capture="dragGesture.guardClick"
+      @pointerdown="dragGesture.startPointer"
+      @touchstart.passive="dragGesture.startTouch"
     >
       <div
         ref="track"
@@ -59,6 +60,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { shouldCommitGesture, useAxisDrag, useReducedMotion } from '../shared/use-gesture';
 import type { SwiperItem, SwiperProps } from './swiper';
 
 defineOptions({ name: 'KySwiper' });
@@ -93,11 +95,11 @@ const transitionEnabled = ref(true);
 let timer: ReturnType<typeof setInterval> | undefined;
 let boundaryResetTimer: ReturnType<typeof setTimeout> | undefined;
 let transitionFrame: number | undefined;
-let stopDragListeners: (() => void) | undefined;
 let resizeObserver: ResizeObserver | undefined;
-let dragSessionId = 0;
 let disposed = false;
 
+const reducedMotion = useReducedMotion();
+const effectiveDuration = computed(() => (reducedMotion.value ? 0 : Math.max(0, props.duration)));
 const currentIndex = computed(() => normalizeIndex(internalIndex.value));
 const renderedSlides = computed(() => {
   const slides = props.data.map((item, index) => ({
@@ -137,7 +139,8 @@ const trackStyle = computed(() => {
   return {
     gap: `${props.gap}px`,
     transform: `translate3d(${centerOffset - trackIndex.value * itemWidth + dragOffset.value}px, 0, 0)`,
-    transitionDuration: dragging.value || !transitionEnabled.value ? '0ms' : `${props.duration}ms`,
+    transitionDuration:
+      dragging.value || !transitionEnabled.value ? '0ms' : `${effectiveDuration.value}ms`,
   };
 });
 
@@ -193,12 +196,12 @@ function scheduleBoundaryCorrection() {
   if (!isLooping()) return;
   const length = props.data.length;
   if (trackIndex.value !== 0 && trackIndex.value !== length + 1) return;
-  if (props.duration <= 0) {
+  if (effectiveDuration.value <= 0) {
     void nextTick(correctLoopBoundary);
     return;
   }
   // transitionend 是主路径；定时器用于轨道未触发事件时兜底复位。
-  boundaryResetTimer = setTimeout(correctLoopBoundary, props.duration + 80);
+  boundaryResetTimer = setTimeout(correctLoopBoundary, effectiveDuration.value + 80);
 }
 
 function handleTrackTransitionEnd(event: TransitionEvent) {
@@ -245,131 +248,43 @@ function prev() {
   setIndex(currentIndex.value - 1);
 }
 
-function stopActiveDrag() {
-  stopDragListeners?.();
-  stopDragListeners = undefined;
-}
-
-/**
- * 创建一次带方向锁定的拖拽会话。
- * 纵向移动不会更新轮播偏移，保证页面滚动不会被横向轮播抢占。
- */
-function createDragSession(startX: number, startY: number) {
-  stopActiveDrag();
-  const sessionId = ++dragSessionId;
-  const wasDragging = dragging.value;
-  let axisLocked = false;
-  let horizontal = false;
-
-  pause();
-  dragging.value = true;
-  if (!wasDragging) emit('dragStart');
-
-  function move(clientX: number, clientY: number, preventDefault: () => void) {
-    if (sessionId !== dragSessionId) return;
-    const deltaX = clientX - startX;
-    const deltaY = clientY - startY;
-    if (!axisLocked && Math.hypot(deltaX, deltaY) > 6) {
-      axisLocked = true;
-      horizontal = Math.abs(deltaX) > Math.abs(deltaY);
-    }
-    if (!horizontal) return;
-    preventDefault();
-    dragOffset.value = deltaX;
-  }
-
-  function finish(cancelled = false) {
-    if (sessionId !== dragSessionId) return;
+const dragGesture = useAxisDrag({
+  axis: 'x',
+  disabled: computed(() => !props.touchable || props.data.length < 2),
+  getBounds: () => {
+    if (isLooping()) return {};
+    return {
+      min: currentIndex.value >= props.data.length - 1 ? 0 : undefined,
+      max: currentIndex.value <= 0 ? 0 : undefined,
+    };
+  },
+  onStart: () => {
+    pause();
+    dragging.value = true;
+    emit('dragStart');
+  },
+  onMove: ({ offset }) => {
+    dragOffset.value = offset;
+  },
+  onEnd: ({ rawOffset, velocity }) => {
     const threshold = Math.min(72, (viewport.value?.clientWidth || 320) * 0.2);
-    if (!cancelled && horizontal) {
-      if (dragOffset.value < -threshold) next();
-      if (dragOffset.value > threshold) prev();
+    if (shouldCommitGesture(rawOffset, velocity, threshold, 0.45)) {
+      const projectedOffset = rawOffset + velocity * 120;
+      if (projectedOffset < 0) next();
+      else prev();
     }
-    stopActiveDrag();
     dragOffset.value = 0;
     dragging.value = false;
     emit('dragEnd', currentIndex.value);
     resume();
-  }
-
-  return { sessionId, move, finish };
-}
-
-function startPointerDrag(event: PointerEvent) {
-  if (!props.touchable || props.data.length < 2) return;
-  const pointerId = event.pointerId;
-  const target = event.currentTarget as HTMLElement;
-  const session = createDragSession(event.clientX, event.clientY);
-  target.setPointerCapture?.(pointerId);
-
-  function move(moveEvent: PointerEvent) {
-    if (moveEvent.pointerId !== pointerId) return;
-    session.move(moveEvent.clientX, moveEvent.clientY, () => moveEvent.preventDefault());
-  }
-
-  function end(endEvent: PointerEvent) {
-    if (endEvent.pointerId !== pointerId) return;
-    target.releasePointerCapture?.(pointerId);
-    session.finish();
-  }
-
-  function cancel(cancelEvent: PointerEvent) {
-    if (cancelEvent.pointerId !== pointerId) return;
-    target.releasePointerCapture?.(pointerId);
-    session.finish(true);
-  }
-
-  window.addEventListener('pointermove', move);
-  window.addEventListener('pointerup', end);
-  window.addEventListener('pointercancel', cancel);
-  stopDragListeners = () => {
-    window.removeEventListener('pointermove', move);
-    window.removeEventListener('pointerup', end);
-    window.removeEventListener('pointercancel', cancel);
-  };
-}
-
-// 仅接管文档站触摸模拟器派发的非可信事件，真实触屏继续由 PointerEvent 处理。
-function startSyntheticTouchDrag(event: TouchEvent) {
-  if (event.isTrusted || !props.touchable || props.data.length < 2 || event.touches.length !== 1) {
-    return;
-  }
-  const touch = event.touches.item(0);
-  if (!touch) return;
-  const identifier = touch.identifier;
-  const session = createDragSession(touch.clientX, touch.clientY);
-
-  function move(moveEvent: TouchEvent) {
-    if (moveEvent.isTrusted) return;
-    const currentTouch = Array.from(moveEvent.touches).find(
-      (item) => item.identifier === identifier,
-    );
-    if (!currentTouch) return;
-    session.move(currentTouch.clientX, currentTouch.clientY, () => moveEvent.preventDefault());
-  }
-
-  function end(endEvent: TouchEvent) {
-    if (endEvent.isTrusted) return;
-    const changedTouch = Array.from(endEvent.changedTouches).find(
-      (item) => item.identifier === identifier,
-    );
-    if (changedTouch) session.finish();
-  }
-
-  function cancel(cancelEvent: TouchEvent) {
-    if (!cancelEvent.isTrusted) session.finish(true);
-  }
-
-  window.addEventListener('touchmove', move, { passive: false });
-  window.addEventListener('touchend', end);
-  window.addEventListener('touchcancel', cancel);
-  stopDragListeners = () => {
-    window.removeEventListener('touchmove', move);
-    window.removeEventListener('touchend', end);
-    window.removeEventListener('touchcancel', cancel);
-  };
-}
-
+  },
+  onCancel: () => {
+    dragOffset.value = 0;
+    dragging.value = false;
+    emit('dragEnd', currentIndex.value);
+    resume();
+  },
+});
 // 自动播放间隔下限 500ms：非正数视为禁用自动播放，避免 0 或负数被浏览器当作接近 0ms 的高频空转。
 const MIN_AUTOPLAY_INTERVAL = 500;
 function autoplayDelay() {
@@ -379,7 +294,7 @@ function autoplayDelay() {
 
 function resume() {
   pause();
-  if (!props.autoplay || props.data.length < 2) return;
+  if (reducedMotion.value || !props.autoplay || props.data.length < 2) return;
   const delay = autoplayDelay();
   if (delay <= 0) return;
   timer = setInterval(next, delay);
@@ -429,7 +344,7 @@ watch(
     restart();
   },
 );
-watch(() => [props.autoplay, props.interval], restart);
+watch(() => [props.autoplay, props.interval, reducedMotion.value], restart);
 onMounted(() => {
   viewportWidth.value = viewport.value?.clientWidth ?? 0;
   if (typeof ResizeObserver !== 'undefined' && viewport.value) {
@@ -443,7 +358,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   disposed = true;
   resizeObserver?.disconnect();
-  stopActiveDrag();
   pause();
   clearBoundaryReset();
   if (transitionFrame !== undefined) cancelAnimationFrame(transitionFrame);

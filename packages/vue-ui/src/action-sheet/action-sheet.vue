@@ -8,7 +8,7 @@
     :safe-area="safeArea"
     :z-index="resolvedZIndex"
     :animation="animation"
-    :duration="duration"
+    :duration="effectiveDuration"
     :panel-class="popupPanelClass"
     aria-label="操作面板"
     @update:model-value="setVisible"
@@ -21,8 +21,8 @@
         class="ky-action-sheet__drag-area"
         data-no-touch-scroll
         aria-hidden="true"
-        @pointerdown="startPointerDrag"
-        @touchstart.passive="startSyntheticTouchDrag"
+        @pointerdown="dragGesture.startPointer"
+        @touchstart.passive="dragGesture.startTouch"
       >
         <span class="ky-action-sheet__handle" />
       </div>
@@ -87,8 +87,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { getGlobalZIndex } from '../shared/global-z-index';
+import { shouldCommitGesture, useAxisDrag, useReducedMotion } from '../shared/use-gesture';
 import KyButton from '../button';
 import KyIcon from '../icon';
 import KyPopup from '../popup';
@@ -124,6 +125,8 @@ const emit = defineEmits<{
 const dragOffset = ref(0);
 const currentTab = ref(props.activeTab);
 const isVisible = computed(() => Boolean(props.modelValue));
+const reducedMotion = useReducedMotion();
+const effectiveDuration = computed(() => (reducedMotion.value ? 0 : props.duration));
 const resolvedShowClose = computed(() => props.showClose);
 const resolvedOverlay = computed(() => props.overlay);
 const resolvedCloseOnOverlay = computed(() => props.closeOnOverlay);
@@ -184,112 +187,23 @@ function selectTab(index: number) {
   emit('tabChange', index);
 }
 
-let stopDragListeners: (() => void) | undefined;
-let dragSessionId = 0;
-
-function stopActiveDrag() {
-  stopDragListeners?.();
-  stopDragListeners = undefined;
-}
-
-function updateDragOffset(clientY: number, startY: number) {
-  dragOffset.value = Math.max(0, clientY - startY);
-}
-
-function finishDrag(sessionId: number, cancelled = false) {
-  if (sessionId !== dragSessionId) return;
-  const shouldClose = !cancelled && dragOffset.value > 72;
-  stopActiveDrag();
-  if (shouldClose) {
-    // 关闭时保留 dragOffset，让 popup 退场动画从当前位置接管，
-    // 避免先归零 transform（视觉上先弹回原位）再触发退场动画造成的"向上抖动"。
-    close();
-  } else {
-    // 未达阈值：归零 dragOffset，让 action-sheet 弹回原位。
+const dragGesture = useAxisDrag({
+  axis: 'y',
+  disabled: computed(() => !props.closeOnSwipe || !isVisible.value),
+  onMove: ({ offset }) => {
+    dragOffset.value = Math.max(0, offset);
+  },
+  onEnd: ({ rawOffset, velocity }) => {
+    const projectedOffset = rawOffset + velocity * 120;
+    if (projectedOffset > 0 && shouldCommitGesture(rawOffset, velocity, 72, 0.45)) {
+      // 关闭时保留 dragOffset，让 Popup 退场动画从当前位置接管，避免先回弹再退场造成抖动。
+      close();
+      return;
+    }
     dragOffset.value = 0;
-  }
-}
-
-// PointerEvent 负责真实触屏和普通浏览器；监听 window 可避免指针移出拖拽条后丢失结束事件。
-function startPointerDrag(event: PointerEvent) {
-  if (!props.closeOnSwipe) return;
-  stopActiveDrag();
-  const sessionId = ++dragSessionId;
-  const startY = event.clientY;
-  const pointerId = event.pointerId;
-  const target = event.currentTarget as HTMLElement;
-  target.setPointerCapture?.(pointerId);
-
-  function move(moveEvent: PointerEvent) {
-    if (moveEvent.pointerId !== pointerId || sessionId !== dragSessionId) return;
-    moveEvent.preventDefault();
-    updateDragOffset(moveEvent.clientY, startY);
-  }
-
-  function end(endEvent: PointerEvent) {
-    if (endEvent.pointerId !== pointerId) return;
-    target.releasePointerCapture?.(pointerId);
-    finishDrag(sessionId);
-  }
-
-  function cancel(cancelEvent: PointerEvent) {
-    if (cancelEvent.pointerId !== pointerId) return;
-    target.releasePointerCapture?.(pointerId);
-    finishDrag(sessionId, true);
-  }
-
-  window.addEventListener('pointermove', move);
-  window.addEventListener('pointerup', end);
-  window.addEventListener('pointercancel', cancel);
-  stopDragListeners = () => {
-    window.removeEventListener('pointermove', move);
-    window.removeEventListener('pointerup', end);
-    window.removeEventListener('pointercancel', cancel);
-  };
-}
-
-// 文档站的触摸模拟器会派发非可信 TouchEvent，单独兼容它且不重复处理真实手机手势。
-function startSyntheticTouchDrag(event: TouchEvent) {
-  if (event.isTrusted || !props.closeOnSwipe || event.touches.length !== 1) return;
-  const touch = event.touches.item(0);
-  if (!touch) return;
-
-  stopActiveDrag();
-  const sessionId = ++dragSessionId;
-  const startY = touch.clientY;
-  const identifier = touch.identifier;
-
-  function move(moveEvent: TouchEvent) {
-    if (moveEvent.isTrusted || sessionId !== dragSessionId) return;
-    const currentTouch = Array.from(moveEvent.touches).find(
-      (item) => item.identifier === identifier,
-    );
-    if (!currentTouch) return;
-    moveEvent.preventDefault();
-    updateDragOffset(currentTouch.clientY, startY);
-  }
-
-  function end(endEvent: TouchEvent) {
-    if (endEvent.isTrusted) return;
-    const changedTouch = Array.from(endEvent.changedTouches).find(
-      (item) => item.identifier === identifier,
-    );
-    if (changedTouch) finishDrag(sessionId);
-  }
-
-  function cancel(cancelEvent: TouchEvent) {
-    if (!cancelEvent.isTrusted) finishDrag(sessionId, true);
-  }
-
-  window.addEventListener('touchmove', move, { passive: false });
-  window.addEventListener('touchend', end);
-  window.addEventListener('touchcancel', cancel);
-  stopDragListeners = () => {
-    window.removeEventListener('touchmove', move);
-    window.removeEventListener('touchend', end);
-    window.removeEventListener('touchcancel', cancel);
-  };
-}
-
-onBeforeUnmount(stopActiveDrag);
+  },
+  onCancel: () => {
+    dragOffset.value = 0;
+  },
+});
 </script>

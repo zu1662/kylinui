@@ -20,8 +20,9 @@
         role="listbox"
         :aria-label="`第 ${columnIndex + 1} 列`"
         data-no-touch-scroll
+        @click.capture="columnDrag.guardClick"
         @pointerdown="startPointerDrag($event, columnIndex)"
-        @touchstart.passive="startSyntheticTouchDrag($event, columnIndex)"
+        @touchstart.passive="startTouchDrag($event, columnIndex)"
         @wheel.prevent="handleWheel($event, columnIndex)"
       >
         <div
@@ -53,7 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useAxisDrag, useReducedMotion } from '../shared/use-gesture';
 import type { PickerChangePayload, PickerColumn, PickerOption, PickerProps } from './picker';
 import { clampPickerIndex } from './picker';
 
@@ -82,8 +84,12 @@ const emit = defineEmits<{
 const indexes = ref<number[]>([]);
 const dragOffsets = ref<number[]>([]);
 const dragColumn = ref(-1);
-let stopDragListeners: (() => void) | undefined;
-let dragSessionId = 0;
+let activeDragColumn = -1;
+
+const reducedMotion = useReducedMotion();
+const effectiveSwipeDuration = computed(() =>
+  reducedMotion.value ? 0 : Math.max(0, props.swipeDuration),
+);
 
 const normalizedColumns = computed<PickerColumn[]>(() => {
   const columns = props.columns;
@@ -101,7 +107,7 @@ const pickerStyle = computed(() => ({
   height: `${props.visibleItemCount * props.itemHeight}px`,
   '--ky-picker-item-height': `${props.itemHeight}px`,
   '--ky-picker-center-offset': `${centerOffset.value}px`,
-  '--ky-picker-duration': `${props.swipeDuration}ms`,
+  '--ky-picker-duration': `${effectiveSwipeDuration.value}ms`,
 }));
 
 function optionText(option: PickerOption) {
@@ -152,118 +158,73 @@ function columnStyle(columnIndex: number) {
   const offset = dragOffsets.value[columnIndex] ?? 0;
   return {
     transform: `translate3d(0, ${centerOffset.value - index * props.itemHeight + offset}px, 0)`,
-    transitionDuration: dragColumn.value === columnIndex ? '0ms' : `${props.swipeDuration}ms`,
+    transitionDuration:
+      dragColumn.value === columnIndex ? '0ms' : `${effectiveSwipeDuration.value}ms`,
   };
 }
 
-function stopActiveDrag() {
-  stopDragListeners?.();
-  stopDragListeners = undefined;
+function resetDragOffset(columnIndex: number) {
+  if (columnIndex < 0) return;
+  dragOffsets.value[columnIndex] = 0;
+  dragOffsets.value = [...dragOffsets.value];
 }
 
-function createDragSession(startY: number, columnIndex: number) {
-  stopActiveDrag();
-  const sessionId = ++dragSessionId;
-  const startOffset = dragOffsets.value[columnIndex] ?? 0;
-  dragColumn.value = columnIndex;
-
-  function move(clientY: number, preventDefault: () => void) {
-    if (sessionId !== dragSessionId) return;
-    preventDefault();
-    dragOffsets.value[columnIndex] = startOffset + clientY - startY;
+const columnDrag = useAxisDrag({
+  axis: 'y',
+  disabled: () => props.disabled || activeDragColumn < 0,
+  getBounds: () => {
+    const column = normalizedColumns.value[activeDragColumn] ?? [];
+    const currentIndex = indexes.value[activeDragColumn] ?? 0;
+    return {
+      min: -(column.length - 1 - currentIndex) * props.itemHeight,
+      max: currentIndex * props.itemHeight,
+    };
+  },
+  onStart: () => {
+    dragColumn.value = activeDragColumn;
+  },
+  onMove: ({ offset }) => {
+    if (activeDragColumn < 0) return;
+    dragOffsets.value[activeDragColumn] = offset;
     dragOffsets.value = [...dragOffsets.value];
-  }
-
-  function finish(cancelled = false) {
-    if (sessionId !== dragSessionId) return;
-    const movedItems = -(dragOffsets.value[columnIndex] ?? 0) / props.itemHeight;
-    const nextIndex = (indexes.value[columnIndex] ?? 0) + movedItems;
-    stopActiveDrag();
+  },
+  onEnd: ({ rawOffset, velocity }) => {
+    const columnIndex = activeDragColumn;
+    if (columnIndex < 0) return;
+    const currentIndex = indexes.value[columnIndex] ?? 0;
+    // 保留末速度的短距离投影形成轻量惯性；减少动态效果时只按实际位移吸附。
+    const projectedOffset = rawOffset + (reducedMotion.value ? 0 : velocity * 160);
     dragColumn.value = -1;
+    activeDragColumn = -1;
+    setColumnIndex(columnIndex, currentIndex - projectedOffset / Math.max(1, props.itemHeight));
+  },
+  onCancel: () => {
+    const columnIndex = activeDragColumn;
+    dragColumn.value = -1;
+    activeDragColumn = -1;
+    resetDragOffset(columnIndex);
+  },
+});
 
-    if (cancelled) {
-      dragOffsets.value[columnIndex] = 0;
-      dragOffsets.value = [...dragOffsets.value];
-      return;
-    }
-    setColumnIndex(columnIndex, nextIndex);
-  }
-
-  return { move, finish };
+function prepareColumnDrag(columnIndex: number) {
+  columnDrag.cancel();
+  const column = normalizedColumns.value[columnIndex] ?? [];
+  if (props.disabled || !column.length) return false;
+  activeDragColumn = columnIndex;
+  return true;
 }
 
-// PointerEvent 处理真实设备与现代浏览器，并把监听放到 window 防止快速拖动丢失结束事件。
 function startPointerDrag(event: PointerEvent, columnIndex: number) {
-  if (props.disabled) return;
-  const target = event.currentTarget as HTMLElement;
-  const pointerId = event.pointerId;
-  const session = createDragSession(event.clientY, columnIndex);
-  target.setPointerCapture?.(pointerId);
-
-  function move(moveEvent: PointerEvent) {
-    if (moveEvent.pointerId !== pointerId) return;
-    session.move(moveEvent.clientY, () => moveEvent.preventDefault());
-  }
-
-  function end(endEvent: PointerEvent) {
-    if (endEvent.pointerId !== pointerId) return;
-    target.releasePointerCapture?.(pointerId);
-    session.finish();
-  }
-
-  function cancel(cancelEvent: PointerEvent) {
-    if (cancelEvent.pointerId !== pointerId) return;
-    target.releasePointerCapture?.(pointerId);
-    session.finish(true);
-  }
-
-  window.addEventListener('pointermove', move);
-  window.addEventListener('pointerup', end);
-  window.addEventListener('pointercancel', cancel);
-  stopDragListeners = () => {
-    window.removeEventListener('pointermove', move);
-    window.removeEventListener('pointerup', end);
-    window.removeEventListener('pointercancel', cancel);
-  };
+  if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+  if (!prepareColumnDrag(columnIndex)) return;
+  columnDrag.startPointer(event);
 }
 
-// 桌面触摸模拟器使用非可信 TouchEvent，兼容鼠标操作且避免真实触摸重复触发。
-function startSyntheticTouchDrag(event: TouchEvent, columnIndex: number) {
-  if (event.isTrusted || props.disabled || event.touches.length !== 1) return;
-  const touch = event.touches.item(0);
-  if (!touch) return;
-  const identifier = touch.identifier;
-  const session = createDragSession(touch.clientY, columnIndex);
-
-  function move(moveEvent: TouchEvent) {
-    if (moveEvent.isTrusted) return;
-    const currentTouch = Array.from(moveEvent.touches).find(
-      (item) => item.identifier === identifier,
-    );
-    if (!currentTouch) return;
-    session.move(currentTouch.clientY, () => moveEvent.preventDefault());
-  }
-
-  function end(endEvent: TouchEvent) {
-    if (endEvent.isTrusted) return;
-    const changedTouch = Array.from(endEvent.changedTouches).find(
-      (item) => item.identifier === identifier,
-    );
-    if (changedTouch) session.finish();
-  }
-
-  function cancel(cancelEvent: TouchEvent) {
-    if (!cancelEvent.isTrusted) session.finish(true);
-  }
-
-  window.addEventListener('touchmove', move, { passive: false });
-  window.addEventListener('touchend', end);
-  window.addEventListener('touchcancel', cancel);
-  stopDragListeners = () => {
-    window.removeEventListener('touchmove', move);
-    window.removeEventListener('touchend', end);
-    window.removeEventListener('touchcancel', cancel);
-  };
+function startTouchDrag(event: TouchEvent, columnIndex: number) {
+  const pointerEventsAvailable = typeof window !== 'undefined' && 'PointerEvent' in window;
+  if ((event.isTrusted && pointerEventsAvailable) || event.touches.length !== 1) return;
+  if (!prepareColumnDrag(columnIndex)) return;
+  columnDrag.startTouch(event);
 }
 
 function handleWheel(event: WheelEvent, columnIndex: number) {
@@ -291,8 +252,6 @@ function initialize() {
   dragOffsets.value = normalizedColumns.value.map(() => 0);
 }
 
-onBeforeUnmount(stopActiveDrag);
-
 // 拆分列数据与选中值的深度监听，避免任意一项变化时同时遍历整棵列数据和选中值。
 watch(
   () => props.columns,
@@ -307,6 +266,12 @@ watch(
 watch(
   () => props.defaultIndex,
   () => initialize(),
+);
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled) columnDrag.cancel();
+  },
 );
 
 defineExpose({

@@ -2,7 +2,7 @@
 
 Action Sheet 从页面底部弹出，用于承载底部操作、筛选选择、规则说明和需要确认的临时流程。组件基于 Popup 实现，并提供标题、选项卡、固定高度、任意内容和底栏操作区。
 
-默认使用 `slide-up` 动画，进入 300ms、退出 275ms；下拉关闭只改变面板位移，不额外淡化内容。通过 `animation` 和 `duration` 可以复用 Popup 的其他动画或自定义 Transition。
+默认使用 `slide-up` 动画，进入 300ms、退出 275ms；下拉关闭只改变面板位移，不额外淡化内容。拖拽区使用纵向方向锁，并结合位移或末速度判断关闭；系统启用 `prefers-reduced-motion: reduce` 时 Popup 动画时长归零。通过 `animation` 和 `duration` 可以复用 Popup 的其他动画或自定义 Transition。
 
 ## API
 

@@ -122,6 +122,7 @@ import type { SwiperItem } from '../swiper';
 import KyIcon from '../icon';
 import KyPopup from '../popup';
 import { getGlobalZIndex } from '../shared/global-z-index';
+import { useGestureClickGuard, useReducedMotion } from '../shared/use-gesture';
 import KySwiper from '../swiper';
 import {
   normalizeImagePreviewIndex,
@@ -186,8 +187,9 @@ const normalizedDoubleTapZoom = computed(() =>
 );
 const normalizedSwipeDuration = computed(() => Math.max(0, Number(props.swipeDuration) || 0));
 const suppressSwipeTransition = ref(false);
+const reducedMotion = useReducedMotion();
 const currentSwipeDuration = computed(() =>
-  suppressSwipeTransition.value ? 0 : normalizedSwipeDuration.value,
+  suppressSwipeTransition.value || reducedMotion.value ? 0 : normalizedSwipeDuration.value,
 );
 const currentIndex = ref(
   normalizeImagePreviewIndex(props.startPosition, normalizedImages.value.length, props.loop),
@@ -204,8 +206,8 @@ let gestureStartTranslate: Point = { x: 0, y: 0 };
 let pinchStartDistance = 0;
 let pinchStartScale = 1;
 let previousFocus: HTMLElement | null = null;
-let suppressStageClick = false;
-let suppressClickTimer: ReturnType<typeof setTimeout> | undefined;
+let stageGestureMoved = false;
+const stageClickGuard = useGestureClickGuard();
 
 const imageTransformStyle = computed<CSSProperties>(() => ({
   transform: `translate3d(${translateX.value}px, ${translateY.value}px, 0) scale(${scale.value})`,
@@ -271,6 +273,7 @@ function handlePointerDown(event: PointerEvent) {
   if (!ownsPointer) return;
 
   event.stopPropagation();
+  if (!pointerPoints.size) stageGestureMoved = false;
   (event.currentTarget as HTMLElement).setPointerCapture?.(event.pointerId);
   pointerPoints.set(event.pointerId, { x: event.clientX, y: event.clientY });
   dragging.value = true;
@@ -290,7 +293,7 @@ function handlePointerMove(event: PointerEvent) {
   pointerPoints.set(event.pointerId, { x: event.clientX, y: event.clientY });
 
   if (pointerPoints.size >= 2) {
-    suppressStageClick = true;
+    stageGestureMoved = true;
     const currentDistance = distance(Array.from(pointerPoints.values()).slice(0, 2));
     if (pinchStartDistance > 0) setScale((currentDistance / pinchStartDistance) * pinchStartScale);
     return;
@@ -298,7 +301,7 @@ function handlePointerMove(event: PointerEvent) {
 
   if (!gestureStartPoint) return;
   if (Math.hypot(event.clientX - gestureStartPoint.x, event.clientY - gestureStartPoint.y) > 6) {
-    suppressStageClick = true;
+    stageGestureMoved = true;
   }
   if (scale.value <= normalizedMinZoom.value) return;
   translateX.value = gestureStartTranslate.x + event.clientX - gestureStartPoint.x;
@@ -339,13 +342,8 @@ function handlePointerEnd(event: PointerEvent) {
     clampTranslation();
   }
 
-  if (suppressStageClick) {
-    if (suppressClickTimer) clearTimeout(suppressClickTimer);
-    suppressClickTimer = setTimeout(() => {
-      suppressStageClick = false;
-      suppressClickTimer = undefined;
-    });
-  }
+  if (stageGestureMoved) stageClickGuard.suppress();
+  if (!pointerPoints.size) stageGestureMoved = false;
 }
 
 function handleImageError(index: number) {
@@ -359,8 +357,8 @@ function handleChange(index: number) {
   emit('change', index, normalizedImages.value[index]);
 }
 
-function handleStageClick() {
-  if (suppressStageClick) return;
+function handleStageClick(event: MouseEvent) {
+  if (stageClickGuard.guard(event)) return;
   if (props.closeOnClickOverlay) close();
 }
 
@@ -460,7 +458,6 @@ watch(normalizedMinZoom, resetScale);
 onBeforeUnmount(() => {
   if (typeof document !== 'undefined') document.removeEventListener('keydown', handleKeydown);
   pointerPoints.clear();
-  if (suppressClickTimer) clearTimeout(suppressClickTimer);
 });
 
 defineExpose({ close, next, prev, swipeTo, resetScale });
