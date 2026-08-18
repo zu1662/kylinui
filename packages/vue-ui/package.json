@@ -3,23 +3,43 @@
   "version": "0.1.0",
   "description": "Kylin Design mobile Vue 3 component library",
   "type": "module",
-  "main": "./dist/index.umd.cjs",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": "./dist/style.css",
+    "./base.css": "./dist/base.css",
+    "./umd": {
+      "require": "./dist/index.umd.cjs",
+      "default": "./dist/index.umd.cjs"
+    },
+    "./*": {
+      "types": "./dist/*/index.d.ts",
+      "import": "./dist/*/index.js",
+      "require": "./dist/*/index.cjs",
+      "default": "./dist/*/index.js"
+    },
+    "./*/style.css": "./dist/*/style.css",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
-    "typecheck": "vue-tsc --noEmit"
+    "exports:check": "node ./scripts/check-exports.mjs",
+    "build": "vite build && vite build --config vite.umd.config.ts && node ./scripts/build-styles.mjs",
+    "typecheck": "vue-tsc --noEmit",
+    "check:tree-shaking": "node ./scripts/check-tree-shaking.mjs",
+    "check:ssr": "node ./scripts/check-ssr.mjs",
+    "report:size": "node ./scripts/report-bundle-size.mjs",
+    "release:check": "pnpm run build && pnpm run exports:check && pnpm run check:tree-shaking && pnpm run check:ssr && pnpm run report:size",
+    "prepack": "pnpm run release:check"
   },
   "peerDependencies": {
     "vue": "^3.5.40"
@@ -32,5 +52,13 @@
     "vue": "^3.5.40",
     "vue-tsc": "^3.3.9",
     "@types/node": "^24.13.3"
+  },
+  "unpkg": "./dist/index.umd.cjs",
+  "jsdelivr": "./dist/index.umd.cjs",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

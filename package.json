@@ -14,7 +14,8 @@
     "lint:script": "eslint .",
     "lint:style": "stylelint \"packages/**/*.less\"",
     "lint:fix": "eslint . --fix && stylelint \"packages/**/*.less\" --fix",
-    "quality:changed": "node scripts/quality-changed.mjs"
+    "quality:changed": "node scripts/quality-changed.mjs",
+    "release:check": "pnpm --filter @kylin-design/vue-ui release:check"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

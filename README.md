@@ -19,7 +19,10 @@ pnpm dev
 ```bash
 pnpm typecheck
 pnpm build
+pnpm release:check
 ```
+
+`release:check` 面向组件库发布，覆盖通配符子路径导出校验、ES/CommonJS/UMD 多入口构建、组件级样式、Tree Shaking、SSR 无 DOM 加载和 bundle-size 门禁。`pnpm pack` 会通过组件包的 `prepack` 自动执行同一套检查。
 
 ## 项目开发约定
 

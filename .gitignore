@@ -5,3 +5,4 @@ dist/
 .npm-cache/
 .pnpm-store/
 *.log
+.release-check/
