@@ -25,9 +25,15 @@ import toastDoc from '@vue-ui/toast/_doc/toast.md?raw';
 import dialogConfig from '@vue-ui/dialog/_usage/config';
 import DialogUsage from '@vue-ui/dialog/_usage/index.vue';
 import dialogDoc from '@vue-ui/dialog/_doc/dialog.md?raw';
+import formConfig from '@vue-ui/form/_usage/config';
+import FormUsage from '@vue-ui/form/_usage/index.vue';
+import formDoc from '@vue-ui/form/_doc/form.md?raw';
 import inputConfig from '@vue-ui/input/_usage/config';
 import InputUsage from '@vue-ui/input/_usage/index.vue';
 import inputDoc from '@vue-ui/input/_doc/input.md?raw';
+import textareaConfig from '@vue-ui/textarea/_usage/config';
+import TextareaUsage from '@vue-ui/textarea/_usage/index.vue';
+import textareaDoc from '@vue-ui/textarea/_doc/textarea.md?raw';
 import ratingConfig from '@vue-ui/rating/_usage/config';
 import RatingUsage from '@vue-ui/rating/_usage/index.vue';
 import ratingDoc from '@vue-ui/rating/_doc/rating.md?raw';
@@ -349,10 +355,20 @@ const componentResources = {
     usage: DialogUsage,
     doc: dialogDoc,
   },
+  form: {
+    config: formConfig,
+    usage: FormUsage,
+    doc: formDoc,
+  },
   input: {
     config: inputConfig,
     usage: InputUsage,
     doc: inputDoc,
+  },
+  textarea: {
+    config: textareaConfig,
+    usage: TextareaUsage,
+    doc: textareaDoc,
   },
   rating: {
     config: ratingConfig,

@@ -8,7 +8,9 @@ import TagDemo from '@vue-ui/tag/_demo/basic.vue';
 import PopoverDemo from '@vue-ui/popover/_demo/basic.vue';
 import ToastDemo from '@vue-ui/toast/_demo/basic.vue';
 import DialogDemo from '@vue-ui/dialog/_demo/basic.vue';
+import FormDemo from '@vue-ui/form/_demo/basic.vue';
 import InputDemo from '@vue-ui/input/_demo/basic.vue';
+import TextareaDemo from '@vue-ui/textarea/_demo/basic.vue';
 import RatingDemo from '@vue-ui/rating/_demo/basic.vue';
 import StepperDemo from '@vue-ui/stepper/_demo/basic.vue';
 import SwitchDemo from '@vue-ui/switch/_demo/basic.vue';
@@ -291,10 +293,22 @@ export const demoComponents = [
     demo: DialogDemo,
   },
   {
+    slug: 'form',
+    group: '表单组件',
+    title: 'Form 表单',
+    demo: FormDemo,
+  },
+  {
     slug: 'input',
     group: '表单组件',
     title: 'Input 输入框',
     demo: InputDemo,
+  },
+  {
+    slug: 'textarea',
+    group: '表单组件',
+    title: 'Textarea 多行输入框',
+    demo: TextareaDemo,
   },
   {
     slug: 'rating',

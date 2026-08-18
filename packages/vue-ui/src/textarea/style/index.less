@@ -1,0 +1,44 @@
+@import './token.less';
+
+.ky-textarea__control {
+  display: flex;
+  padding: 0 var(--ky-space-3);
+  background: var(--ky-color-surface);
+  border: 1px solid var(--ky-textarea-border);
+  border-radius: var(--ky-radius-md);
+  transition:
+    border-color var(--ky-duration-fast),
+    box-shadow var(--ky-duration-fast);
+}
+
+.ky-textarea__control:focus-within {
+  border-color: var(--ky-textarea-focus);
+  box-shadow: 0 0 0 3px var(--ky-color-brand-100);
+}
+
+.ky-textarea textarea {
+  width: 100%;
+  min-width: 0;
+  padding: var(--ky-space-3) 0;
+  font: inherit;
+  font-size: var(--ky-font-size-body-strong);
+  line-height: 1.5;
+  color: inherit;
+  resize: none;
+  outline: 0;
+  background: transparent;
+  border: 0;
+}
+
+.ky-textarea textarea::placeholder {
+  color: var(--ky-color-text-tertiary);
+}
+
+.ky-textarea.is-error {
+  --ky-textarea-border: var(--ky-color-danger);
+  --ky-textarea-focus: var(--ky-color-danger);
+}
+
+.ky-textarea.is-disabled .ky-textarea__control {
+  background: var(--ky-color-subtle-bg);
+}

@@ -16,6 +16,8 @@ export interface InputProps {
   clearable?: boolean;
   type?: InputType;
   name?: string;
+  id?: string;
+  ariaLabel?: string;
   maxLength?: number;
   minLength?: number;
   inputMode?: InputMode;

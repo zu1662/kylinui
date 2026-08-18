@@ -10,7 +10,9 @@ import { KyTag } from './tag';
 import { KyPopover } from './popover';
 import { KyToast } from './toast';
 import { KyDialog } from './dialog';
+import { KyForm, KyFormItem } from './form';
 import { KyInput } from './input';
+import { KyTextarea } from './textarea';
 import { KyRating } from './rating';
 import { KyStepper } from './stepper';
 import { KySwitch } from './switch';
@@ -61,7 +63,10 @@ const components = [
   KyPopover,
   KyToast,
   KyDialog,
+  KyForm,
+  KyFormItem,
   KyInput,
+  KyTextarea,
   KyRating,
   KyStepper,
   KySwitch,
@@ -123,7 +128,9 @@ export * from './tag';
 export * from './popover';
 export * from './toast';
 export * from './dialog';
+export * from './form';
 export * from './input';
+export * from './textarea';
 export * from './rating';
 export * from './stepper';
 export * from './switch';

@@ -10,13 +10,23 @@
 </template>
 
 <script setup lang="ts">
-import { provide, useId } from 'vue';
-import { RADIO_GROUP_KEY, type RadioGroupProps, type RadioValue } from './radio';
+import { provide, useId, type PropType } from 'vue';
+import { RADIO_GROUP_KEY } from './radio';
+import type { RadioGroupDirection, RadioValue } from './radio';
 
 defineOptions({ name: 'KyRadioGroup' });
-const props = withDefaults(defineProps<RadioGroupProps>(), {
-  direction: 'vertical',
-  disabled: false,
+const props = defineProps({
+  modelValue: {
+    type: [String, Number, Boolean] as PropType<RadioValue>,
+    default: undefined,
+  },
+  name: { type: String, default: undefined },
+  disabled: { type: Boolean, default: false },
+  direction: {
+    type: String as PropType<RadioGroupDirection>,
+    default: 'vertical',
+  },
+  ariaLabel: { type: String, default: undefined },
 });
 const emit = defineEmits<{
   'update:modelValue': [value: RadioValue];

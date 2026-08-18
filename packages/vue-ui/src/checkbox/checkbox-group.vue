@@ -10,20 +10,29 @@
 </template>
 
 <script setup lang="ts">
-import { provide } from 'vue';
-import {
-  CHECKBOX_GROUP_KEY,
-  type CheckboxGroupExpose,
-  type CheckboxGroupProps,
-  type CheckboxGroupToggleAllOptions,
-  type CheckboxValue,
+import { provide, type PropType } from 'vue';
+import { CHECKBOX_GROUP_KEY } from './checkbox';
+import type {
+  CheckboxGroupDirection,
+  CheckboxGroupExpose,
+  CheckboxGroupToggleAllOptions,
+  CheckboxValue,
 } from './checkbox';
 
 defineOptions({ name: 'KyCheckboxGroup' });
-const props = withDefaults(defineProps<CheckboxGroupProps>(), {
-  modelValue: () => [],
-  direction: 'vertical',
-  disabled: false,
+const props = defineProps({
+  modelValue: {
+    type: Array as PropType<CheckboxValue[]>,
+    default: () => [],
+  },
+  disabled: { type: Boolean, default: false },
+  direction: {
+    type: String as PropType<CheckboxGroupDirection>,
+    default: 'vertical',
+  },
+  max: { type: Number, default: undefined },
+  name: { type: String, default: undefined },
+  ariaLabel: { type: String, default: undefined },
 });
 const emit = defineEmits<{
   'update:modelValue': [value: CheckboxValue[]];
