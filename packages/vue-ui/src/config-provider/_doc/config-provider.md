@@ -54,7 +54,7 @@ const portal = ref<HTMLElement | null>(null);
 </template>
 ```
 
-浮层优先使用组件或服务调用的显式 `teleport`，其次使用最近的 ConfigProvider，最后回退到 `body`。传入 `false` 表示禁用 Teleport 并在当前组件位置原地渲染。
+浮层优先使用组件或服务调用的显式 `teleport`，其次使用最近的 ConfigProvider，最后回退到统一的 `[data-ky-overlay-container]`。传入 `false` 表示禁用 Teleport 并在当前组件位置原地渲染。
 
 ## 自定义 CSS 变量
 
@@ -97,16 +97,16 @@ const themeVars: ConfigProviderThemeVars = {
 
 ### Props
 
-| 属性            | 类型                                          | 默认值                           | 说明                                               |
-| --------------- | --------------------------------------------- | -------------------------------- | -------------------------------------------------- |
-| tag             | `keyof HTMLElementTagNameMap`                 | `'div'`                          | 根节点标签                                         |
-| theme           | `'jade' \| 'ocean' \| 'sunset' \| 'midnight'` | `'jade'`                         | Kylin 主题                                         |
-| zIndex          | `number`                                      | -                                | 浮层组件未显式传值时使用的默认起始层级             |
-| themeVars       | `Record<string, string \| number>`            | `{}`                             | 覆盖的 `--ky-*` CSS 变量                           |
-| themeVarsScope  | `'local' \| 'global'`                         | `'local'`                        | 主题和 CSS 变量的作用范围                          |
-| locale          | `Partial<ConfigProviderLocale>`               | `{}`                             | 组件公共文案覆盖                                   |
-| serviceDefaults | `ConfigProviderServiceDefaults`               | `{}`                             | Toast、Dialog、ImagePreview 的默认选项             |
-| teleport        | `TeleportProps['to'] \| false`                | ConfigProvider 配置，否则 `body` | Popup 体系与服务式浮层的默认容器；`false` 原地渲染 |
+| 属性            | 类型                                          | 默认值                                | 说明                                               |
+| --------------- | --------------------------------------------- | ------------------------------------- | -------------------------------------------------- |
+| tag             | `keyof HTMLElementTagNameMap`                 | `'div'`                               | 根节点标签                                         |
+| theme           | `'jade' \| 'ocean' \| 'sunset' \| 'midnight'` | `'jade'`                              | Kylin 主题                                         |
+| zIndex          | `number`                                      | -                                     | 浮层组件未显式传值时使用的默认起始层级             |
+| themeVars       | `Record<string, string \| number>`            | `{}`                                  | 覆盖的 `--ky-*` CSS 变量                           |
+| themeVarsScope  | `'local' \| 'global'`                         | `'local'`                             | 主题和 CSS 变量的作用范围                          |
+| locale          | `Partial<ConfigProviderLocale>`               | `{}`                                  | 组件公共文案覆盖                                   |
+| serviceDefaults | `ConfigProviderServiceDefaults`               | `{}`                                  | Toast、Dialog、ImagePreview 的默认选项             |
+| teleport        | `TeleportProps['to'] \| false`                | ConfigProvider 配置，否则统一浮层容器 | Popup 体系与服务式浮层的默认容器；`false` 原地渲染 |
 
 ### Locale 字段
 
@@ -160,6 +160,6 @@ import type {
 } from '@kylin-design/vue-ui';
 ```
 
-`useConfigProvider()` 返回当前注入上下文以及响应式 `locale`、`serviceDefaults`、`teleport`。未处于 Provider 内时使用内置中文文案、空服务默认值和 `body`。
+`useConfigProvider()` 返回当前注入上下文以及响应式 `locale`、`serviceDefaults`、`teleport`。未处于 Provider 内时使用内置中文文案、空服务默认值和统一浮层容器。
 
 ConfigProvider 暂不提供 `namespace` 与 `iconResolver`：当前只有 `ky-` 命名空间并统一使用 KyIcon。减少动态效果也不作为 Provider 开关，各组件直接响应系统 `prefers-reduced-motion` 媒体查询。

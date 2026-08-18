@@ -1,6 +1,6 @@
 <template>
   <Teleport :to="teleportTarget" :disabled="resolvedTeleport === false">
-    <Transition name="ky-toast-fade" @after-enter="emit('opened')" @after-leave="emit('closed')">
+    <Transition name="ky-toast-fade" @after-enter="emit('opened')" @after-leave="handleAfterLeave">
       <div
         v-if="show"
         class="ky-toast-layer"
@@ -48,12 +48,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, watch } from 'vue';
+import { computed, inject, onBeforeUnmount, ref, watch } from 'vue';
 import { CONFIG_PROVIDER_KEY } from '../config-provider';
 import KyIcon from '../icon';
 import KyLoading from '../loading';
 import { getGlobalTeleport } from '../shared/global-config-provider';
 import { getGlobalZIndex } from '../shared/global-z-index';
+import { getOverlayContainer, useOverlayManager } from '../shared/overlay-manager';
 import type { ToastProps } from './toast';
 
 defineOptions({ name: 'KyToast' });
@@ -77,12 +78,20 @@ const props = withDefaults(defineProps<ToastProps>(), {
 });
 const configProvider = inject(CONFIG_PROVIDER_KEY, undefined);
 const resolvedTeleport = computed(
-  () => props.teleport ?? configProvider?.teleport.value ?? getGlobalTeleport('body'),
+  () =>
+    props.teleport ?? configProvider?.teleport.value ?? getGlobalTeleport(getOverlayContainer()),
 );
 const teleportTarget = computed(() =>
   resolvedTeleport.value === false ? 'body' : resolvedTeleport.value,
 );
-const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(1000));
+const baseZIndex = computed(() => props.zIndex ?? getGlobalZIndex(1000));
+const layerActive = ref(props.show);
+const blocksInteraction = computed(() => props.forbidClick || props.overlay);
+const { zIndex: resolvedZIndex } = useOverlayManager({
+  active: layerActive,
+  baseZIndex,
+  blocksInteraction,
+});
 const emit = defineEmits<{
   'update:show': [value: boolean];
   opened: [];
@@ -134,6 +143,11 @@ function close() {
   emit('update:show', false);
 }
 
+function handleAfterLeave() {
+  layerActive.value = false;
+  emit('closed');
+}
+
 function handleToastClick(event: MouseEvent) {
   emit('click', event);
   if (props.closeOnClick) close();
@@ -143,6 +157,7 @@ watch(
   () => [props.show, props.message, props.duration],
   () => {
     clearTimer();
+    if (props.show) layerActive.value = true;
     if (props.show && props.duration > 0) timer = setTimeout(close, props.duration);
   },
   { immediate: true },

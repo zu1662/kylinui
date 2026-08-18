@@ -1,5 +1,6 @@
 import { createVNode, reactive, render } from 'vue';
 import { getGlobalServiceDefaults } from '../shared/global-config-provider';
+import { applyServiceAppContext } from '../shared/service-app-context';
 import DialogServiceHost from './dialog-service-host.vue';
 import type { DialogServiceOptions } from './dialog';
 
@@ -28,7 +29,7 @@ function ensureDialogHost() {
   hostElement = document.createElement('div');
   hostElement.dataset.kyDialogHost = '';
   document.body.appendChild(hostElement);
-  render(createVNode(DialogServiceHost), hostElement);
+  render(applyServiceAppContext(createVNode(DialogServiceHost)), hostElement);
 }
 
 export function showDialog(options: DialogServiceOptions) {

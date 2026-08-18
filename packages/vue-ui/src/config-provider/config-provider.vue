@@ -57,8 +57,8 @@ const serviceDefaults = computed<ConfigProviderServiceDefaults>(() => ({
     ...props.serviceDefaults.imagePreview,
   },
 }));
-const teleport = computed<ConfigProviderTeleport>(
-  () => props.teleport ?? parent?.teleport.value ?? 'body',
+const teleport = computed<ConfigProviderTeleport | undefined>(
+  () => props.teleport ?? parent?.teleport.value,
 );
 const globalThemeOwner = Symbol('ky-config-provider-theme');
 const globalZIndexOwner = Symbol('ky-config-provider-z-index');

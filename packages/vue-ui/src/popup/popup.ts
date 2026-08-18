@@ -29,6 +29,8 @@ export interface PopupProps {
   overlay?: boolean;
   closeOnOverlay?: boolean;
   lockScroll?: boolean;
+  /** 是否在浏览器或 WebView 系统返回时关闭当前顶层浮层。 */
+  closeOnPopstate?: boolean;
   round?: boolean;
   safeArea?: boolean;
   destroyOnClose?: boolean;

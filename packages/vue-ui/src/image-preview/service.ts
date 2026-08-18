@@ -1,5 +1,7 @@
 import { createVNode, reactive, render } from 'vue';
 import { getGlobalServiceDefaults, getGlobalTeleport } from '../shared/global-config-provider';
+import { getOverlayContainer } from '../shared/overlay-manager';
+import { applyServiceAppContext } from '../shared/service-app-context';
 import ImagePreviewServiceHost from './image-preview-service-host.vue';
 import type { ImagePreviewProps, ImagePreviewSource } from './image-preview';
 
@@ -27,7 +29,7 @@ function ensureImagePreviewHost() {
   hostElement = document.createElement('div');
   hostElement.dataset.kyImagePreviewHost = '';
   document.body.appendChild(hostElement);
-  render(createVNode(ImagePreviewServiceHost), hostElement);
+  render(applyServiceAppContext(createVNode(ImagePreviewServiceHost)), hostElement);
 }
 
 export function showImagePreview(images: ImagePreviewSource[]): { close: () => void };
@@ -37,7 +39,7 @@ export function showImagePreview(optionsOrImages: ImagePreviewOptions | ImagePre
 } {
   ensureImagePreviewHost();
   const defaults = {
-    teleport: getGlobalTeleport('body'),
+    teleport: getGlobalTeleport(getOverlayContainer()),
     ...getGlobalServiceDefaults('imagePreview'),
   };
   imagePreviewServiceState.options = Array.isArray(optionsOrImages)

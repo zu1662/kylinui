@@ -1,6 +1,7 @@
 import type { App } from 'vue';
 import './style/index.less';
 import './style/components.less';
+import { setServiceAppContext } from './shared/service-app-context';
 
 import { KyConfigProvider } from './config-provider';
 import { KyButton } from './button';
@@ -116,6 +117,7 @@ const components = [
 
 export default {
   install(app: App) {
+    setServiceAppContext(app);
     components.forEach((component) => app.use(component));
   },
 };

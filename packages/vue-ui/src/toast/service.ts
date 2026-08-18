@@ -1,6 +1,8 @@
 import { createVNode, reactive, render } from 'vue';
 import { getGlobalServiceDefaults, getGlobalTeleport } from '../shared/global-config-provider';
 import { getGlobalZIndex } from '../shared/global-z-index';
+import { getOverlayContainer } from '../shared/overlay-manager';
+import { applyServiceAppContext } from '../shared/service-app-context';
 import ToastHost from './host.vue';
 import {
   toastState,
@@ -81,7 +83,7 @@ function ensureToastHost() {
   hostElement = document.createElement('div');
   hostElement.dataset.kyToastHost = '';
   document.body.appendChild(hostElement);
-  render(createVNode(ToastHost), hostElement);
+  render(applyServiceAppContext(createVNode(ToastHost)), hostElement);
 }
 
 function syncLegacyState(item?: ToastQueueItem) {
@@ -131,7 +133,7 @@ export function showToast(options: string | number | ToastOptions = ''): ToastIn
       parsed.teleport ??
       providerDefaults.teleport ??
       currentOptions.teleport ??
-      getGlobalTeleport('body'),
+      getGlobalTeleport(getOverlayContainer()),
   } as ToastQueueItem['options'];
   if (allowMultiple) {
     const baseZIndex = Number(merged.zIndex);

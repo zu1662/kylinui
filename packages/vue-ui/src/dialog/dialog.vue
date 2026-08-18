@@ -3,6 +3,7 @@
     :model-value="isVisible"
     position="center"
     :close-on-overlay="false"
+    :close-on-popstate="!loading"
     :safe-area="false"
     :z-index="resolvedZIndex"
     :animation="animation"
@@ -12,6 +13,7 @@
     :aria-label="title ? null : '对话框'"
     :aria-labelledby="title ? titleId : undefined"
     :aria-describedby="resolvedDescription ? descriptionId : undefined"
+    @update:model-value="setVisible"
     @click-overlay="handleOverlay"
     @closed="emitHide"
   >

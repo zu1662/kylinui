@@ -46,7 +46,7 @@ import { computed, inject, nextTick, ref, watch } from 'vue';
 import { CONFIG_PROVIDER_KEY } from '../config-provider';
 import { getGlobalTeleport } from '../shared/global-config-provider';
 import { getGlobalZIndex } from '../shared/global-z-index';
-import { useLockScroll } from '../shared/use-lock-scroll';
+import { getOverlayContainer, useOverlayManager } from '../shared/overlay-manager';
 import type { PopupAnimation, PopupDuration, PopupProps } from './popup';
 
 defineOptions({ name: 'KyPopup' });
@@ -55,6 +55,7 @@ const props = withDefaults(defineProps<PopupProps>(), {
   overlay: true,
   closeOnOverlay: true,
   lockScroll: true,
+  closeOnPopstate: true,
   round: false,
   safeArea: true,
   destroyOnClose: true,
@@ -103,7 +104,8 @@ const POSITION_ANIMATION: Record<NonNullable<PopupProps['position']>, PopupAnima
 const configProvider = inject(CONFIG_PROVIDER_KEY, undefined);
 const isVisible = computed(() => Boolean(props.modelValue));
 const resolvedTeleport = computed(
-  () => props.teleport ?? configProvider?.teleport.value ?? getGlobalTeleport('body'),
+  () =>
+    props.teleport ?? configProvider?.teleport.value ?? getGlobalTeleport(getOverlayContainer()),
 );
 const teleportTarget = computed(() =>
   resolvedTeleport.value === false ? 'body' : resolvedTeleport.value,
@@ -123,7 +125,7 @@ const transitionName = computed(() => {
   const animation = resolvedAnimation.value;
   return BUILT_IN_ANIMATIONS.has(animation as PopupAnimation) ? `ky-popup-${animation}` : animation;
 });
-const resolvedZIndex = computed(() => props.zIndex ?? getGlobalZIndex(900));
+const baseZIndex = computed(() => props.zIndex ?? getGlobalZIndex(900));
 const popupStyle = computed(() => ({
   zIndex: String(resolvedZIndex.value),
   '--ky-popup-enter-duration': `${transitionDuration.value.enter}ms`,
@@ -132,14 +134,22 @@ const popupStyle = computed(() => ({
 
 // 先挂载外层和面板，再在下一帧切换显示状态，确保首次打开也会触发 Vue Transition。
 const rendered = ref(!props.destroyOnClose || isVisible.value);
+const layerActive = ref(isVisible.value);
 const overlayVisible = ref(false);
 const panelVisible = ref(false);
 const panel = ref<HTMLElement | null>(null);
 let visibilityTaskId = 0;
 
-// 依据对外显示状态锁定滚动，不延长到退出动画，保持原组件行为。
-const shouldLockScroll = computed(() => props.lockScroll && isVisible.value);
-useLockScroll(shouldLockScroll);
+// 浮层退出动画结束前仍保持滚动锁，避免面板离场时页面内容提前恢复滚动。
+const shouldLockScroll = computed(() => props.lockScroll);
+const shouldCloseOnPopstate = computed(() => props.closeOnPopstate !== false);
+const { zIndex: resolvedZIndex, isTop } = useOverlayManager({
+  active: layerActive,
+  baseZIndex,
+  lockScroll: shouldLockScroll,
+  closeOnPopstate: shouldCloseOnPopstate,
+  onPopstate: close,
+});
 
 watch(
   isVisible,
@@ -147,6 +157,7 @@ watch(
     const taskId = ++visibilityTaskId;
 
     if (value) {
+      layerActive.value = true;
       rendered.value = true;
       if (!oldValue) emit('open');
 
@@ -165,6 +176,7 @@ watch(
     // 若打开后在 nextTick 前立即关闭，不会产生 transitionend，需要直接完成清理。
     if (!hasStartedTransition && oldValue) {
       if (props.destroyOnClose) rendered.value = false;
+      layerActive.value = false;
       emit('closed');
     }
   },
@@ -178,15 +190,18 @@ function handleAfterEnter() {
 function handleAfterLeave() {
   if (isVisible.value) return;
   if (props.destroyOnClose) rendered.value = false;
+  layerActive.value = false;
   emit('closed');
 }
 
 function close() {
+  if (!isVisible.value) return;
   emit('update:modelValue', false);
   emit('close');
 }
 
 function handleOverlayClick() {
+  if (!isTop.value) return;
   emit('clickOverlay');
   if (props.overlay && props.closeOnOverlay) close();
 }

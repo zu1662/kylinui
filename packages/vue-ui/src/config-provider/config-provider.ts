@@ -9,6 +9,7 @@ import {
 import type { DialogServiceOptions } from '../dialog';
 import type { ImagePreviewOptions } from '../image-preview';
 import type { ToastOptions } from '../toast';
+import { getOverlayContainer } from '../shared/overlay-manager';
 import type { KylinTheme } from '../theme';
 
 export type ConfigProviderTag = keyof HTMLElementTagNameMap;
@@ -67,7 +68,7 @@ export interface ConfigProviderContext {
   themeVarsScope: Readonly<Ref<ConfigProviderThemeVarsScope>>;
   locale: Readonly<Ref<ConfigProviderLocale>>;
   serviceDefaults: Readonly<Ref<ConfigProviderServiceDefaults>>;
-  teleport: Readonly<Ref<ConfigProviderTeleport>>;
+  teleport: Readonly<Ref<ConfigProviderTeleport | undefined>>;
 }
 
 export const CONFIG_PROVIDER_KEY: InjectionKey<ConfigProviderContext> =
@@ -78,7 +79,7 @@ export function useConfigProvider() {
   return {
     context,
     locale: computed(() => context?.locale.value ?? ZH_CN_LOCALE),
-    teleport: computed(() => context?.teleport.value ?? 'body'),
+    teleport: computed(() => context?.teleport.value ?? getOverlayContainer()),
     serviceDefaults: computed(() => context?.serviceDefaults.value ?? {}),
   };
 }

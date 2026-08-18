@@ -9,6 +9,7 @@
     animation="fade"
     panel-class="ky-image-preview-popup"
     aria-label="图片预览"
+    @update:model-value="handlePopupModelUpdate"
     @opened="handleOpened"
     @closed="handleClosed"
   >
@@ -361,6 +362,10 @@ function handleChange(index: number) {
 function handleStageClick() {
   if (suppressStageClick) return;
   if (props.closeOnClickOverlay) close();
+}
+
+function handlePopupModelUpdate(value: boolean) {
+  if (!value) close();
 }
 
 function close() {

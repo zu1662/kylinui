@@ -37,6 +37,7 @@ export default {
     { name: 'round', label: '圆角面板', type: 'boolean', defaultValue: true },
     { name: 'overlay', label: '显示遮罩', type: 'boolean', defaultValue: true },
     { name: 'closeOnOverlay', label: '点击遮罩关闭', type: 'boolean', defaultValue: true },
+    { name: 'closeOnPopstate', label: '系统返回关闭', type: 'boolean', defaultValue: true },
     { name: 'safeArea', label: '适配底部安全区', type: 'boolean', defaultValue: true },
   ],
 } satisfies UsageConfig;
