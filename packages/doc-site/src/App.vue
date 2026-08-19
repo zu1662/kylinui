@@ -33,7 +33,6 @@
         </button>
         <div class="topbar__meta">
           <span>v0.1.0</span>
-          <a :href="designDocumentUrl" target="_blank" rel="noreferrer">设计规范</a>
         </div>
       </div>
     </header>
@@ -45,13 +44,22 @@
         <p>基于设计 Token、可访问语义和配置驱动示例构建。</p>
       </div>
       <nav aria-label="组件导航">
+        <a
+          class="sidebar__design-link"
+          href="#design"
+          :class="{ 'is-active': isDesignPage }"
+          @click="select('design')"
+        >
+          <span>设计规范</span>
+          <small>design</small>
+        </a>
         <section v-for="group in groups" :key="group">
           <h2>{{ group }}</h2>
           <a
             v-for="item in grouped[group]"
             :key="item.slug"
             :href="'#' + item.slug"
-            :class="{ 'is-active': item.slug === current.slug }"
+            :class="{ 'is-active': !isDesignPage && item.slug === current.slug }"
             @click="select(item.slug)"
           >
             <span>{{ item.title }}</span>
@@ -62,7 +70,8 @@
     </aside>
 
     <main>
-      <ComponentPage :entry="current" :index="currentIndex" :theme="theme" />
+      <DesignGuide v-if="isDesignPage" />
+      <ComponentPage v-else :entry="current" :index="currentIndex" :theme="theme" />
     </main>
     <button
       v-if="menuOpen"
@@ -78,10 +87,11 @@
 import { KYLIN_THEME_OPTIONS, getKylinTheme, setKylinTheme, type KylinTheme } from '@kylinui/vue';
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import ComponentPage from './components/ComponentPage.vue';
+import DesignGuide from './components/DesignGuide.vue';
 import { components } from './registry';
 
 const THEME_STORAGE_KEY = 'kylin-ui-theme';
-const designDocumentUrl = `${import.meta.env.BASE_URL}design.md`;
+const DESIGN_HASH = 'design';
 const menuOpen = ref(false);
 const theme = ref<KylinTheme>(getKylinTheme());
 const currentThemeIndex = computed(() =>
@@ -95,6 +105,7 @@ const nextTheme = computed(
   () => KYLIN_THEME_OPTIONS[(currentThemeIndex.value + 1) % KYLIN_THEME_OPTIONS.length],
 );
 const hash = ref(window.location.hash.slice(1) || components[0].slug);
+const isDesignPage = computed(() => hash.value === DESIGN_HASH);
 const currentIndex = computed(() =>
   Math.max(
     0,
