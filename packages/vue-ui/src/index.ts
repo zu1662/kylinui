@@ -26,6 +26,8 @@ import { KyActionSheet } from './action-sheet';
 import { KyTabBar } from './tab-bar';
 import { KySwiper } from './swiper';
 import { KyPicker } from './picker';
+import { KyDatePicker } from './date-picker';
+import { KyTimePicker } from './time-picker';
 import { KyCalendar } from './calendar';
 import { KyBadge } from './badge';
 import { KyDivider } from './divider';
@@ -81,6 +83,8 @@ const components = [
   KyTabBar,
   KySwiper,
   KyPicker,
+  KyDatePicker,
+  KyTimePicker,
   KyCalendar,
   KyBadge,
   KyDivider,
@@ -142,6 +146,8 @@ export * from './action-sheet';
 export * from './tab-bar';
 export * from './swiper';
 export * from './picker';
+export * from './date-picker';
+export * from './time-picker';
 export * from './calendar';
 export * from './badge';
 export * from './divider';

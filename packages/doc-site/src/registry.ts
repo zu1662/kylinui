@@ -70,6 +70,12 @@ import swiperDoc from '@vue-ui/swiper/_doc/swiper.md?raw';
 import pickerConfig from '@vue-ui/picker/_usage/config';
 import PickerUsage from '@vue-ui/picker/_usage/index.vue';
 import pickerDoc from '@vue-ui/picker/_doc/picker.md?raw';
+import datePickerConfig from '@vue-ui/date-picker/_usage/config';
+import DatePickerUsage from '@vue-ui/date-picker/_usage/index.vue';
+import datePickerDoc from '@vue-ui/date-picker/_doc/date-picker.md?raw';
+import timePickerConfig from '@vue-ui/time-picker/_usage/config';
+import TimePickerUsage from '@vue-ui/time-picker/_usage/index.vue';
+import timePickerDoc from '@vue-ui/time-picker/_doc/time-picker.md?raw';
 import calendarConfig from '@vue-ui/calendar/_usage/config';
 import CalendarUsage from '@vue-ui/calendar/_usage/index.vue';
 import calendarDoc from '@vue-ui/calendar/_doc/calendar.md?raw';
@@ -306,6 +312,16 @@ const componentResources = {
     config: pickerConfig,
     usage: PickerUsage,
     doc: pickerDoc,
+  },
+  'date-picker': {
+    config: datePickerConfig,
+    usage: DatePickerUsage,
+    doc: datePickerDoc,
+  },
+  'time-picker': {
+    config: timePickerConfig,
+    usage: TimePickerUsage,
+    doc: timePickerDoc,
   },
   calendar: {
     config: calendarConfig,

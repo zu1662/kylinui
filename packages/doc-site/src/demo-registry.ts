@@ -23,6 +23,8 @@ import ActionSheetDemo from '@vue-ui/action-sheet/_demo/basic.vue';
 import TabBarDemo from '@vue-ui/tab-bar/_demo/basic.vue';
 import SwiperDemo from '@vue-ui/swiper/_demo/basic.vue';
 import PickerDemo from '@vue-ui/picker/_demo/basic.vue';
+import DatePickerDemo from '@vue-ui/date-picker/_demo/basic.vue';
+import TimePickerDemo from '@vue-ui/time-picker/_demo/basic.vue';
 import CalendarDemo from '@vue-ui/calendar/_demo/basic.vue';
 import BadgeDemo from '@vue-ui/badge/_demo/basic.vue';
 import DividerDemo from '@vue-ui/divider/_demo/basic.vue';
@@ -236,6 +238,18 @@ export const demoComponents = [
     group: '表单组件',
     title: 'Picker 滚动选择器',
     demo: PickerDemo,
+  },
+  {
+    slug: 'date-picker',
+    group: '表单组件',
+    title: 'DatePicker 日期选择器',
+    demo: DatePickerDemo,
+  },
+  {
+    slug: 'time-picker',
+    group: '表单组件',
+    title: 'TimePicker 时间选择器',
+    demo: TimePickerDemo,
   },
   {
     slug: 'calendar',
