@@ -1,8 +1,9 @@
 @import './token.less';
 
 // 关闭 Popup 面板自身的滚动与背景，由 .ky-action-sheet 承载滚动与圆角背景。
+// 面板保留可见溢出，使自定义顶栏中的透明装饰可以越过圆角边界展示。
 .ky-action-sheet__popup-panel {
-  overflow: hidden;
+  overflow: visible;
   background: transparent;
   box-shadow: none;
 }
@@ -19,6 +20,10 @@
   background: var(--ky-action-sheet-bg);
   border-radius: var(--ky-action-sheet-radius) var(--ky-action-sheet-radius) 0 0;
   transition: transform var(--ky-duration-fast) ease-out;
+}
+
+.ky-action-sheet.has-custom-header {
+  overflow: visible;
 }
 
 .ky-action-sheet.is-dragging {
@@ -58,6 +63,14 @@
   min-height: 52px;
   padding: 0 56px;
   border-bottom: 1px solid var(--ky-color-divider);
+}
+
+.ky-action-sheet__header.has-custom-content {
+  padding: 0;
+}
+
+.ky-action-sheet__header.has-custom-content > :not(.ky-action-sheet__close) {
+  width: 100%;
 }
 
 .ky-action-sheet__title-wrap h2 {

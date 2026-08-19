@@ -15,7 +15,11 @@
     @opened="emit('show')"
     @closed="handlePopupClosed"
   >
-    <section class="ky-action-sheet" :class="{ 'is-dragging': dragOffset > 0 }" :style="sheetStyle">
+    <section
+      class="ky-action-sheet"
+      :class="{ 'is-dragging': dragOffset > 0, 'has-custom-header': $slots.header }"
+      :style="sheetStyle"
+    >
       <div
         v-if="closeOnSwipe"
         class="ky-action-sheet__drag-area"
@@ -26,7 +30,11 @@
       >
         <span class="ky-action-sheet__handle" />
       </div>
-      <header v-if="title || resolvedShowClose || $slots.header" class="ky-action-sheet__header">
+      <header
+        v-if="title || resolvedShowClose || $slots.header"
+        class="ky-action-sheet__header"
+        :class="{ 'has-custom-content': $slots.header }"
+      >
         <slot name="header">
           <div class="ky-action-sheet__title-wrap">
             <h2>{{ title }}</h2>

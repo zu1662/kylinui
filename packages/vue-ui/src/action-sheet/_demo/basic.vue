@@ -2,13 +2,15 @@
   <section class="action-sheet-demo">
     <header class="action-sheet-demo__intro">
       <strong>动作面板场景</strong>
-      <p>查看操作项状态、选项卡与自定义内容能力。</p>
+      <p>查看操作项状态、选项卡、自定义内容与多层弹窗能力。</p>
     </header>
 
     <div class="action-sheet-demo__triggers">
       <KyButton block @click="actionsVisible = true">操作项与状态</KyButton>
       <KyButton block variant="secondary" @click="tabsVisible = true">选项卡与双操作</KyButton>
       <KyButton block variant="gradient" @click="customVisible = true">自定义内容</KyButton>
+      <KyButton block variant="secondary" @click="promotionVisible = true">透明溢出顶栏</KyButton>
+      <KyButton block variant="gradient" @click="nestedParentVisible = true">弹窗内再弹窗</KyButton>
     </div>
 
     <p class="action-sheet-demo__result" aria-live="polite">{{ feedback }}</p>
@@ -40,6 +42,55 @@
           <li v-for="feature in currentPlan.features" :key="feature">{{ feature }}</li>
         </ul>
       </article>
+    </KyActionSheet>
+
+    <KyActionSheet v-model="promotionVisible" :show-close="false" :close-on-swipe="false" height="60vh">
+      <template #header>
+        <div class="action-sheet-demo__promotion-header">
+          <div class="action-sheet-demo__promotion-copy">
+            <strong>弹窗头部自定义</strong>
+            <span>右侧透明装饰可越过面板顶部展示</span>
+          </div>
+          <img
+            class="action-sheet-demo__promotion-art"
+            :src="headerDecorationUrl"
+            alt=""
+            aria-hidden="true"
+          />
+        </div>
+      </template>
+
+      <article class="action-sheet-demo__promotion-content">
+        <p>自定义顶栏负责自身布局，透明图片不会被 Popup 或 Action Sheet 圆角裁剪。</p>
+      </article>
+
+      <template #footer>
+        <KyButton block @click="promotionVisible = false">下一步</KyButton>
+      </template>
+    </KyActionSheet>
+
+    <KyActionSheet
+      v-model="nestedParentVisible"
+      title="管理出行提醒"
+      @hide="nestedChildVisible = false"
+    >
+      <article class="action-sheet-demo__nested-panel">
+        <span class="action-sheet-demo__badge">第一层动作面板</span>
+        <strong>选择后续操作</strong>
+        <p>父级动作面板保持打开，点击按钮后会在其上方继续弹出第二层动作面板。</p>
+        <KyButton block variant="secondary" @click="nestedChildVisible = true">
+          打开第二层动作面板
+        </KyButton>
+      </article>
+
+      <KyActionSheet
+        v-model="nestedChildVisible"
+        title="选择提醒方式"
+        height="60vh"
+        :actions="nestedActions"
+        cancel-text="返回上一层"
+        @select="handleNestedSelect"
+      />
     </KyActionSheet>
 
     <KyActionSheet v-model="customVisible" :show-close="false" height="62vh">
@@ -84,12 +135,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import KyButton from '../../button';
+import headerDecorationUrl from './assets/header-decoration.png';
 import KyActionSheet from '../index';
 import type { ActionSheetAction } from '../action-sheet';
 
 const actionsVisible = ref(false);
 const tabsVisible = ref(false);
 const customVisible = ref(false);
+const promotionVisible = ref(false);
+const nestedParentVisible = ref(false);
+const nestedChildVisible = ref(false);
 const activeTab = ref(1);
 const selectedChannel = ref('app');
 const feedback = ref('请选择一个场景查看效果');
@@ -99,6 +154,11 @@ const actions: ActionSheetAction[] = [
   { name: '等待资源', value: 'loading', description: '加载状态会阻止重复点击', loading: true },
   { name: '暂不可用', value: 'disabled', description: '禁用状态不可选择', disabled: true },
   { name: '删除当前方案', value: 'delete', description: '危险操作使用警示样式', danger: true },
+];
+
+const nestedActions: ActionSheetAction[] = [
+  { name: '仅重要状态', value: 'important', description: '只提醒出票、变更和取消结果' },
+  { name: '全部行程动态', value: 'all', description: '接收行程各阶段的完整提醒' },
 ];
 
 const tabs = [
@@ -138,6 +198,10 @@ const currentPlan = computed(() => plans[activeTab.value] ?? plans[0]);
 
 function handleActionSelect(action: ActionSheetAction) {
   feedback.value = `已选择：${action.name}`;
+}
+
+function handleNestedSelect(action: ActionSheetAction) {
+  feedback.value = `已在第二层选择：${action.name}`;
 }
 
 function confirmPlan() {
@@ -219,6 +283,84 @@ function confirmChannel() {
   padding-left: var(--ky-space-5);
   margin: 0;
   color: var(--ky-color-text-primary);
+}
+
+.action-sheet-demo__nested-panel {
+  display: grid;
+  gap: var(--ky-space-4);
+  padding: var(--ky-space-5) var(--ky-space-4);
+}
+
+.action-sheet-demo__nested-panel > strong {
+  font-size: var(--ky-font-size-title);
+  color: var(--ky-color-text-primary);
+}
+
+.action-sheet-demo__nested-panel p {
+  margin: 0;
+  font-size: var(--ky-font-size-assist);
+  line-height: 1.6;
+  color: var(--ky-color-text-secondary);
+}
+
+.action-sheet-demo__promotion-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 96px;
+  padding: var(--ky-space-5) 48% var(--ky-space-4) var(--ky-space-5);
+  text-align: left;
+  background:
+    radial-gradient(
+      circle at 80% 0%,
+      color-mix(in srgb, var(--ky-color-warning) 24%, transparent),
+      transparent 58%
+    ),
+    var(--ky-color-surface);
+  border-radius: var(--ky-action-sheet-radius) var(--ky-action-sheet-radius) 0 0;
+}
+
+.action-sheet-demo__promotion-copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--ky-space-2);
+}
+
+.action-sheet-demo__promotion-copy strong {
+  font-size: var(--ky-font-size-title);
+  color: var(--ky-color-warning);
+}
+
+.action-sheet-demo__promotion-copy span,
+.action-sheet-demo__promotion-content span,
+.action-sheet-demo__promotion-content p {
+  margin: 0;
+  font-size: var(--ky-font-size-assist);
+  color: var(--ky-color-text-secondary);
+}
+
+.action-sheet-demo__promotion-art {
+  position: absolute;
+  z-index: 1;
+  top: -12px;
+  right: -8px;
+  width: min(58%, 220px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.action-sheet-demo__promotion-content {
+  display: grid;
+  gap: var(--ky-space-3);
+  padding: var(--ky-space-5);
+  text-align: center;
+}
+
+.action-sheet-demo__promotion-content strong {
+  font-size: var(--ky-font-size-display);
+  color: var(--ky-color-warning);
 }
 
 .action-sheet-demo__custom-header {
