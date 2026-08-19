@@ -31,6 +31,9 @@ import formDoc from '@vue-ui/form/_doc/form.md?raw';
 import inputConfig from '@vue-ui/input/_usage/config';
 import InputUsage from '@vue-ui/input/_usage/index.vue';
 import inputDoc from '@vue-ui/input/_doc/input.md?raw';
+import passwordInputConfig from '@vue-ui/password-input/_usage/config';
+import PasswordInputUsage from '@vue-ui/password-input/_usage/index.vue';
+import passwordInputDoc from '@vue-ui/password-input/_doc/password-input.md?raw';
 import textareaConfig from '@vue-ui/textarea/_usage/config';
 import TextareaUsage from '@vue-ui/textarea/_usage/index.vue';
 import textareaDoc from '@vue-ui/textarea/_doc/textarea.md?raw';
@@ -372,6 +375,11 @@ const componentResources = {
     config: inputConfig,
     usage: InputUsage,
     doc: inputDoc,
+  },
+  'password-input': {
+    config: passwordInputConfig,
+    usage: PasswordInputUsage,
+    doc: passwordInputDoc,
   },
   textarea: {
     config: textareaConfig,

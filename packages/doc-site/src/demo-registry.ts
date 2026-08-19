@@ -10,6 +10,7 @@ import ToastDemo from '@vue-ui/toast/_demo/basic.vue';
 import DialogDemo from '@vue-ui/dialog/_demo/basic.vue';
 import FormDemo from '@vue-ui/form/_demo/basic.vue';
 import InputDemo from '@vue-ui/input/_demo/basic.vue';
+import PasswordInputDemo from '@vue-ui/password-input/_demo/basic.vue';
 import TextareaDemo from '@vue-ui/textarea/_demo/basic.vue';
 import UploaderDemo from '@vue-ui/uploader/_demo/basic.vue';
 import RatingDemo from '@vue-ui/rating/_demo/basic.vue';
@@ -310,6 +311,12 @@ export const demoComponents = [
     group: '表单组件',
     title: 'Input 输入框',
     demo: InputDemo,
+  },
+  {
+    slug: 'password-input',
+    group: '表单组件',
+    title: 'PasswordInput 密码输入框',
+    demo: PasswordInputDemo,
   },
   {
     slug: 'textarea',

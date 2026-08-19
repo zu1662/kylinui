@@ -1,0 +1,152 @@
+@import './token.less';
+
+.ky-password-input {
+  width: 100%;
+}
+
+.ky-password-input__control {
+  position: relative;
+  min-width: 0;
+}
+
+.ky-password-input__native {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  cursor: text;
+  caret-color: transparent;
+  border: 0;
+  opacity: 0;
+}
+
+.ky-password-input__native:disabled {
+  cursor: not-allowed;
+}
+
+.ky-password-input__cells {
+  display: grid;
+  grid-template-columns: repeat(var(--ky-password-input-length), minmax(0, 1fr));
+  min-height: var(--ky-password-input-height);
+  overflow: hidden;
+  background: var(--ky-color-surface);
+  border: 1px solid var(--ky-password-input-border);
+  border-radius: var(--ky-radius-md);
+  transition:
+    border-color var(--ky-duration-fast),
+    box-shadow var(--ky-duration-fast);
+}
+
+.ky-password-input__cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  font-size: var(--ky-font-size-title);
+  font-weight: var(--ky-font-semibold);
+  color: var(--ky-color-text-primary);
+}
+
+.ky-password-input__cell + .ky-password-input__cell::before {
+  position: absolute;
+  top: var(--ky-space-3);
+  bottom: var(--ky-space-3);
+  left: 0;
+  width: 1px;
+  content: '';
+  background: var(--ky-color-divider);
+}
+
+.ky-password-input__value {
+  line-height: 1;
+}
+
+.ky-password-input__cursor {
+  width: 2px;
+  height: 22px;
+  background: var(--ky-password-input-focus);
+  border-radius: var(--ky-radius-pill);
+  animation: ky-password-input-cursor 1s steps(1) infinite;
+}
+
+.ky-password-input__message {
+  min-height: 20px;
+  margin-top: var(--ky-space-2);
+  font-size: var(--ky-font-size-body);
+  line-height: 20px;
+  color: var(--ky-color-text-secondary);
+}
+
+.ky-password-input__message.is-error {
+  color: var(--ky-color-danger);
+}
+
+.ky-password-input.is-focused .ky-password-input__cells {
+  border-color: var(--ky-password-input-focus);
+  box-shadow: 0 0 0 3px var(--ky-color-brand-100);
+}
+
+.ky-password-input.is-error {
+  --ky-password-input-border: var(--ky-color-danger);
+  --ky-password-input-focus: var(--ky-color-danger);
+}
+
+.ky-password-input.is-disabled .ky-password-input__cells {
+  background: var(--ky-color-subtle-bg);
+}
+
+.ky-password-input.is-disabled .ky-password-input__cell {
+  color: var(--ky-color-text-disabled);
+}
+
+.ky-password-input.is-separated .ky-password-input__cells {
+  gap: var(--ky-password-input-gap);
+  overflow: visible;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.ky-password-input.is-separated .ky-password-input__cell {
+  min-height: var(--ky-password-input-height);
+  background: var(--ky-color-surface);
+  border: 1px solid var(--ky-password-input-border);
+  border-radius: var(--ky-radius-md);
+  transition:
+    border-color var(--ky-duration-fast),
+    box-shadow var(--ky-duration-fast);
+}
+
+.ky-password-input.is-separated .ky-password-input__cell::before {
+  display: none;
+}
+
+.ky-password-input.is-separated .ky-password-input__cell.is-current {
+  border-color: var(--ky-password-input-focus);
+  box-shadow: 0 0 0 3px var(--ky-color-brand-100);
+}
+
+.ky-password-input.is-separated.is-disabled .ky-password-input__cell {
+  background: var(--ky-color-subtle-bg);
+}
+
+@keyframes ky-password-input-cursor {
+  0%,
+  48% {
+    opacity: 1;
+  }
+
+  49%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ky-password-input__cursor {
+    animation: none;
+  }
+}

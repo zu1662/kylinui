@@ -13,6 +13,7 @@ import { KyToast } from './toast';
 import { KyDialog } from './dialog';
 import { KyForm, KyFormItem } from './form';
 import { KyInput } from './input';
+import { KyPasswordInput } from './password-input';
 import { KyTextarea } from './textarea';
 import { KyUploader } from './uploader';
 import { KyRating } from './rating';
@@ -68,6 +69,7 @@ const components = [
   KyForm,
   KyFormItem,
   KyInput,
+  KyPasswordInput,
   KyTextarea,
   KyUploader,
   KyRating,
@@ -133,6 +135,7 @@ export * from './toast';
 export * from './dialog';
 export * from './form';
 export * from './input';
+export * from './password-input';
 export * from './textarea';
 export * from './uploader';
 export * from './rating';
