@@ -1,9 +1,9 @@
 ---
-name: kylin-design-development
-description: 用于 Kylin Design 仓库中的代码分析、功能实现、重构、审查和文档任务，包括 Vue 组件、Design Tokens、公共导出、Demo、配置实验台及文档站。执行本 Monorepo 的实际架构、组件文件契约、Vue/TypeScript/LESS 规范、集成步骤和质量门禁。
+name: kylin-ui-development
+description: 用于 Kylin UI 仓库中的代码分析、功能实现、重构、审查和文档任务，包括 Vue 组件、Design Tokens、公共导出、Demo、配置实验台及文档站。执行本 Monorepo 的实际架构、组件文件契约、Vue/TypeScript/LESS 规范、集成步骤和质量门禁。
 ---
 
-# Kylin Design 项目开发
+# Kylin UI 项目开发
 
 使用本 Skill，确保仓库变更符合现有 Vue 3 移动端组件库架构和设计系统。
 

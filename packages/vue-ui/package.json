@@ -1,7 +1,7 @@
 {
   "name": "@kylinui/vue",
   "version": "0.1.0",
-  "description": "Kylin Design mobile Vue 3 component library",
+  "description": "Kylin UI mobile Vue 3 component library",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

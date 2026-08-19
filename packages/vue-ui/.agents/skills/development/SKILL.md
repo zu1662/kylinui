@@ -9,7 +9,7 @@ description: 用于修改 packages/vue-ui 内的 Vue 3 移动端组件、公共�
 
 ## 开始前
 
-- 读取仓库根级 `.agents/skills/kylin-design-development/SKILL.md`。
+- 读取仓库根级 `.agents/skills/kylin-ui-development/SKILL.md`。
 - 读取 [references/component-development.md](references/component-development.md) 获取本包目录、组件模板和集成清单。
 - 涉及视觉、交互、Token 或无障碍决策时，读取仓库根目录 `design.md` 对应章节。
 - 先查找行为相似的现有组件，再决定是否新增 API、共享工具或组件。

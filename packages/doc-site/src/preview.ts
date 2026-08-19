@@ -2,7 +2,7 @@ import type { KylinTheme } from '@kylinui/vue';
 
 export type PreviewMode = 'usage' | 'demo';
 
-export const PREVIEW_MESSAGE_SOURCE = 'kylin-design-doc-site';
+export const PREVIEW_MESSAGE_SOURCE = 'kylin-ui-doc-site';
 
 export interface PreviewPropsMessage {
   source: typeof PREVIEW_MESSAGE_SOURCE;

@@ -1,4 +1,4 @@
-# Kylin Design 仓库开发指引
+# Kylin UI 仓库开发指引
 
 ## `packages/*` 子项目指引入口
 
@@ -11,7 +11,7 @@
 
 ## 必须加载的项目规范
 
-- 阅读、修改、审查或记录本仓库代码时，使用 `.agents/skills/kylin-design-development/SKILL.md`。
+- 阅读、修改、审查或记录本仓库代码时，使用 `.agents/skills/kylin-ui-development/SKILL.md`。
 - 修改 `packages/vue-ui` 时，同时使用 `packages/vue-ui/.agents/skills/development/SKILL.md`。
 - 修改 `packages/doc-site` 时，同时使用 `packages/doc-site/.agents/skills/kylin-doc-site-development/SKILL.md`。
 - 定位代码、增加组件、调整导出或修改文档站时，读取根级 Skill 的 `references/project-architecture.md`。

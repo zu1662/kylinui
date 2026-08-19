@@ -2,10 +2,10 @@
   <div class="mobile-site">
     <template v-if="!current">
       <header class="mobile-hero">
-        <div class="mobile-brand" aria-label="Kylin Design">
+        <div class="mobile-brand" aria-label="Kylin UI">
           <span class="mobile-brand__mark" aria-hidden="true">K</span>
           <span class="mobile-brand__copy">
-            <strong>Kylin Design</strong>
+            <strong>Kylin UI</strong>
             <small>Vue 3 Mobile Components</small>
           </span>
         </div>
@@ -75,9 +75,7 @@ function readHash() {
 }
 
 function updateDocumentTitle() {
-  document.title = current.value
-    ? `${current.value.title} - Kylin Design`
-    : 'Kylin Design 移动端组件';
+  document.title = current.value ? `${current.value.title} - Kylin UI` : 'Kylin UI 移动端组件';
 }
 
 function scheduleScroll(top: number) {

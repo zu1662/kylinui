@@ -9,7 +9,7 @@ description: 用于修改 packages/doc-site 内的 Vue 文档站，包括应用�
 
 ## 开始前
 
-- 读取仓库根级 `.agents/skills/kylin-design-development/SKILL.md`。
+- 读取仓库根级 `.agents/skills/kylin-ui-development/SKILL.md`。
 - 读取 [references/doc-site-development.md](references/doc-site-development.md) 获取页面职责、Registry 和预览流程。
 - 修改某个组件的 Usage、Demo 或 Markdown 时，同时读取 `packages/vue-ui/.agents/skills/development/SKILL.md`。
 - 保留 Vite 源码别名，除非任务明确要求改变组件库接入方式。

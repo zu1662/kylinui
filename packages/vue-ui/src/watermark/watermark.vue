@@ -16,7 +16,7 @@ import type { WatermarkProps } from './watermark';
 import { escapeWatermarkText } from './watermark';
 defineOptions({ name: 'KyWatermark' });
 const props = withDefaults(defineProps<WatermarkProps>(), {
-  content: 'Kylin Design',
+  content: 'Kylin UI',
   image: '',
   width: 120,
   height: 64,

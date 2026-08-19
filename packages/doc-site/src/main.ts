@@ -35,14 +35,14 @@ async function bootstrap() {
     return;
   }
 
-  const [{ createApp }, kylinDesign] = await Promise.all([
+  const [{ createApp }, kylinUI] = await Promise.all([
     import('vue'),
     import('@kylinui/vue'),
     import('./styles/index.less'),
   ]);
-  const { default: KylinDesign, resolveKylinTheme, setKylinTheme } = kylinDesign;
+  const { default: KylinUI, resolveKylinTheme, setKylinTheme } = kylinUI;
   const requestedTheme = search.get('theme');
-  const storedTheme = window.localStorage.getItem('kylin-design-theme');
+  const storedTheme = window.localStorage.getItem('kylin-ui-theme');
   setKylinTheme(resolveKylinTheme(requestedTheme ?? storedTheme));
 
   if (isPreview) {
@@ -50,12 +50,12 @@ async function bootstrap() {
     // 先安装 Vant 桌面触摸适配器，再挂载预览应用，确保组件初始化时即可监听触摸事件。
     await import('@vant/touch-emulator');
     const { default: PreviewApp } = await import('./PreviewApp.vue');
-    createApp(PreviewApp).use(KylinDesign).mount('#app');
+    createApp(PreviewApp).use(KylinUI).mount('#app');
     return;
   }
 
   const { default: App } = await import('./App.vue');
-  createApp(App).use(KylinDesign).mount('#app');
+  createApp(App).use(KylinUI).mount('#app');
 }
 
 void bootstrap();

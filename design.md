@@ -116,7 +116,7 @@ setKylinTheme('ocean');
 
 ```html
 <section data-ky-theme="midnight">
-  <!-- 此范围内的 Kylin Design 组件使用星夜紫主题 -->
+  <!-- 此范围内的 Kylin UI 组件使用星夜紫主题 -->
 </section>
 ```
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Kylin UI 项目开发'
+  short_description: '按项目架构、组件模板和质量门禁开发 Kylin UI'
+  default_prompt: '使用 $kylin-ui-development 按仓库架构和编码规范完成此项修改。'

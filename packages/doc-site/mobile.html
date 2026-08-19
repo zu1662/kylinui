@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="Kylin Design 移动端组件基础示例" />
+    <meta name="description" content="Kylin UI 移动端组件基础示例" />
     <script>
       (() => {
         const themes = ['jade', 'ocean', 'sunset', 'midnight'];
         const queryTheme = new URLSearchParams(window.location.search).get('theme');
-        const storedTheme = window.localStorage.getItem('kylin-design-theme');
+        const storedTheme = window.localStorage.getItem('kylin-ui-theme');
         const theme = themes.includes(queryTheme)
           ? queryTheme
           : themes.includes(storedTheme)
@@ -17,7 +17,7 @@
         document.documentElement.setAttribute('data-ky-theme', theme);
       })();
     </script>
-    <title>Kylin Design 移动端组件</title>
+    <title>Kylin UI 移动端组件</title>
   </head>
   <body>
     <div id="app"></div>

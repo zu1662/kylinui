@@ -12,7 +12,7 @@
       <a class="brand" href="#button">
         <span class="brand__mark">K</span>
         <span>
-          <strong>Kylin Design</strong>
+          <strong>Kylin UI</strong>
           <small>{{ currentTheme.label }} · Vue 3 Mobile</small>
         </span>
       </a>
@@ -80,7 +80,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import ComponentPage from './components/ComponentPage.vue';
 import { components } from './registry';
 
-const THEME_STORAGE_KEY = 'kylin-design-theme';
+const THEME_STORAGE_KEY = 'kylin-ui-theme';
 const designDocumentUrl = `${import.meta.env.BASE_URL}design.md`;
 const menuOpen = ref(false);
 const theme = ref<KylinTheme>(getKylinTheme());

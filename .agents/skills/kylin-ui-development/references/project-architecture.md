@@ -2,10 +2,10 @@
 
 ## 仓库定位
 
-Kylin Design 是一个 pnpm workspace，包含 Vue 3 移动端组件库及其文档站。项目实现遵循 `design.md`，`requirements.md` 记录初始包结构和组件目录要求。
+Kylin UI 是一个 pnpm workspace，包含 Vue 3 移动端组件库及其文档站。项目实现遵循 `design.md`，`requirements.md` 记录初始包结构和组件目录要求。
 
 ```text
-kylin-design/
+kylin-ui/
 ├─ package.json                 # 根级脚本及公共检查工具
 ├─ pnpm-workspace.yaml          # packages/* 工作区
 ├─ design.md                    # 设计系统事实来源

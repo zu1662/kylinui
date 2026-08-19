@@ -8,7 +8,7 @@ export default defineConfig({
     emptyOutDir: false,
     lib: {
       entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-      name: 'KylinDesignVue',
+      name: 'KylinUIVue',
       formats: ['umd'],
       fileName: () => 'index.umd.cjs',
       cssFileName: 'style',

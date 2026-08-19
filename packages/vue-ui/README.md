@@ -1,6 +1,6 @@
 # @kylinui/vue
 
-Kylin Design 的 Vue 3 移动端组件库。
+Kylin UI 的 Vue 3 移动端组件库。
 
 ## 安装
 
@@ -11,10 +11,10 @@ npm i @kylinui/vue
 ## 全量使用
 
 ```ts
-import KylinDesign from '@kylinui/vue';
+import KylinUI from '@kylinui/vue';
 import '@kylinui/vue/style.css';
 
-app.use(KylinDesign);
+app.use(KylinUI);
 ```
 
 ## 按需使用

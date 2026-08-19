@@ -8,7 +8,7 @@ function createImage(title: string, colors: [string, string], motif: string) {
     <circle cx="700" cy="210" r="110" fill="white" opacity=".2"/>
     <path d="${motif}" fill="white" opacity=".32"/>
     <text x="70" y="1040" fill="white" font-size="78" font-family="sans-serif" font-weight="700">${title}</text>
-    <text x="74" y="1110" fill="white" opacity=".78" font-size="30" font-family="sans-serif">Kylin Design Gallery</text>
+    <text x="74" y="1110" fill="white" opacity=".78" font-size="30" font-family="sans-serif">Kylin UI Gallery</text>
   </svg>`;
   return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
 }

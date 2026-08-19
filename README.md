@@ -1,4 +1,4 @@
-# Kylin Design
+# Kylin UI
 
 基于 [design.md](./design.md) 设计规范构建的 Vue 3 移动端组件库 Monorepo。
 

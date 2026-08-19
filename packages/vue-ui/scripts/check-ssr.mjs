@@ -15,8 +15,8 @@ await rm(tempRoot, { recursive: true, force: true });
 await mkdir(tempRoot, { recursive: true });
 await writeFile(
   fixturePath,
-  `import KylinDesign, * as library from '@kylinui/vue';
-if (!KylinDesign || !library.KyButton) throw new Error('SSR 环境无法加载组件库入口。');
+  `import KylinUI, * as library from '@kylinui/vue';
+if (!KylinUI || !library.KyButton) throw new Error('SSR 环境无法加载组件库入口。');
 if (library.getKylinTheme() !== 'jade') throw new Error('SSR 主题回退值异常。');
 console.log('SSR artifact loaded');
 `,
