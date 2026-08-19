@@ -8,6 +8,7 @@ import {
 } from 'vue';
 import type { DialogServiceOptions } from '../dialog';
 import type { ImagePreviewOptions } from '../image-preview';
+import type { NotifyOptions } from '../notify';
 import type { ToastOptions } from '../toast';
 import { getOverlayContainer } from '../shared/overlay-manager';
 import type { KylinTheme } from '../theme';
@@ -46,6 +47,7 @@ export const ZH_CN_LOCALE: ConfigProviderLocale = {
 
 export interface ConfigProviderServiceDefaults {
   toast?: Partial<ToastOptions>;
+  notify?: Partial<NotifyOptions>;
   dialog?: Partial<DialogServiceOptions>;
   imagePreview?: Partial<ImagePreviewOptions>;
 }

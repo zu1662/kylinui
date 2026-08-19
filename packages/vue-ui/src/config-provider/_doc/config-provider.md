@@ -23,6 +23,7 @@ const locale: Partial<ConfigProviderLocale> = {
 
 const serviceDefaults: ConfigProviderServiceDefaults = {
   toast: { position: 'top', duration: 1600 },
+  notify: { position: 'bottom', type: 'success' },
   dialog: { confirmText: '知道了' },
   imagePreview: { loop: false, closeable: true },
 };
@@ -35,7 +36,7 @@ const serviceDefaults: ConfigProviderServiceDefaults = {
 </template>
 ```
 
-`locale` 先继承父 Provider，再覆盖指定字段，未配置字段使用内置中文文案。`serviceDefaults` 对 Toast、Dialog 和 ImagePreview 分组浅合并；命令式调用中显式传入的选项优先级最高。
+`locale` 先继承父 Provider，再覆盖指定字段，未配置字段使用内置中文文案。`serviceDefaults` 对 Toast、Notify、Dialog 和 ImagePreview 分组浅合并；命令式调用中显式传入的选项优先级最高。
 
 ## 默认 Teleport 容器
 
@@ -105,7 +106,7 @@ const themeVars: ConfigProviderThemeVars = {
 | themeVars       | `Record<string, string \| number>`            | `{}`                                  | 覆盖的 `--ky-*` CSS 变量                           |
 | themeVarsScope  | `'local' \| 'global'`                         | `'local'`                             | 主题和 CSS 变量的作用范围                          |
 | locale          | `Partial<ConfigProviderLocale>`               | `{}`                                  | 组件公共文案覆盖                                   |
-| serviceDefaults | `ConfigProviderServiceDefaults`               | `{}`                                  | Toast、Dialog、ImagePreview 的默认选项             |
+| serviceDefaults | `ConfigProviderServiceDefaults`               | `{}`                                  | Toast、Notify、Dialog、ImagePreview 的默认选项     |
 | teleport        | `TeleportProps['to'] \| false`                | ConfigProvider 配置，否则统一浮层容器 | Popup 体系与服务式浮层的默认容器；`false` 原地渲染 |
 
 ### Locale 字段
@@ -128,6 +129,7 @@ const themeVars: ConfigProviderThemeVars = {
 | 字段         | 类型                            | 说明                                              |
 | ------------ | ------------------------------- | ------------------------------------------------- |
 | toast        | `Partial<ToastOptions>`         | `showToast` 等 Toast 服务默认选项                 |
+| notify       | `Partial<NotifyOptions>`        | `showNotify` 等 Notify 服务默认选项               |
 | dialog       | `Partial<DialogServiceOptions>` | `showDialog`、`showAlert`、`showConfirm` 默认选项 |
 | imagePreview | `Partial<ImagePreviewOptions>`  | `showImagePreview` 默认选项                       |
 

@@ -51,6 +51,7 @@ const locale = computed(() => ({
 }));
 const serviceDefaults = computed<ConfigProviderServiceDefaults>(() => ({
   toast: { ...parent?.serviceDefaults.value.toast, ...props.serviceDefaults.toast },
+  notify: { ...parent?.serviceDefaults.value.notify, ...props.serviceDefaults.notify },
   dialog: { ...parent?.serviceDefaults.value.dialog, ...props.serviceDefaults.dialog },
   imagePreview: {
     ...parent?.serviceDefaults.value.imagePreview,

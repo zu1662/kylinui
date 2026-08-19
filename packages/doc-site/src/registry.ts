@@ -22,6 +22,9 @@ import popoverDoc from '@vue-ui/popover/_doc/popover.md?raw';
 import toastConfig from '@vue-ui/toast/_usage/config';
 import ToastUsage from '@vue-ui/toast/_usage/index.vue';
 import toastDoc from '@vue-ui/toast/_doc/toast.md?raw';
+import notifyConfig from '@vue-ui/notify/_usage/config';
+import NotifyUsage from '@vue-ui/notify/_usage/index.vue';
+import notifyDoc from '@vue-ui/notify/_doc/notify.md?raw';
 import dialogConfig from '@vue-ui/dialog/_usage/config';
 import DialogUsage from '@vue-ui/dialog/_usage/index.vue';
 import dialogDoc from '@vue-ui/dialog/_doc/dialog.md?raw';
@@ -360,6 +363,11 @@ const componentResources = {
     config: toastConfig,
     usage: ToastUsage,
     doc: toastDoc,
+  },
+  notify: {
+    config: notifyConfig,
+    usage: NotifyUsage,
+    doc: notifyDoc,
   },
   dialog: {
     config: dialogConfig,

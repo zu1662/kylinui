@@ -17,6 +17,7 @@
         <KySpace fill>
           <KyButton block @click="show = true">打开 Popup</KyButton>
           <KyButton block variant="secondary" @click="openToast">服务式 Toast</KyButton>
+          <KyButton block variant="secondary" @click="openNotify">服务式 Notify</KyButton>
         </KySpace>
         <KyPopup v-model="show" position="bottom" round>
           <div class="config-provider-usage__popup">
@@ -33,6 +34,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import KyButton from '../../button';
+import { showNotify } from '../../notify';
 import KyPopup from '../../popup';
 import KySearch from '../../search';
 import KySpace from '../../space';
@@ -62,6 +64,7 @@ const themeVars = {
 const locale: Partial<ConfigProviderLocale> = { searchPlaceholder: '搜索当前主题中的组件' };
 const serviceDefaults: ConfigProviderServiceDefaults = {
   toast: { position: 'top', duration: 1200 },
+  notify: { position: 'bottom', duration: 1600, type: 'success' },
 };
 const themeLabel = computed(
   () =>
@@ -69,6 +72,9 @@ const themeLabel = computed(
 );
 function openToast() {
   showToast('Toast 继承了位置、时长和 Teleport 容器');
+}
+function openNotify() {
+  showNotify('Notify 继承了类型、位置、时长和 Teleport 容器');
 }
 </script>
 

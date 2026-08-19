@@ -12,6 +12,13 @@
         <KySearch v-model="keyword" show-action />
         <KySpace fill>
           <KyButton block @click="showToast('顶部 Toast 使用 Provider 默认时长')">Toast</KyButton>
+          <KyButton
+            block
+            variant="secondary"
+            @click="showNotify('底部 Notify 使用 Provider 默认类型')"
+          >
+            Notify
+          </KyButton>
           <KyButton block variant="secondary" @click="openDialog">Dialog</KyButton>
           <KyButton block variant="secondary" @click="show = true">Popup</KyButton>
         </KySpace>
@@ -30,6 +37,7 @@
 import { ref } from 'vue';
 import KyButton from '../../button';
 import { showConfirm } from '../../dialog';
+import { showNotify } from '../../notify';
 import KyPopup from '../../popup';
 import KySearch from '../../search';
 import KySpace from '../../space';
@@ -46,6 +54,7 @@ const locale: Partial<ConfigProviderLocale> = {
 };
 const serviceDefaults: ConfigProviderServiceDefaults = {
   toast: { position: 'top', duration: 1400 },
+  notify: { position: 'bottom', duration: 1800, type: 'success' },
   dialog: { confirmText: '知道了', cancelText: '稍后' },
 };
 function openDialog() {

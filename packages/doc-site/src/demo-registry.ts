@@ -7,6 +7,7 @@ import ButtonDemo from '@vue-ui/button/_demo/basic.vue';
 import TagDemo from '@vue-ui/tag/_demo/basic.vue';
 import PopoverDemo from '@vue-ui/popover/_demo/basic.vue';
 import ToastDemo from '@vue-ui/toast/_demo/basic.vue';
+import NotifyDemo from '@vue-ui/notify/_demo/basic.vue';
 import DialogDemo from '@vue-ui/dialog/_demo/basic.vue';
 import FormDemo from '@vue-ui/form/_demo/basic.vue';
 import InputDemo from '@vue-ui/input/_demo/basic.vue';
@@ -293,6 +294,12 @@ export const demoComponents = [
     group: '反馈组件',
     title: 'Toast 轻提示',
     demo: ToastDemo,
+  },
+  {
+    slug: 'notify',
+    group: '反馈组件',
+    title: 'Notify 消息提示',
+    demo: NotifyDemo,
   },
   {
     slug: 'dialog',
