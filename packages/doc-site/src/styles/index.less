@@ -437,23 +437,26 @@ main {
 
 .code-preview pre {
   min-height: 120px;
-  padding: 16px;
   margin: 0;
   overflow: auto;
-  font-family: SFMono-Regular, Consolas, 'Liberation Mono', monospace;
-  font-size: 12px;
-  line-height: 1.7;
-  color: var(--ky-color-code-text);
-  tab-size: 2;
-  white-space: pre;
-  background: var(--ky-color-code-bg);
+  color: var(--site-code-text);
+  background: var(--site-code-bg);
+  border: 1px solid var(--site-code-border);
   border-radius: var(--ky-radius-md);
+  box-shadow: 0 12px 30px color-mix(in srgb, #000 18%, transparent);
 }
 
 .code-preview code {
   display: block;
   min-width: max-content;
-  font: inherit;
+  padding: 16px;
+  font-family: Consolas, 'Cascadia Code', SFMono-Regular, 'Liberation Mono', Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: inherit;
+  tab-size: 2;
+  white-space: pre;
+  background: transparent;
 }
 
 .mobile-simulator {
@@ -681,9 +684,11 @@ main {
   border-radius: 0;
 }
 
-/* 代码色板参考 VS Code Dark+，并局限在 Markdown 代码块内。 */
+/* 配置实验台与 Markdown 示例共享同一套 One Dark 代码色板。 */
 .markdown-body .hljs-comment,
-.markdown-body .hljs-quote {
+.markdown-body .hljs-quote,
+.code-preview .hljs-comment,
+.code-preview .hljs-quote {
   font-style: italic;
   color: #6a9955;
 }
@@ -691,48 +696,72 @@ main {
 .markdown-body .hljs-keyword,
 .markdown-body .hljs-selector-tag,
 .markdown-body .hljs-literal,
-.markdown-body .hljs-symbol {
+.markdown-body .hljs-symbol,
+.code-preview .hljs-keyword,
+.code-preview .hljs-selector-tag,
+.code-preview .hljs-literal,
+.code-preview .hljs-symbol {
   color: #c586c0;
 }
 
 .markdown-body .hljs-name,
 .markdown-body .hljs-tag,
-.markdown-body .hljs-meta {
+.markdown-body .hljs-meta,
+.code-preview .hljs-name,
+.code-preview .hljs-tag,
+.code-preview .hljs-meta {
   color: #569cd6;
 }
 
 .markdown-body .hljs-attr,
 .markdown-body .hljs-attribute,
 .markdown-body .hljs-variable,
-.markdown-body .hljs-template-variable {
+.markdown-body .hljs-template-variable,
+.code-preview .hljs-attr,
+.code-preview .hljs-attribute,
+.code-preview .hljs-variable,
+.code-preview .hljs-template-variable {
   color: #9cdcfe;
 }
 
 .markdown-body .hljs-string,
 .markdown-body .hljs-regexp,
-.markdown-body .hljs-template-tag {
+.markdown-body .hljs-template-tag,
+.code-preview .hljs-string,
+.code-preview .hljs-regexp,
+.code-preview .hljs-template-tag {
   color: #ce9178;
 }
 
-.markdown-body .hljs-number {
+.markdown-body .hljs-number,
+.code-preview .hljs-number {
   color: #b5cea8;
 }
 
 .markdown-body .hljs-built_in,
 .markdown-body .hljs-type,
-.markdown-body .hljs-class {
+.markdown-body .hljs-class,
+.code-preview .hljs-built_in,
+.code-preview .hljs-type,
+.code-preview .hljs-class {
   color: #4ec9b0;
 }
 
 .markdown-body .hljs-title,
 .markdown-body .hljs-section,
-.markdown-body .hljs-function {
+.markdown-body .hljs-function,
+.code-preview .hljs-title,
+.code-preview .hljs-section,
+.code-preview .hljs-function {
   color: #dcdcaa;
 }
 
 .markdown-body .hljs-subst,
 .markdown-body .hljs-params,
-.markdown-body .hljs-punctuation {
+.markdown-body .hljs-punctuation,
+.code-preview .hljs-subst,
+.code-preview .hljs-params,
+.code-preview .hljs-punctuation {
   color: var(--site-code-text);
 }
 

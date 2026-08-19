@@ -29,15 +29,23 @@ hljs.registerLanguage('xml', xml);
 
 const md = new MarkdownIt({ html: false, linkify: true, typographer: true });
 
+function resolveLanguage(info: string) {
+  const requestedLanguage = info.trim().split(/\s+/u)[0]?.toLowerCase() ?? '';
+  return LANGUAGE_ALIASES[requestedLanguage] ?? requestedLanguage;
+}
+
+export function highlightCode(source: string, info: string) {
+  const language = resolveLanguage(info);
+  return language && hljs.getLanguage(language)
+    ? hljs.highlight(source, { language, ignoreIllegals: true }).value
+    : md.utils.escapeHtml(source);
+}
+
 md.options.highlight = (source, info) => {
   const requestedLanguage = info.trim().split(/\s+/u)[0]?.toLowerCase() ?? '';
-  const language = LANGUAGE_ALIASES[requestedLanguage] ?? requestedLanguage;
   const safeLanguage = requestedLanguage.replace(/[^a-z0-9_-]/gu, '');
   const languageClass = safeLanguage ? ` language-${safeLanguage}` : '';
-  const content =
-    language && hljs.getLanguage(language)
-      ? hljs.highlight(source, { language, ignoreIllegals: true }).value
-      : md.utils.escapeHtml(source);
+  const content = highlightCode(source, info);
 
   return `<pre class="markdown-code"><code class="hljs${languageClass}">${content}</code></pre>`;
 };

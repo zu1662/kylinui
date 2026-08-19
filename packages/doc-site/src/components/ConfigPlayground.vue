@@ -47,7 +47,7 @@
             {{ copied ? '已复制' : '复制代码' }}
           </button>
         </div>
-        <pre><code>{{ code }}</code></pre>
+        <pre><code class="hljs" :class="`language-${codeLanguage}`" v-html="highlightedCode" /></pre>
       </div>
     </aside>
   </section>
@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import type { KylinTheme } from '@kylinui/vue';
 import { computed, reactive, ref, watch } from 'vue';
+import { highlightCode } from '../markdown';
 import type { ComponentEntry } from '../types';
 import { createPreviewPropsMessage, createPreviewUrl } from '../preview';
 import MobileSimulator from './MobileSimulator.vue';
@@ -113,6 +114,11 @@ const code = computed(() => {
   if (!content) return [...openingLines, '/>'].join('\n');
   return [...openingLines, '>', `  ${content}`, `</${component}>`].join('\n');
 });
+const codeLanguage = computed(() =>
+  code.value.trimStart().startsWith('<') ? 'vue' : 'javascript',
+);
+// 高亮结果只来自本地代码生成器，highlight.js 会转义配置值后再输出安全的 token 标签。
+const highlightedCode = computed(() => highlightCode(code.value, codeLanguage.value));
 
 async function copyCode() {
   await navigator.clipboard?.writeText(code.value);
