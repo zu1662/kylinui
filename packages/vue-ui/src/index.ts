@@ -14,6 +14,7 @@ import { KyDialog } from './dialog';
 import { KyForm, KyFormItem } from './form';
 import { KyInput } from './input';
 import { KyTextarea } from './textarea';
+import { KyUploader } from './uploader';
 import { KyRating } from './rating';
 import { KyStepper } from './stepper';
 import { KySwitch } from './switch';
@@ -66,6 +67,7 @@ const components = [
   KyFormItem,
   KyInput,
   KyTextarea,
+  KyUploader,
   KyRating,
   KyStepper,
   KySwitch,
@@ -128,6 +130,7 @@ export * from './dialog';
 export * from './form';
 export * from './input';
 export * from './textarea';
+export * from './uploader';
 export * from './rating';
 export * from './stepper';
 export * from './switch';

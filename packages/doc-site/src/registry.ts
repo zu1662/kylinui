@@ -34,6 +34,9 @@ import inputDoc from '@vue-ui/input/_doc/input.md?raw';
 import textareaConfig from '@vue-ui/textarea/_usage/config';
 import TextareaUsage from '@vue-ui/textarea/_usage/index.vue';
 import textareaDoc from '@vue-ui/textarea/_doc/textarea.md?raw';
+import uploaderConfig from '@vue-ui/uploader/_usage/config';
+import UploaderUsage from '@vue-ui/uploader/_usage/index.vue';
+import uploaderDoc from '@vue-ui/uploader/_doc/uploader.md?raw';
 import ratingConfig from '@vue-ui/rating/_usage/config';
 import RatingUsage from '@vue-ui/rating/_usage/index.vue';
 import ratingDoc from '@vue-ui/rating/_doc/rating.md?raw';
@@ -358,6 +361,11 @@ const componentResources = {
     config: textareaConfig,
     usage: TextareaUsage,
     doc: textareaDoc,
+  },
+  uploader: {
+    config: uploaderConfig,
+    usage: UploaderUsage,
+    doc: uploaderDoc,
   },
   rating: {
     config: ratingConfig,

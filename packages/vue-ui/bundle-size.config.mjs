@@ -1,5 +1,5 @@
 export const bundleSizeBudgets = {
-  'index.js': { gzip: 64 * 1024, includeDependencies: true },
+  'index.js': { gzip: 65 * 1024, includeDependencies: true },
   'index.cjs': { gzip: 56 * 1024, includeDependencies: true },
   'index.umd.cjs': { gzip: 56 * 1024 },
   'style.css': { gzip: 84 * 1024 },
